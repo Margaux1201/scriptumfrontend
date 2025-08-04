@@ -25,5 +25,5 @@ export const colors = {
 export const fonts = {
   title: "Hind",
   hs: "Overlock",
-  body: "Mukta_Vaani",
+  body: "Mukta Vaani",
 };
