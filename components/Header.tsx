@@ -25,10 +25,32 @@ const Header: React.FC = () => {
   const [signupConfirmPassword, setSignupConfirmPassword] = useState<string>("");
   const [signupBirthdate, setSignupBirthdate] = useState<string>("");
 
+  // Etats pour la modale de validation de suppression de compte
+  const [openSignout, setOpenSignout] = useState<boolean>(false);
+
+  // Etats pour la modale de modification de profil
+  const [openUpdateProfile, setOpenUpdateProfile] = useState<boolean>(false);
+  const [updateName, setUpdateName] = useState<string>("");
+  const [updateLastname, setUpdateLastname] = useState<string>("");
+  const [updateEmail, setUpdateEmail] = useState<string>("");
+  const [updatePseudo, setUpdatePseudo] = useState<string>("");
+  const [updateBirthdate, setUpdateBirthdate] = useState<string>("");
+  const [updateAuthorname, setUpdateAuthorname] = useState<string>("")
+
+
+  // Fonction pour stocker la date depuis DatePicker (Inscription)
   const onChange = (date: Dayjs | null, dateString: string | string[]) => {
   if (date && typeof dateString === 'string') {
     const dateForBackend = date.format("YYYY-MM-DD");
     setSignupBirthdate(dateForBackend);
+  }
+};
+
+  // Fonction pour stocker la date depuis DatePicker (Modification profil)
+  const onChangeUpdate = (date: Dayjs | null, dateString: string | string[]) => {
+  if (date && typeof dateString === 'string') {
+    const dateForBackend = date.format("YYYY-MM-DD");
+    setUpdateBirthdate(dateForBackend);
   }
 };
 
@@ -61,9 +83,44 @@ const Header: React.FC = () => {
     setOpenSignup(false);
   };
 
+  // Fonctions pour ouvrir et fermer la modale de suppression de compte
+  const showSignoutModal = () => {
+    setOpenSignout(true);
+  };
+  const handleSignoutCancel = () => {
+    setOpenSignout(false);
+  }
 
-
-  const testToken = "dwgrhhtw467"
+  // Fonctions pour ouvrir et fermer la modale de modification de profil
+  const showUpdateProfileModal = () => {
+    setOpenUpdateProfile(true);
+    fetch('http://127.0.0.1:8000/api/getinfo/',{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({token: user.token})
+    })
+    .then(response => response.json().then(data => {
+      if (response.ok) {
+        setUpdateName(data.first_name)
+        setUpdateLastname(data.last_name)
+        setUpdatePseudo(data.pseudo)
+        setUpdateAuthorname(data.author_name)
+        setUpdateEmail(data.email)
+        setUpdateBirthdate(data.birth_date)
+      } else {
+        const errors = Object.values(data).flat().join("\n");
+        alert("Erreur :\n" + errors);
+        return;
+      }
+    }))
+    .catch(error => {
+      console.error("Erreur lors de la récupération des données utilisateurs :", error);
+      alert("Une erreur réseau est survenue");
+    })
+  };
+  const handleUpdateProfileCancel = () => {
+    setOpenUpdateProfile(false);
+  }
 
   // Fonction pour se connecter
   const handleLogin = () => {
@@ -71,10 +128,31 @@ const Header: React.FC = () => {
       alert("Veuillez remplir tous les champs.");
       return;
     }
-    dispatch(setUser({ pseudo: loginPseudo, token: testToken}));
-    setLoginPseudo("");
-    setLoginPassword("");
-    setOpenLogin(false);
+    fetch('http://127.0.0.1:8000/api/login/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        pseudo: loginPseudo,
+        password: loginPassword
+      })
+    })
+    .then(response => response.json().then(data => {
+      if (response.ok) {
+        dispatch(setUser({ pseudo: data.pseudo, token: data.token}));
+        setLoginPseudo("");
+        setLoginPassword("");
+        setOpenLogin(false);
+      }
+      else {
+        const errors = Object.values(data).flat().join("\n");
+        alert("Erreur :\n" + errors);
+        return;
+      }
+    }))
+    .catch(error => {
+      console.error("Erreur lors de la connexion :", error);
+      alert("Une erreur réseau est survenue");
+    })
   }
 
 
@@ -88,29 +166,139 @@ const Header: React.FC = () => {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }
-    dispatch(setUser({ pseudo: signupPseudo, token: testToken}));
-    setSignupName("");
-    setSignupLastname("");
-    setSignupEmail("");
-    setSignupPseudo("");
-    setSignupPassword("");
-    setSignupConfirmPassword("");
-    setSignupBirthdate("");
-    setOpenSignup(false);
+    fetch('http://127.0.0.1:8000/api/register/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        pseudo: signupPseudo,
+        first_name: signupName,
+        last_name: signupLastname,
+        email: signupEmail,
+        birth_date: signupBirthdate,
+        password: signupPassword
+      })
+    })
+    .then(response => response.json().then(data => {
+      if (response.ok) {
+        dispatch(setUser({ pseudo: data.pseudo, token: data.token}));
+        setSignupName("");
+        setSignupLastname("");
+        setSignupEmail("");
+        setSignupPseudo("");
+        setSignupPassword("");
+        setSignupConfirmPassword("");
+        setSignupBirthdate("");
+        setOpenSignup(false);
+        alert("Inscription réussie")
+      } else {
+        const errors = Object.values(data).flat().join("\n");
+        alert("Erreur :\n" + errors);
+        return;
+      }
+    }))
+    .catch(error => {
+      console.error("Erreur lors de l'inscription :", error);
+      alert("Une erreur réseau est survenue");
+    });
   }
+
+
+  // Fonction pour modifier son profil
+  const handleUpdateProfile = () => {
+    if (!updateName || !updatePseudo || !updateLastname || !updateEmail || !updateBirthdate) {
+      alert("Veuillez remplir les champs obligatoires.");
+      return;
+    }
+    fetch('http://127.0.0.1:8000/api/updateinfo/', {
+      method: "PUT",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        token: user.token,
+        first_name: updateName,
+        last_name: updateLastname,
+        email: updateEmail,
+        pseudo: updatePseudo,
+        author_name: updateAuthorname,
+        birth_date: updateBirthdate
+      })
+    })
+    .then(response => response.json().then(data => {
+      if (response.ok) {
+        dispatch(setUser({pseudo: data.pseudo, token: data.token}))
+        setUpdateName("");
+        setUpdateLastname("");
+        setUpdatePseudo("");
+        setUpdateAuthorname("");
+        setUpdateEmail("");
+        setUpdateBirthdate("")
+        setOpenUpdateProfile(false)
+        alert("Modification profil enregistrée")
+      } else {
+        const errors = Object.values(data).flat().join("\n");
+        alert("Erreur :\n" + errors);
+        return;
+      }
+    }))
+    .catch(error => {
+      console.error("Erreur lors de l'inscription :", error);
+      alert("Une erreur réseau est survenue");
+    })
+  }
+
+
+  // Fonction pour supprimer son compte
+  const handleSignout = () => {
+    fetch('http://127.0.0.1:8000/api/delete/',{
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({token: user.token})
+    })
+    .then(response => {
+      if (response.status === 204) {
+        // Pas de body à lire, donc pas de response.json()
+        alert("Le compte a bien été supprimé");
+        dispatch(clearUser());
+        setOpenSignout(false);
+      } else {
+        // S'il y a un body d'erreur, response.json()
+        return response.json().then(data => {
+          console.error("Erreur suppression :", data);
+          alert("Erreur lors de la suppression");
+        });
+      }
+    })
+    .catch(error => {
+      console.error("Erreur lors de la suppresion de compte :", error);
+      alert("Une erreur réseau est survenue");
+    })
+  };
 
   const userMenu: MenuProps = {
   items: [
     {
       key: '1',
-      label: "Mon profil",
+      label: "Modifier mon profil",
+      onClick: () => {
+        showUpdateProfileModal()
+      }
     },
     {
       key: '2',
-      label: "Se déconnecter",
+      label: "Créer un roman",
+    },
+    {
+      key: '3',
+      label: "Me déconnecter",
       onClick: () => {
         dispatch(clearUser());
       },
+    },
+    {
+      key: '4',
+      label: "Supprimer mon compte",
+      onClick: () => {
+        showSignoutModal()
+      }
     },
   ],
   };
@@ -119,7 +307,9 @@ const Header: React.FC = () => {
     <>
       <header className={styles.header}>
         <Link href="/" className={styles.title}>SCRIPTUM</Link>
-          {user.token ?  
+          {user.token ?
+
+          // SI USER CONNECTÉ
           <div className={styles.headerRight}>
             <Link href="/browse" className={styles.link}>Parcourir 🔍</Link>
             <button className={styles.button}>Ma Bibliothèque</button>
@@ -134,7 +324,89 @@ const Header: React.FC = () => {
               className={styles.dropdown}>
               <Button icon={<FontAwesomeIcon icon={faUser} className={styles.profile} />} />
             </Dropdown>
+
+            {/* MODIFICATION DE PROFILE */}
+            <Modal
+              closable= {false}
+              open={openUpdateProfile}
+              footer={null}
+            >
+              <div className={styles.modal}>
+                <h2 className={styles.modalTitle}>Modification de Profil</h2>
+                <input 
+                  type="text" 
+                  placeholder="Nom"
+                  className={styles.modalInput}
+                  value= {updateLastname}
+                  onChange={e => setUpdateLastname(e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Prénom"
+                  className={styles.modalInput}
+                  value= {updateName}
+                  onChange={e => setUpdateName(e.target.value)}
+                />
+                <input 
+                  type="email" 
+                  placeholder="Email"
+                  className={styles.modalInput}
+                  value= {updateEmail}
+                  onChange={e => setUpdateEmail(e.target.value)} />
+                <input 
+                  type="text" 
+                  placeholder="Pseudo"
+                  className={styles.modalInput}
+                  value= {updatePseudo}
+                  onChange={e => setUpdatePseudo(e.target.value)}
+                />
+                <input 
+                  type="text" 
+                  placeholder="Nom d'auteur"
+                  className={styles.modalInput}
+                  value= {updateAuthorname}
+                  onChange={e => setUpdateAuthorname(e.target.value)}
+                />
+                <DatePicker
+                  onChange={onChangeUpdate}
+                  value={updateBirthdate ? dayjs(updateBirthdate) : null}
+                  format="DD/MM/YYYY"
+                  placeholder="Date de naissance"
+                  className={styles.modalDatePicker}
+                />
+                <div className={styles.modalButtons}>
+                  <Button key="back" onClick={handleUpdateProfileCancel} className={styles.modalButtonEmpty}>
+                    Annuler
+                  </Button>
+                  <Button key="submit" onClick={handleUpdateProfile} className={styles.modalButtonFull}>
+                    Valider
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+
+            {/* SUPPRESSION DE COMPTE */}
+            <Modal
+              closable= {false}
+              open={openSignout}
+              footer={null}
+            >
+              <div className={styles.modal}>
+                <h2 className={styles.modalTitle}>Suppression de Compte</h2>
+                <p>Êtes-vous sûr de vouloir supprimer votre compte ? Toutes les données vous concernant seront effacées de la plateforme.</p>
+                <div className={styles.modalButtons}>
+                  <Button key="back" onClick={handleSignoutCancel} className={styles.modalButtonEmpty}>
+                    Annuler
+                  </Button>
+                  <Button key="submit" onClick={handleSignout} className={styles.modalButtonFull}>
+                    Valider
+                  </Button>
+                </div>
+              </div>
+            </Modal>
           </div>
+
+          // SI USER NON CONNECTÉ
           :
           <div className={styles.headerRight}>
             <Link href="/browse"  className={styles.link}>Parcourir 🔍</Link>
@@ -143,7 +415,7 @@ const Header: React.FC = () => {
             {/* CONNEXION */}
             <button className={styles.button} onClick={() => showLoginModal()}>Se connecter</button>
             <Modal
-              closable= {false}
+              closable={false}
               open={openLogin}
               footer={null}
             >
