@@ -1,22 +1,49 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  min-height: 100vh;
-  padding: 4rem 0;
+  height: 100vh;
 }
 
 .title {
-  line-height: 1.15;
-  font-size: 4rem;
+  margin: 50px 0;
+  text-align: center;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+.h1 {
+  margin: 0;
+  font-family: 'Hind', cursive;
+  font-size: 3.8rem;
 }
 
-.title a:hover, .title a:focus, .title a:active {
-  text-decoration: underline;
+.yellowWord {
+  color: #E28413;
+}
+
+.h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-family: 'Overlock';
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.searchInput {
+  width: 50%;
+  max-width: 500px;
+  font-family: 'Mukta Vaani', cursive;
+  font-size: 1rem;
+  margin: 15px 0;
+  padding: 3px 10px;
+  border-radius: 5px;
+  border: #0F0F0F solid 1px;
+}
+
+.contentBook {
+  margin-top: 20px;
+  width: 90vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px;
 }

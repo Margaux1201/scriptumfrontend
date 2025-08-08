@@ -59,20 +59,20 @@ const Header: React.FC = () => {
   const user = useSelector((store: {user: UserState}) => store.user)
 
   // Fonctions pour ouvrir et fermer la modale de connexion  
-  const showLoginModal = () => {
+  const showLoginModal = (): void => {
     setOpenLogin(true);
   };
-  const handleLoginCancel = () => {
+  const handleLoginCancel = (): void => {
     setLoginPseudo("");
     setLoginPassword("");
     setOpenLogin(false);
   };
 
   // Fonctions pour ouvrir et fermer la modale d'inscription  
-  const showSignupModal = () => {
+  const showSignupModal = (): void => {
     setOpenSignup(true);
   };
-  const handleSignupCancel = () => {
+  const handleSignupCancel = (): void => {
     setSignupName("");
     setSignupLastname("");
     setSignupEmail("");
@@ -84,27 +84,34 @@ const Header: React.FC = () => {
   };
 
   // Fonctions pour ouvrir et fermer la modale de suppression de compte
-  const showSignoutModal = () => {
+  const showSignoutModal = (): void => {
     setOpenSignout(true);
   };
-  const handleSignoutCancel = () => {
+  const handleSignoutCancel = (): void => {
     setOpenSignout(false);
   }
 
   // Fonctions pour ouvrir et fermer la modale de modification de profil
-  const showUpdateProfileModal = () => {
+  const showUpdateProfileModal = (): void => {
     setOpenUpdateProfile(true);
     fetch('http://127.0.0.1:8000/api/getinfo/',{
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({token: user.token})
     })
-    .then(response => response.json().then(data => {
+    .then(response => response.json().then((data:{
+      first_name: string;
+      last_name: string;
+      pseudo: string;
+      author_name?: string;
+      email: string;
+      birth_date: string;
+    }) => {
       if (response.ok) {
         setUpdateName(data.first_name)
         setUpdateLastname(data.last_name)
         setUpdatePseudo(data.pseudo)
-        setUpdateAuthorname(data.author_name)
+        setUpdateAuthorname(data.author_name ?? "")
         setUpdateEmail(data.email)
         setUpdateBirthdate(data.birth_date)
       } else {
@@ -118,12 +125,13 @@ const Header: React.FC = () => {
       alert("Une erreur réseau est survenue");
     })
   };
-  const handleUpdateProfileCancel = () => {
+
+  const handleUpdateProfileCancel = (): void => {
     setOpenUpdateProfile(false);
   }
 
   // Fonction pour se connecter
-  const handleLogin = () => {
+  const handleLogin = (): void => {
     if (!loginPseudo || !loginPassword) {
       alert("Veuillez remplir tous les champs.");
       return;
@@ -136,7 +144,10 @@ const Header: React.FC = () => {
         password: loginPassword
       })
     })
-    .then(response => response.json().then(data => {
+    .then(response => response.json().then((data: {
+      pseudo: string;
+      token: string;
+    }) => {
       if (response.ok) {
         dispatch(setUser({ pseudo: data.pseudo, token: data.token}));
         setLoginPseudo("");
@@ -157,7 +168,7 @@ const Header: React.FC = () => {
 
 
   // Fonction pour s'inscrire
-  const handleSignup = () => {
+  const handleSignup = (): void => {
     if (!signupPseudo || !signupPassword || !signupConfirmPassword || !signupName || !signupLastname || !signupEmail || !signupBirthdate) {
       alert("Veuillez remplir tous les champs.");
       return;
@@ -178,7 +189,10 @@ const Header: React.FC = () => {
         password: signupPassword
       })
     })
-    .then(response => response.json().then(data => {
+    .then(response => response.json().then((data: {
+      pseudo: string;
+      token: string;
+    }) => {
       if (response.ok) {
         dispatch(setUser({ pseudo: data.pseudo, token: data.token}));
         setSignupName("");
@@ -222,7 +236,10 @@ const Header: React.FC = () => {
         birth_date: updateBirthdate
       })
     })
-    .then(response => response.json().then(data => {
+    .then(response => response.json().then((data: {
+      pseudo: string;
+      token: string;
+    }) => {
       if (response.ok) {
         dispatch(setUser({pseudo: data.pseudo, token: data.token}))
         setUpdateName("");
