@@ -38,4 +38,10 @@
     background-color: #FBF5F3;
     color: #CB3138;
     margin-right: 20px;
+    cursor: pointer;
+}
+
+.signalButton:hover {
+    background-color: #CB3138;
+    color: #FBF5F3;
 }

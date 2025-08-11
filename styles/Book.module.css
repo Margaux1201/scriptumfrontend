@@ -11,6 +11,7 @@
   display: grid;
   grid-template-columns: 1fr 3fr;
   max-width: 1000px;
+  height: 100vh;
 }
 
 .leftPart {
@@ -22,6 +23,58 @@
   height: 100vh;
 }
 
+.status {
+  font-family: "Overlock", cursive;
+  font-size: larger;
+  font-weight: 900;
+  margin-bottom: 50px;
+}
+
+.leftButton {
+  width: 50%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  background-color: transparent;
+  cursor: pointer;
+  color: #0F0F0F;
+  font-family: "Mukta Vaani", cursive;
+  border-radius: 10px;
+  border: solid 1px #0F0F0F;
+}
+
+.leftButton:hover {
+  background-color: #E28413;
+  color: #FBF5F3;
+  border: solid 1px #E28413;
+}
+
+.chapterPart {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 90%;
+}
+
+.chapterButton {
+  padding: 10px 0;
+  margin-bottom: 10px;
+  font-family: "Mukta Vaani", cursive;
+  font-weight: 500;
+  font-size: large;
+  border-radius: 5px;
+  background-color: #FBF5F3;
+  cursor: pointer;
+  border: #E28413 solid 2px;
+  color: #0F0F0F;
+}
+
+.chapterButton:hover {
+  background-color: #E28413;
+  color: #FBF5F3;
+}
+
 .rightPart {
   margin-left: 20px;
   display: flex;
@@ -31,6 +84,39 @@
   height: 100vh;
 }
 
+.sagaTitle {
+  margin: 0;
+  margin-top: 10px;
+  font-family: "Hind", cursive;
+  font-size: 2.5rem;
+}
+
+.bookTitle {
+  margin: 0;
+  font-family: "Hind", cursive;
+  font-size: 2.3rem;
+}
+
+.bookScore {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.contentStar {
+  width: 5%;
+  height: 70%;
+}
+
+.bookRate {
+  font-family: "Overlock", cursive;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: 5px 10px;
+}
+
 .authorLine {
   width: 100%;
   display: flex;
@@ -38,8 +124,134 @@
   align-items: center;
 }
 
+.bookAuthor {
+  font-family: "Overlock", cursive;
+  font-weight: 900;
+  font-size: 2rem;
+  margin: 10px 0;
+}
+
+.followBtn {
+  margin-left: 25%;
+  margin-right: 3%;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-family: 'Mukta Vaani', cursive;
+  font-size: small;
+  font-weight: 700;
+  background-color: transparent;
+  color: #107E7D;
+  border: solid 2px #107E7D;
+  border-radius: 5px;
+}
+
+.followBtn:hover {
+    background-color: #107E7D;
+    color: #FBF5F3;
+}
+
+.signalButton {
+    border: solid 2px #CB3138;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'Mukta Vaani', cursive;
+    font-size: small;
+    font-weight: 700;
+    background-color: #FBF5F3;
+    color: #CB3138;
+    cursor: pointer;
+}
+
+.signalButton:hover {
+    background-color: #CB3138;
+    color: #FBF5F3;
+}
+
 .genreLine, .themeLine, .warningLine {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.bookGenre {
+  font-family: "Overlock", cursive;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #FBF5F3;
+  background-color: #E28413;
+  padding: 10px 20px;
+  border-radius: 50px;
+  margin: 0;
+  margin-top: 25px;
+}
+
+.sectionTitle {
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Overlock", cursive;
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+.bookDescription {
+  margin: 0;
+  margin-right: 20px;
+  text-align: justify;
+}
+
+.bookTheme {
+  font-family: "Overlock", cursive;
+  font-weight: 700;
+  font-size: small;
+  color: #0F0F0F;
+  background-color: white;
+  border: #0F0F0F solid 1px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  margin: 0;
+}
+
+.warningCnt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.warningBtn {
+  cursor: pointer;
+  font-family: 'Mukta Vaani', cursive;
+  font-size: medium;
+  font-weight: 500;
+  background-color: transparent;
+  border: #0F0F0F solid 1px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.warningBtn:hover {
+  border: #E28413 solid 2px;
+  color: #E28413;
+  font-weight: 700;
+}
+
+.warningCategory {
+  margin: 0;
+  margin-bottom: 20px;
+  font-family: 'Mukta Vaani', cursive;
+  font-size: larger;
+  font-weight: 700;
+}
+
+.warningTag {
+  font-family: 'Mukta Vaani', cursive;
+  font-size: small;
+  font-weight: 500;
+  border: #CB3138 solid 1px;
+  border-radius: 50px;
+  padding: 5px 10px;
+  background-color: #e7767cc4;
+  margin: 0;
 }
