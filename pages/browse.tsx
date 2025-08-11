@@ -1,8 +1,9 @@
+import styles from "../styles/Browse.module.css"
 import Header from "../components/Header"
 
 function Browse() {
     return (
-        <div>
+        <div className={styles.main}>
             <Header />
             <h1>Browse Page</h1>
         </div>

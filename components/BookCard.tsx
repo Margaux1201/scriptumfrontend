@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const BookCard = (props: {
     title: string;
@@ -10,10 +11,17 @@ const BookCard = (props: {
     author: string;
     desc: string;
     rating: number;
+    slug: string;
     }) => {
+        
+    const router = useRouter();
+    
+    const handleClick = (): void => {
+        router.push(`/book/${props.slug}`);
+    }
 
+    // Création des 5 étoiles de notation
     const stars = [];
-
     for (let i = 0; i < 5; i++) {
         let style = {};
         if (i < props.rating - 1) {
@@ -24,7 +32,7 @@ const BookCard = (props: {
     }
 
     return (
-        <div className={styles.card} >
+        <div className={styles.card} onClick={handleClick}>
             <Image src={props.url} layout='responsive' height={300} width={200} alt={props.title}/>
             <h2 className={styles.bookTitle} >{props.title}</h2>
             <h3 className={styles.bookAuth} >{props.author}</h3>

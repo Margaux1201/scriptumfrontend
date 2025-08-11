@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading {
+    font-family: 'Mukta Vaani', cursive;
+    text-align: center;
+}

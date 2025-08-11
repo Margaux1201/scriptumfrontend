@@ -21,6 +21,7 @@ const Home: React.FC = () => {
     tomeName: string;
     tomeNumber: number;
     rating: number;
+    slug: string;
   }
 
   const bookCodeEnDure: Book[]  = [{
@@ -38,6 +39,7 @@ const Home: React.FC = () => {
     tomeName: "Harry Potter",
     tomeNumber: 1,
     rating: 4.8,
+    slug: "Harry-Potter-and-the-Philosopher's-Stone-J.K.-Rowling",
   },
   {
     id: 47, 
@@ -54,6 +56,7 @@ const Home: React.FC = () => {
     tomeName: "Evolved",
     tomeNumber: 1,
     rating: 3.4,
+    slug: "Les-sérums-du-Chaos-Emily-Ivessons",
   }];
 
   const dataBook = bookCodeEnDure.map((e: Book) => {
@@ -61,7 +64,7 @@ const Home: React.FC = () => {
     if (overview.length > 250) {
       overview = overview.substring(0, 250) + "...";
     }
-    return <BookCard key={e.id} title={e.title} author={e.author} desc={overview} rating={e.rating} url={e.url} />
+    return <BookCard key={e.id} title={e.title} author={e.author} desc={overview} rating={e.rating} url={e.url} slug={e.slug} />
   })
 
   return (

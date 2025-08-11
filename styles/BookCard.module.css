@@ -4,6 +4,7 @@
     flex-direction: column;
     position: relative;
     padding-bottom: 50px;
+    cursor: pointer;
 }
 
 .bookTitle {
