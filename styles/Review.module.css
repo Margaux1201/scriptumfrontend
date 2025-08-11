@@ -1,0 +1,41 @@
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.commentPart {
+    padding-right: 60px;
+    width: 100%;
+}
+
+.username {
+    margin: 0;
+    font-family: "Overlock", cursive;
+    font-weight: 800;
+}
+
+.content {
+    border: solid 1px #0F0F0F;
+    border-radius: 5px;
+    background-color: white;
+    font-family: 'Mukta Vaani', cursive;
+    font-size: small;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: justify;
+}
+
+.signalButton {
+    border: solid 1px #CB3138;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'Mukta Vaani', cursive;
+    font-size: small;
+    font-weight: 700;
+    background-color: #FBF5F3;
+    color: #CB3138;
+    margin-right: 20px;
+}

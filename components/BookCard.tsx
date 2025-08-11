@@ -1,5 +1,5 @@
 import styles from '../styles/BookCard.module.css';
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';

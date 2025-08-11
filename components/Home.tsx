@@ -24,7 +24,7 @@ const Home: React.FC = () => {
     slug: string;
   }
 
-  const bookCodeEnDure: Book[]  = [{
+  const bookCodeEnDure: Book[] = [{
     id: 85, 
     title: "Harry Potter and the Philosopher's Stone", 
     releaseDate: "1998-10-05", 

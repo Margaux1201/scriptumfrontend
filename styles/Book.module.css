@@ -6,7 +6,40 @@
   height: 100vh;
 }
 
-.loading {
-    font-family: 'Mukta Vaani', cursive;
-    text-align: center;
+.gridContent {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  max-width: 1000px;
+}
+
+.leftPart {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+}
+
+.rightPart {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.authorLine {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.genreLine, .themeLine, .warningLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
 }

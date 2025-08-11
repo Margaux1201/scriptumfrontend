@@ -1,0 +1,61 @@
+[
+  {
+    "categorie": "Contenu explicite",
+    "tags": ["Scènes de sexe explicites", "Nudité", "Contenu érotique ou pornographique"]
+  },
+  {
+    "categorie": "Violence",
+    "tags": [
+      "Violence graphique",
+      "Meurtres ou assassinats",
+      "Torture",
+      "Automutilation",
+      "Violences domestiques",
+      "Maltraitance infantile",
+      "Violences sexuelles / viol"
+    ]
+  },
+  {
+    "categorie": "Santé mentale",
+    "tags": [
+      "Dépression",
+      "Anxiété",
+      "Crises de panique",
+      "Suicidalité / tentative de suicide",
+      "Troubles alimentaires",
+      "Schizophrénie / hallucinations"
+    ]
+  },
+  {
+    "categorie": "Discriminations / discours haineux",
+    "tags": ["Racisme", "Sexisme", "Homophobie / transphobie", "Validisme", "Discours haineux"]
+  },
+  {
+    "categorie": "Thèmes émotionnels difficiles",
+    "tags": [
+      "Perte d'un proche / deuil",
+      "Abandon / rejet",
+      "Rupture / divorce",
+      "Trahison",
+      "Traumatisme / PTSD"
+    ]
+  },
+  {
+    "categorie": "Dépendances",
+    "tags": ["Drogue", "Alcoolisme", "Tabagisme", "Jeu compulsif"]
+  },
+  {
+    "categorie": "Autres avertissements",
+    "tags": [
+      "Maltraitance animale",
+      "Cannibalisme",
+      "Gore / body horror",
+      "Épidémie / pandémie",
+      "Inceste",
+      "Enlèvement",
+      "Esclavage",
+      "Prostitution",
+      "Manipulation mentale / gaslighting"
+    ]
+  }
+]
