@@ -171,7 +171,7 @@ const ChapterDetail = () => {
   ));
 
   return (
-    <div>
+    <div className={styles.global}>
       <Header />
       <div className={styles.main}>
         <div className={styles.chapterPart}>
@@ -197,16 +197,21 @@ const ChapterDetail = () => {
             height={300}
             alt={bookEnDure2.title}
           />
-          {bookEnDure2.isSaga && (
-            <h2>
-              {bookEnDure2.sagaName} - Tome {bookEnDure2.sagaNumber}
-            </h2>
-          )}
-          <h2>{bookEnDure2.title}</h2>
-          <h3>{bookEnDure2.author}</h3>
-          <button onClick={handleBookClick}>Voir le détail du livre</button>
-          <button>Découvrir l'univers</button>
-          <div>{chapters}</div>
+          <div className={styles.text}>
+            {bookEnDure2.isSaga && (
+              <h2 className={styles.bookSaga}>
+                {bookEnDure2.sagaName} - Tome {bookEnDure2.sagaNumber}
+              </h2>
+            )}
+            <h2 className={styles.bookTitle}>{bookEnDure2.title}</h2>
+            <h3 className={styles.bookAuthor}>{bookEnDure2.author}</h3>
+          </div>
+          <button className={styles.navBtn} onClick={handleBookClick}>
+            Voir le détail du livre
+          </button>
+          <button className={styles.navBtn}>Découvrir l'univers</button>
+          <div className={styles.chapterGlobal}>{chapters}</div>
+          <div id="stickySentinel" style={{ height: "1px" }}></div>
         </div>
       </div>
     </div>
