@@ -249,9 +249,11 @@ const Header: React.FC = () => {
       .then((response) =>
         response.json().then((data: { author_name?: string }) => {
           if (response.ok) {
+            // Si pas de nom d'auteur, ouvre la modale pour en créer un.
             if (!data.author_name) {
               setOpenAddAuthorName(true);
             } else {
+              // Si nom d'auteur, va sur la page de création de roman
               router.push(`/book/newbook`);
             }
           } else {
