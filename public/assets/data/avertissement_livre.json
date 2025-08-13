@@ -1,10 +1,10 @@
 [
   {
-    "categorie": "Contenu explicite",
+    "categorie": "🔞 Contenu explicite",
     "tags": ["Scènes de sexe explicites", "Nudité", "Contenu érotique ou pornographique"]
   },
   {
-    "categorie": "Violence",
+    "categorie": "🩸 Violence",
     "tags": [
       "Violence graphique",
       "Meurtres ou assassinats",
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "categorie": "Santé mentale",
+    "categorie": "🧠 Santé mentale",
     "tags": [
       "Dépression",
       "Anxiété",
@@ -27,11 +27,11 @@
     ]
   },
   {
-    "categorie": "Discriminations / discours haineux",
+    "categorie": "🚫 Discriminations / discours haineux",
     "tags": ["Racisme", "Sexisme", "Homophobie / transphobie", "Validisme", "Discours haineux"]
   },
   {
-    "categorie": "Thèmes émotionnels difficiles",
+    "categorie": "💔 Thèmes émotionnels difficiles",
     "tags": [
       "Perte d'un proche / deuil",
       "Abandon / rejet",
@@ -41,11 +41,11 @@
     ]
   },
   {
-    "categorie": "Dépendances",
+    "categorie": "🧪 Dépendances",
     "tags": ["Drogue", "Alcoolisme", "Tabagisme", "Jeu compulsif"]
   },
   {
-    "categorie": "Autres avertissements",
+    "categorie": "🐾 Autres avertissements",
     "tags": [
       "Maltraitance animale",
       "Cannibalisme",
