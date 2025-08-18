@@ -33,6 +33,10 @@ const NewBook = () => {
   const [checkedWarnings, setCheckedWarnings] = useState<SelectedWarning[]>([]);
 
   useEffect(() => {
+    if (!user.token) {
+      router.push("/");
+    }
+
     fetch("/assets/data/classification_livre.json")
       .then((res) => res.json())
       .then((data) => {
@@ -59,7 +63,7 @@ const NewBook = () => {
       .catch((error) => {
         alert(`Une erreur s'est produite au chargement de la page : ${error}`);
       });
-  }, []);
+  }, [user.token]);
 
   //Conversion de l'état qui stocke tous les genres en checkbox
   const checkboxGenres = genres.map((oneGenre, i) => {
@@ -317,6 +321,16 @@ const NewBook = () => {
             console.log(data);
             alert(`Votre roman ${data.title} a été enregistré 🙌`);
             router.push(`/book/${data.slug}`);
+            setPhoto(null);
+            setSagaChecked(false);
+            setSagaName("");
+            setSagaNumber(1);
+            setBookTitle("");
+            setPublicRead("");
+            setCheckedGenres([]);
+            setDescription("");
+            setStockedThemes([]);
+            setCheckedWarnings([]);
           }
         })
       )

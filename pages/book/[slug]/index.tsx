@@ -11,11 +11,6 @@ const BookDetail = () => {
   const router = useRouter();
   const { slug } = router.query;
 
-  interface Warning {
-    categorie: string;
-    tags: string[];
-  }
-
   interface Book {
     id: number;
     title: string;
@@ -33,6 +28,36 @@ const BookDetail = () => {
     rating: number;
     slug: string;
     warning: Warning[];
+  }
+
+  const [bookInfo, setBookInfo] = useState<Book | null>(null);
+
+  useEffect(() => {
+    // attend que le slug existe avant de fetch
+    if (!slug) return;
+
+    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+      .then((res) =>
+        res.json().then((data) => {
+          if (res.ok) {
+            setBookInfo(data);
+          }
+        })
+      )
+      .catch((error) => {
+        console.error(
+          "Erreur lors de la récupération des données du roman :",
+          error
+        );
+        alert("Une erreur réseau est survenue");
+      });
+  }, [slug]);
+
+  console.log(bookInfo);
+
+  interface Warning {
+    categorie: string;
+    tags: string[];
   }
 
   const bookEnDure: Book = {
