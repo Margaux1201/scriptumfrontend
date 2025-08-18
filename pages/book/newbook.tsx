@@ -4,8 +4,14 @@ import React, { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { UserState } from "@/reducers/user";
+import { useRouter } from "next/router";
 
 const NewBook = () => {
+  const router = useRouter();
+  const user = useSelector((store: { user: UserState }) => store.user);
+
   // Récupère les genres dans les données du json
   const [genres, setGenres] = useState<string[]>([]);
   // Etat pour stocker les genres sélectionnés
@@ -165,8 +171,6 @@ const NewBook = () => {
     });
   };
 
-  console.log(checkedWarnings);
-
   // Etat pour gérer le fichier photo
   const [photo, setPhoto] = useState<File | null>(null);
   // Fonction pour mettre à jour la photo
@@ -276,6 +280,54 @@ const NewBook = () => {
   const handleDeleteTheme = (x: string) => {
     const deletedTheme = stockedThemes.filter((e) => e != x);
     setStockedThemes(deletedTheme);
+  };
+
+  console.log("THEMES 🤔🤔🤔", stockedThemes);
+  console.log("GENRES 🧠🧠🧠", checkedGenres);
+
+  const formData = new FormData();
+  if (photo) {
+    formData.append("image", photo);
+  }
+  formData.append("token", user.token!);
+  formData.append("is_saga", sagaChecked.toString());
+  if (sagaChecked) {
+    formData.append("tome_name", sagaName);
+    formData.append("tome_number", sagaNumber.toString());
+  }
+  formData.append("title", bookTitle);
+  formData.append("public_type", publicRead);
+  checkedGenres.forEach((genre) => formData.append("genres", genre));
+  formData.append("description", description);
+  if (stockedThemes.length > 0) {
+    stockedThemes.forEach((theme) => formData.append("themes", theme));
+  }
+  if (checkedWarnings.length > 0) {
+    formData.append("warnings", JSON.stringify(checkedWarnings));
+  }
+
+  const handleRegister = (): void => {
+    fetch("http://127.0.0.1:8000/api/createbook/", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log(data);
+            alert(`Votre roman ${data.title} a été enregistré 🙌`);
+            router.push(`/book/${data.slug}`);
+          }
+        })
+      )
+      // .then(async (res) => {
+      //   const text = await res.text();
+      //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+      // })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout d'un roman :", error);
+        alert("Une erreur réseau est survenue");
+      });
   };
 
   return (
@@ -392,21 +444,21 @@ const NewBook = () => {
                   id="public1"
                   type="radio"
                   name="public"
-                  value="Jeunesse"
-                  checked={publicRead === "Jeunesse"}
+                  value="tout_public"
+                  checked={publicRead === "tout_public"}
                   onChange={handlePublicChange}
                   className={styles.inputRadio}
                 />
                 <label htmlFor="public1" className={styles.isSagaLabel}>
-                  Jeunesse
+                  Tout Public
                 </label>
 
                 <input
                   id="public2"
                   type="radio"
                   name="public"
-                  value="Young Adult"
-                  checked={publicRead === "Young Adult"}
+                  value="young_adult"
+                  checked={publicRead === "young_adult"}
                   onChange={handlePublicChange}
                   className={styles.inputRadio}
                 />
@@ -418,8 +470,8 @@ const NewBook = () => {
                   id="public3"
                   type="radio"
                   name="public"
-                  value="Adulte"
-                  checked={publicRead === "Adulte"}
+                  value="adulte"
+                  checked={publicRead === "adulte"}
                   onChange={handlePublicChange}
                   className={styles.inputRadio}
                 />
@@ -493,7 +545,9 @@ const NewBook = () => {
           <div className={styles.warningContainer}>{checkboxWarnings}</div>
         </section>
         <div className={styles.registerPart}>
-          <button className={styles.registerBtn}>Enregistrer</button>
+          <button className={styles.registerBtn} onClick={handleRegister}>
+            Enregistrer
+          </button>
         </div>
       </main>
     </div>
