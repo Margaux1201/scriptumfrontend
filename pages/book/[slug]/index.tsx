@@ -65,6 +65,11 @@ const BookDetail = () => {
   }, [slug]);
 
   useEffect(() => {
+    if (!user.token || !bookAuthor) {
+      setIsAuthorCurrentUser(false);
+      return;
+    }
+
     fetch("http://127.0.0.1:8000/api/getinfo/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -75,11 +80,18 @@ const BookDetail = () => {
           console.log("🤦‍♀️🤦‍♀️🤦‍♀️", dataAuth);
           if (bookAuthor === dataAuth.author_name) {
             setIsAuthorCurrentUser(true);
+          } else {
+            setIsAuthorCurrentUser(false);
           }
+        } else {
+          setIsAuthorCurrentUser(false);
         }
       })
     );
-  }, [user.token]);
+  }, [bookAuthor, user.token]);
+
+  console.log("TOKEN 🙌🙌🙌", user.token);
+  console.log("🤔🤔🤔", isAuthorCurrentUser);
 
   interface Warning {
     categorie: string;
@@ -289,6 +301,10 @@ const BookDetail = () => {
     }
   };
 
+  const handleEditBook = (): void => {
+    router.push(`/book/${slug}/editbook`);
+  };
+
   const handleChangeState = (): void => {
     // Rajouter le fetch de modification de l'état du livre
     bookState === "En cours"
@@ -301,7 +317,15 @@ const BookDetail = () => {
       <Header />
       <div className={styles.gridContent}>
         <div className={styles.leftPart}>
-          <Image src={bookImage} height={500} width={300} alt={bookTitle} />
+          <div className={styles.imgContainer}>
+            <Image
+              src={bookImage}
+              height={500}
+              width={300}
+              alt={bookTitle}
+              style={{ objectFit: "fill" }}
+            />
+          </div>
           <h4 className={styles.public}>{getBookPublicType(bookPublicType)}</h4>
           <h4 className={styles.status}>
             Statut: <span style={stateStyle}>{bookState}</span>
@@ -309,7 +333,7 @@ const BookDetail = () => {
           {isAuthorCurrentUser ? (
             <div className={styles.leftBtnContainer}>
               <button className={styles.leftButton}>Découvrir l'univers</button>
-              <button className={styles.leftButton}>
+              <button className={styles.leftButton} onClick={handleEditBook}>
                 Modifier la présentation
               </button>
               <button className={styles.leftButton} onClick={handleChangeState}>

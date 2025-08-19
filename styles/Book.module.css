@@ -22,6 +22,12 @@
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  width: 100%;
+}
+
+.imgContainer {
+  width: 300px;
+  margin: 0;
 }
 
 .public {

@@ -1,4 +1,4 @@
-import styles from "../../../styles/NewBook.module.css";
+import styles from "../../../styles/EditBook.module.css";
 import Header from "../../../components/Header";
 import React, { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import Image from "next/image";
@@ -7,16 +7,12 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { UserState } from "@/reducers/user";
 import { useRouter } from "next/router";
+import { url } from "inspector";
 
 const EditBook = () => {
   const router = useRouter();
   const { slug } = router.query;
   const user = useSelector((store: { user: UserState }) => store.user);
-
-  // Récupère les genres dans les données du json
-  const [genres, setGenres] = useState<string[]>([]);
-  // Etat pour stocker les genres sélectionnés
-  const [checkedGenres, setCheckedGenres] = useState<string[]>([]);
 
   interface Warning {
     categorie: string;
@@ -28,10 +24,30 @@ const EditBook = () => {
     tag: string[];
   }
 
+  // Récupère les genres dans les données du json
+  const [genres, setGenres] = useState<string[]>([]);
+  // Etat pour stocker les genres sélectionnés
+  const [checkedGenres, setCheckedGenres] = useState<string[]>([]);
   // Récupère les avertissements dans les données du json
   const [warningsFetched, setWarningsFetched] = useState<Warning[]>([]);
   // Etat pour stocker les avertissements sélectionnées
   const [checkedWarnings, setCheckedWarnings] = useState<SelectedWarning[]>([]);
+  // Etat pour gérer le fichier photo
+  const [photo, setPhoto] = useState<File | null>(null);
+  //Etat pour gérer le toggle de Saga
+  const [sagaChecked, setSagaChecked] = useState<boolean>(false);
+  //Etat pour gérer les inputs GENERAL
+  const [sagaName, setSagaName] = useState<string>("");
+  const [sagaNumber, setSagaNumber] = useState<number>(1);
+  const [bookTitle, setBookTitle] = useState<string>("");
+  const [publicRead, setPublicRead] = useState<string>("");
+  // Etat pour stocker la description
+  const [description, setDescription] = useState<string>("");
+  //Etats pour gérer la recherche et stockage des thèmes
+  const [currentWord, setCurrentWord] = useState<string>("");
+  const [stockedThemes, setStockedThemes] = useState<string[]>([]);
+  const [suggestion, setSuggestion] = useState<string[]>([]);
+  const [url, setUrl] = useState<string>("");
 
   useEffect(() => {
     if (!user.token) {
@@ -64,6 +80,24 @@ const EditBook = () => {
       .catch((error) => {
         alert(`Une erreur s'est produite au chargement de la page : ${error}`);
       });
+
+    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`).then((res) =>
+      res.json().then((data) => {
+        if (res.ok) {
+          console.log("DETAIL LIVRE 📚📚", data);
+          setUrl(data.image);
+          setSagaChecked(data.is_saga);
+          setSagaName(data.tome_name);
+          setSagaNumber(data.tome_number);
+          setBookTitle(data.title);
+          setPublicRead(data.public_type);
+          setCheckedGenres(data.genres);
+          setDescription(data.description);
+          setStockedThemes(data.themes);
+          setCheckedWarnings(data.warnings);
+        }
+      })
+    );
   }, [user.token]);
 
   //Conversion de l'état qui stocke tous les genres en checkbox
@@ -176,8 +210,6 @@ const EditBook = () => {
     });
   };
 
-  // Etat pour gérer le fichier photo
-  const [photo, setPhoto] = useState<File | null>(null);
   // Fonction pour mettre à jour la photo
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -185,19 +217,11 @@ const EditBook = () => {
     }
   };
 
-  //Etat pour gérer le toggle de Saga
-  const [sagaChecked, setSagaChecked] = useState<boolean>(false);
   // Fonction pour mettre à jour le toggle de Saga
   const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSagaChecked(e.target.checked);
   };
   console.log(sagaChecked);
-
-  //Etat pour gérer les inputs GENERAL
-  const [sagaName, setSagaName] = useState<string>("");
-  const [sagaNumber, setSagaNumber] = useState<number>(1);
-  const [bookTitle, setBookTitle] = useState<string>("");
-  const [publicRead, setPublicRead] = useState<string>("");
 
   // fonction pour mettre à jour le public visé
   const handlePublicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,14 +232,6 @@ const EditBook = () => {
   if (photo) {
     stylePhotoContainer = { border: "none" };
   }
-
-  // Etat pour stocker la description
-  const [description, setDescription] = useState<string>("");
-
-  //Etats pour gérer la recherche et stockage des thèmes
-  const [currentWord, setCurrentWord] = useState<string>("");
-  const [stockedThemes, setStockedThemes] = useState<string[]>([]);
-  const [suggestion, setSuggestion] = useState<string[]>([]);
 
   // fonction pour générér la suggestion et stocker un thème
   const handleThemeInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -311,6 +327,10 @@ const EditBook = () => {
     formData.append("warnings", JSON.stringify(checkedWarnings));
   }
 
+  const handleCancel = (): void => {
+    router.push(`/book/${slug}`);
+  };
+
   const handleRegister = (): void => {
     fetch("http://127.0.0.1:8000/api/createbook/", {
       method: "POST",
@@ -357,16 +377,16 @@ const EditBook = () => {
             className={styles.photoInputContainer}
             style={stylePhotoContainer}
           >
-            {photo && (
-              <div className={styles.photoPreview}>
-                <Image
-                  src={URL.createObjectURL(photo)}
-                  alt="Preview"
-                  width={300}
-                  height={450}
-                />
-              </div>
-            )}
+            <div className={styles.photoPreview}>
+              <Image
+                // AFFICHER LE PHOTO
+                src={photo ? URL.createObjectURL(photo) : url}
+                alt="Preview"
+                width={300}
+                height={450}
+              />
+            </div>
+
             <input
               type="file"
               accept="image/*"
@@ -560,6 +580,9 @@ const EditBook = () => {
           <div className={styles.warningContainer}>{checkboxWarnings}</div>
         </section>
         <div className={styles.registerPart}>
+          <button className={styles.cancelBtn} onClick={handleCancel}>
+            Annuler
+          </button>
           <button className={styles.registerBtn} onClick={handleRegister}>
             Enregistrer
           </button>

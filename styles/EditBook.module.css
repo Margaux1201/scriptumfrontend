@@ -1,0 +1,299 @@
+.global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.main {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100vh;
+    max-width: 1000px;
+    font-family: 'Mukta Vaani';
+}
+
+/* DEBUT PARTIE GENERAL */
+
+.general {
+    display: flex;
+    /* justify-content: space-around; */
+    width: 100%;
+    margin-top: 50px;
+}
+
+/* PHOTO */
+.photoInputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 440px;
+    margin: 0 50px 0 25px;
+}
+
+.photoPreview {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0;
+    margin-right: 50px;
+}
+
+.photoInput {
+    margin-top: 20px;
+    width: 200px;
+}
+
+/* AUTRES INPUTS */
+.otherInputs {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 48%;
+    height: 100%;
+}
+
+.titre {
+    font-family: "Hind", cursive;
+    font-size: 3rem;
+    text-align: center;
+    margin: 5px 0;
+    color: #E28413;
+    padding: 0;
+}
+
+/* saga */
+.sagaCheck {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+}
+
+.isSagaLabel {
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+.sagaContent {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.inputText {
+    margin: 0;
+    padding: 5px 10px;
+    margin-right: 20px;
+    font-size: medium;
+}
+
+.inputNbre {
+    width: 70px;
+    padding: 5px 10px;
+    margin-left: 20px;
+    font-size: 1rem;
+}
+
+/* public */
+.publicContent {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    margin: 0;
+}
+
+.inputRadio {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* FIN PARTIE GENERAL */
+
+.sectionTitle {
+    margin-right: 10px;
+    font-family: 'Overlock', cursive;
+    font-weight: 700;
+    font-size: 1.7rem;
+}
+
+/* genre */
+.genresSection {
+    margin-top: 30px;
+}
+
+.checkbox {
+    cursor: pointer;
+}
+
+.genresContent {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-left: 25px;
+}
+
+/* description */
+.descSection {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.descContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.descriptionArea {
+    width: 90%;
+    min-height: 150px;
+    resize: vertical;
+    font-family: 'Mukta Vaani', cursive;
+    padding: 5px 10px;
+}
+
+.caracLimit {
+    text-align: right;
+    margin: 0;
+    margin-right: 6%;
+    font-size: small;
+    font-style: italic;
+}
+
+/* thèmes */
+.searchThemes {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.inputSearch {
+    margin: 0;
+    padding: 10px 10px;
+    margin-right: 20px;
+    font-size: medium;
+    height: 30px;
+    width: 400px;
+    margin-left: 20px;
+    border-radius: 5px;
+    border: #0F0F0F solid 1px;
+}
+
+.suggestionContainer {
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+    list-style: none;
+    border: #E28413 solid 2px;
+    border-radius: 10px;
+    margin: 0 20px;
+    padding: 20px;
+
+}
+
+.suggestThemes {
+    cursor: pointer;
+    background-color: white;
+    border: solid 1px #0F0F0F;
+    border-radius: 50px;
+    padding: 5px 10px;
+    font-size: small;
+}
+
+.selectedThemesArea {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: 25px;
+}
+
+.themeTag {
+    display: flex;
+    align-items: center;
+    border: solid 1px #0F0F0F;
+    border-radius: 50px;
+    padding: 5px 0 5px 10px;
+    background-color: white;
+    margin: 20px 0;
+}
+
+.themeName {
+    margin: 0;
+    margin-right: 5px;
+    font-size: medium;
+}
+
+.deleteThemeBtn {
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* avertissements */
+.warningContainer {
+    margin-left: 25px;
+    width: 90%;
+}
+
+.warningCategory {
+    font-size: larger;
+}
+
+.warningTagContainer {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-left: 30px;
+}
+
+.registerPart {
+    display: flex;
+    justify-content: flex-end;
+    width: 95%;
+}
+
+.registerBtn {
+    margin: 50px 0;
+    font-family: 'Mukta Vaani', cursive;
+    background-color: #E28413;
+    color: #FBF5F3;
+    border: #E28413 solid 2px;
+    border-radius: 10px;
+    font-size: large;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.cancelBtn {
+    margin: 50px 20px;
+    font-family: 'Mukta Vaani', cursive;
+    background-color: transparent;
+    color: #E28413;
+    border: #E28413 solid 2px;
+    border-radius: 10px;
+    font-size: large;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.cancelBtn:hover {
+    background-color: #E28413;
+    color: #FBF5F3;
+}
+
+.registerBtn:hover {
+    background-color: #FBF5F3 !important;
+    color: #E28413 !important;
+    border-color: #E28413 !important;
+}
