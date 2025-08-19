@@ -14,25 +14,6 @@ const BookDetail = () => {
   const { slug } = router.query;
   const user = useSelector((store: { user: UserState }) => store.user);
 
-  interface Book {
-    id: number;
-    title: string;
-    releaseDate: string;
-    author: string;
-    url: string;
-    description: string;
-    publicType: string;
-    genres: string[];
-    themes: string[];
-    state: string;
-    isSaga: boolean;
-    tomeName: string;
-    tomeNumber: number;
-    rating: number;
-    slug: string;
-    warning: Warning[];
-  }
-
   const [isAuthorCurrentUser, setIsAuthorCurrentUser] =
     useState<boolean>(false);
   const [bookIsSaga, setBookIsSaga] = useState<boolean>(false);
@@ -104,57 +85,6 @@ const BookDetail = () => {
     categorie: string;
     tag: string[];
   }
-
-  const bookEnDure: Book = {
-    id: 47,
-    title: "Les Sérums du Chaos",
-    releaseDate: "2025-08-08",
-    author: "Emily Ivessons",
-    url: "/assets/images/Evolved_Les_sérums_du_chaos.png",
-    description: `Dix ans après la Grande Pandémie qui a ravagé le monde, les survivants se sont reconstruits malgré l'invasion des morts. Mike et Caleb, deux amis liés par les épreuves de cette sombre décennie, prospèrent dans la ville de Mojave où ils ont trouvé refuge avec leur groupe. Pourtant, ils devront affronter une nouvelle menace quand un soldat russe aux capacités surhumaines s'invite sur leur territoire avec d'étranges sérums qui chambouleront leur vie, ainsi que leur ADN.
-
-    Pourquoi cibler leur camp ? Que cherche cet homme en transformant des innocents en êtres contre-nature ? Qu'a le sérum Amarok de si spécial pour susciter autant de convoitise ? Une chose est certaine : la lutte pour la survie est engagée contre ces forces émergentes aussi puissantes qu'impitoyables.`,
-    publicType: "Adulte",
-    genres: ["Science Fantasy", "Dystopie", "Thriller"],
-    themes: [
-      "Post-Apocalypse",
-      "Créature Fantastique",
-      "Surnaturel",
-      "Manipulation génétique",
-      "Zombies",
-      "Pandémie",
-    ],
-    state: "Terminé",
-    isSaga: true,
-    tomeName: "Evolved",
-    tomeNumber: 1,
-    rating: 3.4,
-    slug: "Les-sérums-du-Chaos-Emily-Ivessons",
-    warning: [
-      {
-        categorie: "🩸 Violence",
-        tag: ["Violence graphique", "Meurtres ou assassinats"],
-      },
-      {
-        categorie: "🧠 Santé mentale",
-        tag: ["Anxiété", "Schizophrénie / hallucinations"],
-      },
-      {
-        categorie: "💔 Thèmes émotionnels difficiles",
-        tag: ["Perte d'un proche / deuil", "Traumatisme / PTSD"],
-      },
-      {
-        categorie: "🐾 Autres avertissements",
-        tag: [
-          "Maltraitance animale",
-          "Cannibalisme",
-          "Gore / body horror",
-          "Épidémie / pandémie",
-          "Enlèvement",
-        ],
-      },
-    ],
-  };
 
   interface Chapter {
     title: string | null;
@@ -359,6 +289,13 @@ const BookDetail = () => {
     }
   };
 
+  const handleChangeState = (): void => {
+    // Rajouter le fetch de modification de l'état du livre
+    bookState === "En cours"
+      ? setBookState("Terminé")
+      : setBookState("En cours");
+  };
+
   return (
     <div className={styles.main}>
       <Header />
@@ -375,8 +312,8 @@ const BookDetail = () => {
               <button className={styles.leftButton}>
                 Modifier la présentation
               </button>
-              <button className={styles.leftButton}>
-                Activer le statut <span> {stateName(bookState)} </span>
+              <button className={styles.leftButton} onClick={handleChangeState}>
+                Activer le statut {stateName(bookState).toUpperCase()}
               </button>
             </div>
           ) : (
@@ -389,9 +326,11 @@ const BookDetail = () => {
             </div>
           )}
           <div className={styles.chapterPart}>{chapters}</div>
-          <button className={styles.addChapterButton}>
-            + Ajouter un chapitre
-          </button>
+          {isAuthorCurrentUser && (
+            <button className={styles.addChapterButton}>
+              + Ajouter un chapitre
+            </button>
+          )}
         </div>
         <div className={styles.rightPart}>
           {bookIsSaga && (

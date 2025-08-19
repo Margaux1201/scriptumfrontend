@@ -46,7 +46,7 @@
 
 .leftButton {
   width: 50%;
-  padding: 10px 0;
+  padding: 10px 10px;
   margin-bottom: 20px;
   background-color: transparent;
   cursor: pointer;
@@ -72,7 +72,7 @@
 }
 
 .chapterButton {
-  padding: 10px 0;
+  padding: 10px 10px;
   margin-bottom: 10px;
   font-family: "Mukta Vaani", cursive;
   font-weight: 500;
@@ -103,6 +103,7 @@
 
 .addChapterButton:hover {
   background-color: #E28413;
+  font-weight: 700;
   color: #FBF5F3;
   border: solid 1px #E28413;
 }
