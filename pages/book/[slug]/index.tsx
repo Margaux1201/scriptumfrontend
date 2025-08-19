@@ -306,10 +306,29 @@ const BookDetail = () => {
   };
 
   const handleChangeState = (): void => {
+    const newState = bookState === "En cours" ? "Terminé" : "En cours";
+    setBookState(newState);
     // Rajouter le fetch de modification de l'état du livre
-    bookState === "En cours"
-      ? setBookState("Terminé")
-      : setBookState("En cours");
+    fetch(`http://127.0.0.1:8000/api/editbook/${slug}/`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ state: newState, token: user.token }),
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log(data);
+          }
+        })
+      )
+      // .then(async (res) => {
+      //   const text = await res.text();
+      //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+      // })
+      .catch((error) => {
+        console.error("Erreur lors du changement d'état :", error);
+        alert("Une erreur réseau est survenue");
+      });
   };
 
   return (

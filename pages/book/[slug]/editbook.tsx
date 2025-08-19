@@ -32,6 +32,7 @@ const EditBook = () => {
   const [warningsFetched, setWarningsFetched] = useState<Warning[]>([]);
   // Etat pour stocker les avertissements sélectionnées
   const [checkedWarnings, setCheckedWarnings] = useState<SelectedWarning[]>([]);
+  const [url, setUrl] = useState<string>("");
   // Etat pour gérer le fichier photo
   const [photo, setPhoto] = useState<File | null>(null);
   //Etat pour gérer le toggle de Saga
@@ -47,7 +48,6 @@ const EditBook = () => {
   const [currentWord, setCurrentWord] = useState<string>("");
   const [stockedThemes, setStockedThemes] = useState<string[]>([]);
   const [suggestion, setSuggestion] = useState<string[]>([]);
-  const [url, setUrl] = useState<string>("");
 
   useEffect(() => {
     if (!user.token) {
@@ -228,11 +228,6 @@ const EditBook = () => {
     setPublicRead(e.target.value);
   };
 
-  let stylePhotoContainer = {};
-  if (photo) {
-    stylePhotoContainer = { border: "none" };
-  }
-
   // fonction pour générér la suggestion et stocker un thème
   const handleThemeInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -309,6 +304,8 @@ const EditBook = () => {
   const formData = new FormData();
   if (photo) {
     formData.append("image", photo);
+  } else {
+    formData.append("image", url);
   }
   formData.append("token", user.token!);
   formData.append("is_saga", sagaChecked.toString());
@@ -332,8 +329,24 @@ const EditBook = () => {
   };
 
   const handleRegister = (): void => {
-    fetch("http://127.0.0.1:8000/api/createbook/", {
-      method: "POST",
+    if (
+      !photo ||
+      !bookTitle ||
+      !publicRead ||
+      checkedGenres.length <= 0 ||
+      !description
+    ) {
+      alert(
+        "Veuillez remplir tous les champs obligatoires et insérer une photo"
+      );
+      return;
+    } else if ((sagaChecked && !sagaName) || !sagaNumber) {
+      alert("Veuillez renseigner les informations de votre saga");
+      return;
+    }
+
+    fetch(`http://127.0.0.1:8000/api/editbook/${slug}/`, {
+      method: "PATCH",
       body: formData,
     })
       .then((response) =>
@@ -373,13 +386,9 @@ const EditBook = () => {
         <section className={styles.general}>
           {/* UPLOAD PHOTO */}
 
-          <div
-            className={styles.photoInputContainer}
-            style={stylePhotoContainer}
-          >
+          <div className={styles.photoInputContainer}>
             <div className={styles.photoPreview}>
               <Image
-                // AFFICHER LE PHOTO
                 src={photo ? URL.createObjectURL(photo) : url}
                 alt="Preview"
                 width={300}
@@ -450,10 +459,10 @@ const EditBook = () => {
                   type="text"
                   value={sagaName}
                   onChange={(e) => setSagaName(e.target.value)}
-                  placeholder="Nom de la saga"
+                  placeholder="Nom de la saga *"
                   className={styles.inputText}
                 />
-                <p className={styles.isSagaLabel}>Tome : </p>
+                <p className={styles.isSagaLabel}>Tome * : </p>
                 <input
                   type="number"
                   value={sagaNumber}
@@ -468,13 +477,13 @@ const EditBook = () => {
               type="text"
               value={bookTitle}
               onChange={(e) => setBookTitle(e.target.value)}
-              placeholder="Titre du livre"
+              placeholder="Titre du livre *"
               className={styles.inputText}
             />
             <div>
               {/* DEBUT PARTIE PUBLIC */}
               <div className={styles.publicContent}>
-                <p className={styles.isSagaLabel}>Public :</p>
+                <p className={styles.isSagaLabel}>Public * :</p>
                 <input
                   id="public1"
                   type="radio"
@@ -521,13 +530,13 @@ const EditBook = () => {
 
         {/* SECTION GENRES */}
         <section className={styles.genresSection}>
-          <h3 className={styles.sectionTitle}>Genre (5 maximum) : </h3>
+          <h3 className={styles.sectionTitle}>Genre (5 maximum) * : </h3>
           <div className={styles.genresContent}>{checkboxGenres}</div>
         </section>
 
         {/* SECTION DESCRIPTION */}
         <section className={styles.descSection}>
-          <h3 className={styles.sectionTitle}>Description : </h3>
+          <h3 className={styles.sectionTitle}>Description * : </h3>
           <div className={styles.descContainer}>
             <textarea
               name="description"

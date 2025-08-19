@@ -311,6 +311,22 @@ const CreateBookForm: React.FC = () => {
   }
 
   const handleRegister = (): void => {
+    if (
+      !photo ||
+      !bookTitle ||
+      !publicRead ||
+      checkedGenres.length <= 0 ||
+      !description
+    ) {
+      alert(
+        "Veuillez remplir tous les champs obligatoires et insérer une photo"
+      );
+      return;
+    } else if ((sagaChecked && !sagaName) || !sagaNumber) {
+      alert("Veuillez renseigner les informations de votre saga");
+      return;
+    }
+
     fetch("http://127.0.0.1:8000/api/createbook/", {
       method: "POST",
       body: formData,
@@ -429,10 +445,10 @@ const CreateBookForm: React.FC = () => {
                   type="text"
                   value={sagaName}
                   onChange={(e) => setSagaName(e.target.value)}
-                  placeholder="Nom de la saga"
+                  placeholder="Nom de la saga *"
                   className={styles.inputText}
                 />
-                <p className={styles.isSagaLabel}>Tome : </p>
+                <p className={styles.isSagaLabel}>Tome * : </p>
                 <input
                   type="number"
                   value={sagaNumber}
@@ -447,13 +463,13 @@ const CreateBookForm: React.FC = () => {
               type="text"
               value={bookTitle}
               onChange={(e) => setBookTitle(e.target.value)}
-              placeholder="Titre du livre"
+              placeholder="Titre du livre *"
               className={styles.inputText}
             />
             <div>
               {/* DEBUT PARTIE PUBLIC */}
               <div className={styles.publicContent}>
-                <p className={styles.isSagaLabel}>Public :</p>
+                <p className={styles.isSagaLabel}>Public * :</p>
                 <input
                   id="public1"
                   type="radio"
@@ -500,13 +516,13 @@ const CreateBookForm: React.FC = () => {
 
         {/* SECTION GENRES */}
         <section className={styles.genresSection}>
-          <h3 className={styles.sectionTitle}>Genre (5 maximum) : </h3>
+          <h3 className={styles.sectionTitle}>Genre (5 maximum) * : </h3>
           <div className={styles.genresContent}>{checkboxGenres}</div>
         </section>
 
         {/* SECTION DESCRIPTION */}
         <section className={styles.descSection}>
-          <h3 className={styles.sectionTitle}>Description : </h3>
+          <h3 className={styles.sectionTitle}>Description * : </h3>
           <div className={styles.descContainer}>
             <textarea
               name="description"
