@@ -24,11 +24,24 @@
   height: 100vh;
 }
 
+.public {
+  font-family: "Overlock", cursive;
+  font-size: larger;
+  font-weight: 900;
+}
+
 .status {
   font-family: "Overlock", cursive;
   font-size: larger;
   font-weight: 900;
   margin-bottom: 50px;
+}
+
+.leftBtnContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
 .leftButton {
@@ -74,6 +87,24 @@
 .chapterButton:hover {
   background-color: #E28413;
   color: #FBF5F3;
+}
+
+.addChapterButton {
+  width: 80%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  background-color: transparent;
+  cursor: pointer;
+  color: #0F0F0F;
+  font-family: "Mukta Vaani", cursive;
+  border-radius: 10px;
+  border: solid 1px #0F0F0F;
+}
+
+.addChapterButton:hover {
+  background-color: #E28413;
+  color: #FBF5F3;
+  border: solid 1px #E28413;
 }
 
 .rightPart {

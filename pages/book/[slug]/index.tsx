@@ -6,10 +6,13 @@ import Review from "../../../components/Review";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { UserState } from "@/reducers/user";
 
 const BookDetail = () => {
   const router = useRouter();
   const { slug } = router.query;
+  const user = useSelector((store: { user: UserState }) => store.user);
 
   interface Book {
     id: number;
@@ -30,7 +33,21 @@ const BookDetail = () => {
     warning: Warning[];
   }
 
-  const [bookInfo, setBookInfo] = useState<Book | null>(null);
+  const [isAuthorCurrentUser, setIsAuthorCurrentUser] =
+    useState<boolean>(false);
+  const [bookIsSaga, setBookIsSaga] = useState<boolean>(false);
+  const [bookSagaName, setBookSagaName] = useState<string | null>("");
+  const [bookSagaNbre, setBookSagaNbre] = useState<number | null>(1);
+  const [bookTitle, setBookTitle] = useState<string>("");
+  const [bookImage, setBookImage] = useState<string>("");
+  const [bookAuthor, setBookAuthor] = useState<string>("");
+  const [bookDescription, setBookDescription] = useState<string>("");
+  const [bookPublicType, setBookPublicType] = useState<string>("");
+  const [bookRate, setBookRate] = useState<number>(0);
+  const [bookState, setBookState] = useState<string>("");
+  const [bookGenres, setBookGenres] = useState<string[]>([]);
+  const [bookThemes, setBookThemes] = useState<string[]>([]);
+  const [bookWarnings, setBookWarnings] = useState<Warning[]>([]);
 
   useEffect(() => {
     // attend que le slug existe avant de fetch
@@ -40,7 +57,20 @@ const BookDetail = () => {
       .then((res) =>
         res.json().then((data) => {
           if (res.ok) {
-            setBookInfo(data);
+            console.log(data);
+            setBookImage(data.image);
+            setBookRate(data.rating);
+            setBookState(data.state);
+            setBookGenres(data.genres);
+            setBookThemes(data.themes);
+            setBookWarnings(data.warnings);
+            setBookIsSaga(data.is_saga);
+            setBookSagaName(data.tome_name);
+            setBookSagaNbre(data.tome_number);
+            setBookTitle(data.title);
+            setBookAuthor(data.author_name);
+            setBookDescription(data.description);
+            setBookPublicType(data.public_type);
           }
         })
       )
@@ -53,11 +83,26 @@ const BookDetail = () => {
       });
   }, [slug]);
 
-  console.log(bookInfo);
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/getinfo/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    }).then((response) =>
+      response.json().then((dataAuth) => {
+        if (response.ok) {
+          console.log("🤦‍♀️🤦‍♀️🤦‍♀️", dataAuth);
+          if (bookAuthor === dataAuth.author_name) {
+            setIsAuthorCurrentUser(true);
+          }
+        }
+      })
+    );
+  }, [user.token]);
 
   interface Warning {
     categorie: string;
-    tags: string[];
+    tag: string[];
   }
 
   const bookEnDure: Book = {
@@ -88,19 +133,19 @@ const BookDetail = () => {
     warning: [
       {
         categorie: "🩸 Violence",
-        tags: ["Violence graphique", "Meurtres ou assassinats"],
+        tag: ["Violence graphique", "Meurtres ou assassinats"],
       },
       {
         categorie: "🧠 Santé mentale",
-        tags: ["Anxiété", "Schizophrénie / hallucinations"],
+        tag: ["Anxiété", "Schizophrénie / hallucinations"],
       },
       {
         categorie: "💔 Thèmes émotionnels difficiles",
-        tags: ["Perte d'un proche / deuil", "Traumatisme / PTSD"],
+        tag: ["Perte d'un proche / deuil", "Traumatisme / PTSD"],
       },
       {
         categorie: "🐾 Autres avertissements",
-        tags: [
+        tag: [
           "Maltraitance animale",
           "Cannibalisme",
           "Gore / body horror",
@@ -213,7 +258,7 @@ const BookDetail = () => {
   const stars = [];
   for (let i = 0; i < 5; i++) {
     let style = {};
-    if (i < bookEnDure.rating - 1) {
+    if (i < bookRate - 1) {
       // Si l'indice de l'étoile est inférieur à la note moyenne, on la colore en jaune
       style = { color: "#E28413" };
     }
@@ -227,28 +272,29 @@ const BookDetail = () => {
   }
 
   let stateStyle = {};
-  bookEnDure.state === "Terminé"
+  bookState === "Terminé"
     ? (stateStyle = { color: "#107E7D" })
     : (stateStyle = { color: "#E28413" });
 
   // Création des tags genres
   const genres = [];
-  for (let genre of bookEnDure.genres) {
+  for (let genre of bookGenres) {
     genres.push(<h5 className={styles.bookGenre}>{genre}</h5>);
   }
 
   // Création des tags themes
   const themes = [];
-  for (let theme of bookEnDure.themes) {
+  for (let theme of bookThemes) {
     themes.push(<h5 className={styles.bookTheme}>{theme}</h5>);
   }
 
+  console.log(bookWarnings);
   // Liste des avertissements affichés
-  const warnings = bookEnDure.warning.map((oneWarning, i) => (
+  const warnings = bookWarnings.map((oneWarning, i) => (
     <div key={i}>
       <h4 className={styles.warningCategory}>{oneWarning.categorie}</h4>
       <div className={styles.warningLine}>
-        {oneWarning.tags.map((oneTag, j) => (
+        {oneWarning.tag.map((oneTag, j) => (
           <h5 key={j} className={styles.warningTag}>
             {oneTag}
           </h5>
@@ -289,44 +335,83 @@ const BookDetail = () => {
     />
   ));
 
+  const getBookPublicType = (type: string): string => {
+    switch (type) {
+      case "young_adult":
+        return "Young Adult";
+      case "adulte":
+        return "Adulte";
+      case "tout_public":
+        return "Tout Public";
+      default:
+        return "Inconnu";
+    }
+  };
+
+  const stateName = (state: string): string => {
+    switch (state) {
+      case "En cours":
+        return "Terminé";
+      case "Terminé":
+        return "En cours";
+      default:
+        return "Inconnu";
+    }
+  };
+
   return (
     <div className={styles.main}>
       <Header />
       <div className={styles.gridContent}>
         <div className={styles.leftPart}>
-          <Image
-            src={bookEnDure.url}
-            height={500}
-            width={300}
-            alt={bookEnDure.title}
-          />
+          <Image src={bookImage} height={500} width={300} alt={bookTitle} />
+          <h4 className={styles.public}>{getBookPublicType(bookPublicType)}</h4>
           <h4 className={styles.status}>
-            Statut: <span style={stateStyle}>{bookEnDure.state}</span>
+            Statut: <span style={stateStyle}>{bookState}</span>
           </h4>
-          <button className={styles.leftButton}>Découvrir l'univers</button>
-          <button className={styles.leftButton}>Commencer la lecture</button>
-          <button className={styles.leftButton}>Evaluer l'histoire</button>
+          {isAuthorCurrentUser ? (
+            <div className={styles.leftBtnContainer}>
+              <button className={styles.leftButton}>Découvrir l'univers</button>
+              <button className={styles.leftButton}>
+                Modifier la présentation
+              </button>
+              <button className={styles.leftButton}>
+                Activer le statut <span> {stateName(bookState)} </span>
+              </button>
+            </div>
+          ) : (
+            <div className={styles.leftBtnContainer}>
+              <button className={styles.leftButton}>Découvrir l'univers</button>
+              <button className={styles.leftButton}>
+                Commencer la lecture
+              </button>
+              <button className={styles.leftButton}>Evaluer l'histoire</button>
+            </div>
+          )}
           <div className={styles.chapterPart}>{chapters}</div>
+          <button className={styles.addChapterButton}>
+            + Ajouter un chapitre
+          </button>
         </div>
         <div className={styles.rightPart}>
-          {bookEnDure.isSaga && (
+          {bookIsSaga && (
             <h1 className={styles.sagaTitle}>
-              {bookEnDure.tomeName} - Tome {bookEnDure.tomeNumber}
+              {bookSagaName} - Tome {bookSagaNbre}
             </h1>
           )}
-          <h1 className={styles.bookTitle}>{bookEnDure.title} </h1>
+          <h1 className={styles.bookTitle}>{bookTitle} </h1>
           <div className={styles.bookScore}>
             {stars}
-            <p className={styles.bookRate}>{bookEnDure.rating} / 5</p>
+            <p className={styles.bookRate}>{bookRate} / 5</p>
           </div>
           <div className={styles.authorLine}>
-            <h2 className={styles.bookAuthor}>{bookEnDure.author}</h2>
+            <h2 className={styles.bookAuthor}>{bookAuthor}</h2>
             <button className={styles.followBtn}>SUIVRE</button>
             <button className={styles.signalButton}>SIGNALER</button>
           </div>
           <div className={styles.genreLine}>{genres}</div>
           <h3 className={styles.sectionTitle}>Description</h3>
-          <p className={styles.bookDescription}>{bookEnDure.description}</p>
+          <p className={styles.bookDescription}>{bookDescription}</p>
           <h3 className={styles.sectionTitle}>Tags</h3>
           <div className={styles.themeLine}>{themes}</div>
           <h3 className={styles.sectionTitle}>Avertissement</h3>
