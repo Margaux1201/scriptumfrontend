@@ -29,18 +29,31 @@ const Home: React.FC = () => {
     warnings: Warning[];
   }
 
+  const [search, setSearch] = useState<string>("");
   const [bookList, setBookList] = useState<Book[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/getallbook/").then((response) =>
+  const fetchBooks = async () => {
+    const params = new URLSearchParams();
+    if (search) params.append("search", search);
+    params.append("page", page.toString());
+
+    const url = `http://127.0.0.1:8000/api/getallbook/?${params.toString()}`;
+
+    fetch(url).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
-          console.log("TOUS LES LIVRES 📚📚📚", data.results);
           setBookList(data.results);
+          setTotalPages(Math.ceil(data.count / 10));
         }
       })
     );
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, [search, page]);
 
   const dataBook = bookList.map((e: Book) => {
     let overview = e.description;
@@ -78,6 +91,8 @@ const Home: React.FC = () => {
         type="text"
         placeholder="🔍Rechercher..."
         className={styles.searchInput}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <div className={styles.contentBook}>{dataBook}</div>
     </div>

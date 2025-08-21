@@ -340,7 +340,7 @@ const EditBook = () => {
         "Veuillez remplir tous les champs obligatoires et insérer une photo"
       );
       return;
-    } else if ((sagaChecked && !sagaName) || !sagaNumber) {
+    } else if (sagaChecked && (!sagaName || !sagaNumber)) {
       alert("Veuillez renseigner les informations de votre saga");
       return;
     }

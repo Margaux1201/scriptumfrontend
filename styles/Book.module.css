@@ -238,6 +238,7 @@
   margin: 0;
   margin-right: 20px;
   text-align: justify;
+  white-space: pre-wrap;
 }
 
 .bookTheme {
@@ -293,4 +294,106 @@
   padding: 5px 10px;
   background-color: #e7767cc4;
   margin: 0;
+}
+
+.noReview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.noReviewSentence {
+  font-family: 'Mukta Vaani', cursive;
+  font-size: large;
+  border: #0F0F0F dashed 1px;
+  padding: 10px 20px;
+  border-radius: 10px; 
+}
+
+/* MODAL REVIEW */
+.modalReview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoreContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.scoreStar {
+  width: 10%;
+  height: 5%;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.commentArea {
+  margin-top: 20px;
+  width: 75%;
+  height: 80px;
+  margin-bottom: 0;
+}
+
+.commentLength {
+  width: 75%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+.limitCaract {
+  margin: 0;
+  font-family: "Mukta Vaani", cursive;
+  font-size: small;
+  font-style: italic;
+}
+
+.modalBtn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modalButtonFull {
+    margin-top: 10px;
+    font-family: 'Mukta Vaani', cursive;
+    font-weight: 700;
+    background-color: #E28413;
+    border: #E28413 solid 1px;
+    border-radius: 10px;
+    margin-left: 10px;
+    color: #FBF5F3;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.modalButtonEmpty {
+    margin-top: 10px;
+    font-family: 'Mukta Vaani', cursive;
+    color: #E28413;
+    font-weight: 700;
+    border: #E28413 solid 1px;
+    border-radius: 10px;
+    background-color: #FBF5F3;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.modalButtonFull:hover {
+    background-color: #FBF5F3;
+    color: #E28413;
+    border-color: #E28413;
+    font-weight: 700;
+}
+
+.modalButtonEmpty:hover {
+    color: #FBF5F3;
+    background-color: #E28413;
+    border-color: #E28413;
 }

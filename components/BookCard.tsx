@@ -23,7 +23,7 @@ const BookCard = (props: {
   const stars = [];
   for (let i = 0; i < 5; i++) {
     let style = {};
-    if (i < props.rating - 1) {
+    if (i <= props.rating - 1) {
       // Si l'indice de l'étoile est inférieur à la note moyenne, on la colore en jaune
       style = { color: "#E28413" };
     }
