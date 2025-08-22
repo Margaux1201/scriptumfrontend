@@ -26,6 +26,23 @@ const BookDetail = () => {
     user_pseudo: string;
   }
 
+  interface Warning {
+    categorie: string;
+    tag: string[];
+  }
+
+  interface Chapter {
+    book: string;
+    book_title: string;
+    chapter_number: number | null;
+    content: string;
+    id: number;
+    slug: string;
+    sort_order: number;
+    title: string | null;
+    type: string;
+  }
+
   const [isAuthorCurrentUser, setIsAuthorCurrentUser] =
     useState<boolean>(false);
   const [bookIsSaga, setBookIsSaga] = useState<boolean>(false);
@@ -50,11 +67,15 @@ const BookDetail = () => {
   const [comment, setComment] = useState<string>("");
   const [refreshReviews, setRefreshReviews] = useState<boolean>(false);
 
-  // Récupère les données du livre
+  // Etats pour les chapitres
+  const [chaptersList, setChaptersList] = useState<Chapter[]>([]);
+
+  // Récupère les données du livre, des reviews et des chapitres
   useEffect(() => {
     // attend que le slug existe avant de fetch
     if (!slug) return;
 
+    // DETAILS DU LIVRE
     fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
       .then((res) =>
         res.json().then((data) => {
@@ -83,6 +104,32 @@ const BookDetail = () => {
         );
         alert("Une erreur réseau est survenue");
       });
+
+    // REVIEWS DU LIVRE
+    fetch(`http://127.0.0.1:8000/api/getallbookreviews/${slug}/`)
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("REVIEW RECUE :❤️❤️❤️", data);
+            setBookReviewCount(data.count);
+            setBookReviewsList(data.results);
+          }
+        })
+      )
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des reviews : ", error);
+      });
+
+    // CHAPITRES DU LIVRE
+    fetch(`http://127.0.0.1:8000/api/${slug}/getallchapters/`).then(
+      (response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("CHAPITRES RECUS : 📖📖📖", data);
+            setChaptersList(data.results);
+          }
+        })
+    );
   }, [slug, refreshReviews]);
 
   // Vérifie si l'auteur du livre est l'utilisateur connecté
@@ -112,90 +159,8 @@ const BookDetail = () => {
     );
   }, [bookAuthor, user.token]);
 
-  // Récupère les reviews du livre
-  useEffect(() => {
-    if (!slug) return;
-
-    fetch(`http://127.0.0.1:8000/api/getallbookreviews/${slug}/`)
-      .then((response) =>
-        response.json().then((data) => {
-          if (response.ok) {
-            console.log("REVIEW RECUE :❤️❤️❤️", data);
-            setBookReviewCount(data.count);
-            setBookReviewsList(data.results);
-          }
-        })
-      )
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des reviews : ", error);
-      });
-  }, [refreshReviews]);
-
   console.log("TOKEN 🙌🙌🙌", user.token);
   console.log("🤔🤔🤔", isAuthorCurrentUser);
-
-  interface Warning {
-    categorie: string;
-    tag: string[];
-  }
-
-  interface Chapter {
-    title: string | null;
-    type: string;
-    chapterNumber: number | null;
-    slug: string;
-  }
-
-  const chapterEnDure: Chapter[] = [
-    {
-      title: null,
-      type: "Prologue",
-      chapterNumber: null,
-      slug: "Prologue",
-    },
-    {
-      title: null,
-      type: "Chapitre",
-      chapterNumber: 1,
-      slug: "Chapitre-1",
-    },
-    {
-      title: null,
-      type: "Chapitre",
-      chapterNumber: 2,
-      slug: "Chapitre-2",
-    },
-    {
-      title: null,
-      type: "Chapitre",
-      chapterNumber: 3,
-      slug: "Chapitre-3",
-    },
-    {
-      title: null,
-      type: "Chapitre",
-      chapterNumber: 4,
-      slug: "Chapitre-4",
-    },
-    {
-      title: null,
-      type: "Chapitre",
-      chapterNumber: 5,
-      slug: "Chapitre-5",
-    },
-    {
-      title: null,
-      type: "Chapitre",
-      chapterNumber: 6,
-      slug: "Chapitre-6",
-    },
-    {
-      title: null,
-      type: "Epilogue",
-      chapterNumber: null,
-      slug: "Epilogue",
-    },
-  ];
 
   // états
   const [showWarning, setShowWarning] = useState<boolean>(false);
@@ -260,13 +225,14 @@ const BookDetail = () => {
   };
 
   // Liste des boutons de chapitre
-  const chapters = chapterEnDure.map((oneChapter, i) => (
+  const chapters = chaptersList.map((oneChapter, i) => (
     <button
       key={i}
       className={styles.chapterButton}
       onClick={() => handleChapterClick(oneChapter.slug)}
     >
-      {oneChapter.type} {oneChapter.chapterNumber}
+      {oneChapter.type[0].toUpperCase()}
+      {oneChapter.type.slice(1)} {oneChapter.chapter_number}
     </button>
   ));
 

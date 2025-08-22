@@ -24,7 +24,7 @@ const NewChapter = () => {
   const [chaptersList, setChaptersList] = useState<any[]>([]);
   const [chapterType, setChapterType] = useState<string>("");
   const [isNumberEditable, setIsNumberEditable] = useState<boolean>(true);
-  const [chapterNumber, setChapterNumber] = useState<number>(1);
+  const [chapterNumber, setChapterNumber] = useState<number>(0);
   const [chapterTitle, setChapterTitle] = useState<string>("");
   const [chapterContent, setChapterContent] = useState<string>("");
 
@@ -82,6 +82,46 @@ const NewChapter = () => {
     setChapterContent("");
   };
 
+  const handlePublishChapter = (): void => {
+    if (!chapterType || !chapterContent) {
+      alert("Veuillez remplir tous les champs obligatoires.");
+      return;
+    } else if (chapterType === "chapitre" && chapterNumber < 1) {
+      alert("Le numéro du chapitre doit être supérieur ou égal à 1.");
+      return;
+    }
+
+    fetch("http://127.0.0.1:8000/api/createchapter/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: user.token,
+        book: slug,
+        type: chapterType,
+        chapter_number: chapterType === "chapitre" ? chapterNumber : null,
+        title: chapterTitle,
+        content: chapterContent,
+      }),
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log(data);
+            alert("Chapitre publié avec succès !");
+            router.push(`/book/${slug}`);
+          }
+        })
+      )
+      // .then(async (res) => {
+      //   const text = await res.text();
+      //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+      // })
+      .catch((error) => {
+        console.error("Erreur lors de la publication du chapitre :", error);
+        alert("Une erreur réseau est survenue");
+      });
+  };
+
   return (
     <div className={styles.container}>
       <Header />
@@ -137,7 +177,7 @@ const NewChapter = () => {
               <input
                 type="number"
                 disabled={!isNumberEditable}
-                min={1}
+                min={0}
                 value={chapterNumber}
                 onChange={(e) => setChapterNumber(Number(e.target.value))}
                 className={styles.numberInput}
@@ -145,7 +185,7 @@ const NewChapter = () => {
             </div>
             {/* TITRE DU CHAPITRE */}
             <div className={styles.chapterType}>
-              <h4 className={styles.titleField}>Titre * :</h4>
+              <h4 className={styles.titleField}>Titre :</h4>
               <input
                 type="text"
                 value={chapterTitle}
@@ -170,7 +210,12 @@ const NewChapter = () => {
               </p>
             </div>
             <div className={styles.buttonContainer}>
-              <button className={styles.buttonFull}>Publier</button>
+              <button
+                className={styles.buttonFull}
+                onClick={handlePublishChapter}
+              >
+                Publier
+              </button>
               <button className={styles.buttonEmpty} onClick={handleCancel}>
                 Annuler
               </button>
