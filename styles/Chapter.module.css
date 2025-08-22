@@ -11,6 +11,22 @@
     max-width: 1000px;
 }
 
+.leftPart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chapterRead {
+    margin-top: 20px;
+    font-size: large;
+}
+
+.chapterInput {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 .chapterPart {
     display: flex;
     flex-direction: column;
@@ -18,7 +34,7 @@
     align-items: center;
     border: 1px solid #0F0F0F;
     border-radius: 10px;
-    margin: 50px auto;
+    margin: 50px auto 0 auto;
     padding: 0 30px;
     background-color: white;
 }

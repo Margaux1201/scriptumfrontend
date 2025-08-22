@@ -1,13 +1,15 @@
 import { useRouter } from "next/router";
-import styles from "../../../../styles/Chapter.module.css";
-import Header from "../../../../components/Header";
-import Link from "next/link";
+import styles from "../../../../../styles/Chapter.module.css";
+import Header from "../../../../../components/Header";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { UserState } from "@/reducers/user";
 
 const ChapterDetail = () => {
   const router = useRouter();
   const { slug, chapterSlug } = router.query;
+  const user = useSelector((store: { user: UserState }) => store.user);
 
   interface Chapter {
     book: string;
@@ -26,6 +28,7 @@ const ChapterDetail = () => {
   const [chapterType, setChapterType] = useState<string>("");
   const [chapterNumber, setChapterNumber] = useState<number | null>(null);
   const [chapterContent, setChapterContent] = useState<string>("");
+  const [chapterRead, setChapterRead] = useState<boolean>(false);
   const [chaptersList, setChaptersList] = useState<Chapter[]>([]);
 
   // Etats pour stocker les données du livre
@@ -35,6 +38,10 @@ const ChapterDetail = () => {
   const [tomeNumber, setTomeNumber] = useState<number | null>(null);
   const [bookTitle, setBookTitle] = useState<string>("");
   const [bookAuthor, setBookAuthor] = useState<string>("");
+
+  // Etat pour vérifier si l'auteur du livre est l'utilisateur connecté
+  const [isAuthorCurrentUser, setIsAuthorCurrentUser] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (!slug || !chapterSlug) return;
@@ -77,6 +84,7 @@ const ChapterDetail = () => {
         alert("Une erreur réseau est survenue");
       });
 
+    // TOUS LES CHAPITRES DU LIVRE
     fetch(`http://127.0.0.1:8000/api/${slug}/getallchapters/`)
       .then((response) =>
         response.json().then((data) => {
@@ -90,7 +98,34 @@ const ChapterDetail = () => {
         console.error("Erreur lors de la récupération des chapitres:", error);
         alert("Une erreur réseau est survenue");
       });
-  }, []);
+  }, [chapterSlug]);
+
+  // Vérification si l'auteur du livre est l'utilisateur connecté
+  useEffect(() => {
+    if (!user.token || !bookAuthor) {
+      setIsAuthorCurrentUser(false);
+      return;
+    }
+
+    fetch("http://127.0.0.1:8000/api/getinfo/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    }).then((response) =>
+      response.json().then((dataAuth) => {
+        if (response.ok) {
+          console.log("🤦‍♀️🤦‍♀️🤦‍♀️", dataAuth);
+          if (bookAuthor === dataAuth.author_name) {
+            setIsAuthorCurrentUser(true);
+          } else {
+            setIsAuthorCurrentUser(false);
+          }
+        } else {
+          setIsAuthorCurrentUser(false);
+        }
+      })
+    );
+  }, [bookAuthor, user.token]);
 
   const handleBookClick = (): void => {
     router.push(`/book/${slug}`);
@@ -113,26 +148,48 @@ const ChapterDetail = () => {
     </button>
   ));
 
+  const handleEditChapter = (): void => {
+    router.push(`/book/${slug}/chapter/${chapterSlug}/editchapter`);
+  };
+
   return (
     <div className={styles.global}>
       <Header />
       <div className={styles.main}>
-        <div className={styles.chapterPart}>
-          {!chapterTitle ? (
-            <h1>
-              {chapterType && chapterType[0].toUpperCase()}
-              {chapterType.slice(1)} {chapterNumber}
-            </h1>
+        <div className={styles.leftPart}>
+          <div className={styles.chapterPart}>
+            {!chapterTitle ? (
+              <h1>
+                {chapterType && chapterType[0].toUpperCase()}
+                {chapterType.slice(1)} {chapterNumber}
+              </h1>
+            ) : (
+              <h1>{chapterTitle}</h1>
+            )}
+            <div className={styles.chapterLine}></div>
+            <p
+              className={styles.contentChapter}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {chapterContent}
+            </p>
+          </div>
+          {isAuthorCurrentUser ? (
+            <button className={styles.navBtn} onClick={handleEditChapter}>
+              Modifier le chapitre
+            </button>
           ) : (
-            <h1>{chapterTitle}</h1>
+            <label htmlFor="chapterRead" className={styles.chapterRead}>
+              <input
+                type="checkbox"
+                id="chapterRead"
+                checked={chapterRead}
+                onChange={() => setChapterRead(!chapterRead)}
+                className={styles.chapterInput}
+              />
+              Chapitre lu !
+            </label>
           )}
-          <div className={styles.chapterLine}></div>
-          <p
-            className={styles.contentChapter}
-            style={{ whiteSpace: "pre-line" }}
-          >
-            {chapterContent}
-          </p>
         </div>
         <div className={styles.rightPart}>
           <Image src={bookImage} width={200} height={300} alt={bookTitle} />
