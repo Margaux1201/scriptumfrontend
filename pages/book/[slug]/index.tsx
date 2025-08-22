@@ -464,7 +464,10 @@ const BookDetail = () => {
           )}
           <div className={styles.chapterPart}>{chapters}</div>
           {isAuthorCurrentUser && (
-            <button className={styles.addChapterButton}>
+            <button
+              className={styles.addChapterButton}
+              onClick={() => router.push(`/book/${slug}/chapter/newchapter`)}
+            >
               + Ajouter un chapitre
             </button>
           )}
@@ -483,8 +486,12 @@ const BookDetail = () => {
           </div>
           <div className={styles.authorLine}>
             <h2 className={styles.bookAuthor}>{bookAuthor}</h2>
-            <button className={styles.followBtn}>SUIVRE</button>
-            <button className={styles.signalButton}>SIGNALER</button>
+            {!isAuthorCurrentUser && (
+              <div className={styles.authorBtnContainer}>
+                <button className={styles.followBtn}>SUIVRE</button>
+                <button className={styles.signalButton}>SIGNALER</button>
+              </div>
+            )}
           </div>
           <div className={styles.genreLine}>{genres}</div>
           <h3 className={styles.sectionTitle}>Description</h3>

@@ -7,7 +7,6 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { UserState } from "@/reducers/user";
 import { useRouter } from "next/router";
-import { url } from "inspector";
 
 const EditBook = () => {
   const router = useRouter();

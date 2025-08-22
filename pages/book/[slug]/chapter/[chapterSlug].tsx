@@ -211,7 +211,6 @@ const ChapterDetail = () => {
           </button>
           <button className={styles.navBtn}>Découvrir l'univers</button>
           <div className={styles.chapterGlobal}>{chapters}</div>
-          <div id="stickySentinel" style={{ height: "1px" }}></div>
         </div>
       </div>
     </div>
