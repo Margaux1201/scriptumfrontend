@@ -1,0 +1,27 @@
+.card {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 20px;
+    cursor: pointer;
+}
+
+.bookTitle {
+    font-family: 'Hind', cursive;
+    font-weight: 700;
+    font-size: large;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.bookAuth {
+    font-family: 'Overlock', cursive;
+    font-weight: 700;
+    font-size: medium;
+    margin: 0;
+}
+
+.bookRate {
+    margin-top: 10px;
+}

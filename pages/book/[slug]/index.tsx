@@ -429,7 +429,7 @@ const BookDetail = () => {
             </div>
           )}
           <div className={styles.chapterPart}>{chapters}</div>
-          {isAuthorCurrentUser && (
+          {isAuthorCurrentUser && bookState === "En cours" && (
             <button
               className={styles.addChapterButton}
               onClick={() => router.push(`/book/${slug}/chapter/newchapter`)}

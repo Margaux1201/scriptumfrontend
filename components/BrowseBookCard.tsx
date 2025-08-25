@@ -1,15 +1,14 @@
-import styles from "../styles/BookCard.module.css";
-import React from "react";
+import styles from "../styles/BrowseBookCard.module.css";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-const BookCard = (props: {
+const BrowseBookCard = (props: {
   title: string;
-  url: string;
   author: string;
-  desc: string;
+  url: string;
   rating: number;
   slug: string;
 }) => {
@@ -35,7 +34,6 @@ const BookCard = (props: {
       <Image src={props.url} height={300} width={200} alt={props.title} />
       <h2 className={styles.bookTitle}>{props.title}</h2>
       <h3 className={styles.bookAuth}>{props.author}</h3>
-      <p className={styles.bookDesc}>{props.desc}</p>
       <div className={styles.bookRate}>
         {stars} {props.rating}
       </div>
@@ -43,4 +41,4 @@ const BookCard = (props: {
   );
 };
 
-export default BookCard;
+export default BrowseBookCard;
