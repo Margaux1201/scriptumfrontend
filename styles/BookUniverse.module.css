@@ -10,13 +10,16 @@
 }
 
 .backLink {
+    margin-left: 20px;
     background-color: transparent;
+    font-weight: 700;
     border: none;
     cursor: pointer;
 }
 
 .backLink:hover {
     font-weight: 700;
+    color: #E28413;
 }
 
 .backArrow {

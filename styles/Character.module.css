@@ -6,4 +6,22 @@
 
 .main {
     margin-top: 100px;
+    width: 100%;
+}
+
+.backLink {
+    background-color: transparent;
+    border: none;
+    font-weight: 700;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.backLink:hover {
+    font-weight: 700;
+    color: #E28413;
+}
+
+.backArrow {
+    margin-right: 10px;
 }

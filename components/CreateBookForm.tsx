@@ -1,5 +1,6 @@
 import styles from "../styles/NewBook.module.css";
 import Header from "./Header";
+import ToggleButton from "./ToggleButton";
 import React, { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -187,8 +188,8 @@ const CreateBookForm: React.FC = () => {
   //Etat pour gérer le toggle de Saga
   const [sagaChecked, setSagaChecked] = useState<boolean>(false);
   // Fonction pour mettre à jour le toggle de Saga
-  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSagaChecked(e.target.checked);
+  const handleToggleChange = (x: boolean) => {
+    setSagaChecked((x) => !x);
   };
   console.log(sagaChecked);
 
@@ -398,46 +399,10 @@ const CreateBookForm: React.FC = () => {
             {/* DEBUT PARTIE SAGA */}
             <div className={styles.sagaCheck}>
               <p className={styles.isSagaLabel}>Appartient à une saga : </p>
-              <label
-                style={{
-                  position: "relative",
-                  display: "inline-block",
-                  width: 50,
-                  height: 28,
-                  cursor: "pointer",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={sagaChecked}
-                  onChange={handleToggleChange}
-                  style={{ opacity: 0, width: 0, height: 0 }}
-                />
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: sagaChecked ? "#E28413" : "#ccc",
-                    borderRadius: 28,
-                    transition: "0.4s",
-                  }}
-                />
-                <span
-                  style={{
-                    position: "absolute",
-                    height: 22,
-                    width: 22,
-                    left: sagaChecked ? 26 : 4,
-                    bottom: 3,
-                    backgroundColor: "white",
-                    borderRadius: "50%",
-                    transition: "0.4s",
-                  }}
-                />
-              </label>
+              <ToggleButton
+                handleToggleChange={handleToggleChange}
+                isChecked={sagaChecked}
+              />
             </div>
             {sagaChecked && (
               <div className={styles.sagaContent}>
