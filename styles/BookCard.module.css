@@ -8,6 +8,10 @@
     margin-bottom: 200px;
 }
 
+.card:hover {
+    transform: scale(1.1);
+}
+
 .bookTitle {
     font-family: 'Hind', cursive;
     font-weight: 700;

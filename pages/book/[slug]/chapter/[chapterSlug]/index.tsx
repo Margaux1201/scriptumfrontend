@@ -205,7 +205,12 @@ const ChapterDetail = () => {
           <button className={styles.navBtn} onClick={handleBookClick}>
             Voir le détail du livre
           </button>
-          <button className={styles.navBtn}>Découvrir l'univers</button>
+          <button
+            className={styles.navBtn}
+            onClick={() => router.push(`/book/${slug}/bookuniverse`)}
+          >
+            Découvrir l'univers
+          </button>
           <div className={styles.chapterGlobal}>{chapters}</div>
         </div>
       </div>

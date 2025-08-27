@@ -409,7 +409,12 @@ const BookDetail = () => {
           </h4>
           {isAuthorCurrentUser ? (
             <div className={styles.leftBtnContainer}>
-              <button className={styles.leftButton}>Découvrir l'univers</button>
+              <button
+                className={styles.leftButton}
+                onClick={() => router.push(`/book/${slug}/bookuniverse`)}
+              >
+                Découvrir l'univers
+              </button>
               <button className={styles.leftButton} onClick={handleEditBook}>
                 Modifier la présentation
               </button>
@@ -419,7 +424,12 @@ const BookDetail = () => {
             </div>
           ) : (
             <div className={styles.leftBtnContainer}>
-              <button className={styles.leftButton}>Découvrir l'univers</button>
+              <button
+                className={styles.leftButton}
+                onClick={() => router.push(`/book/${slug}/bookuniverse`)}
+              >
+                Découvrir l'univers
+              </button>
               <button className={styles.leftButton}>
                 Commencer la lecture
               </button>

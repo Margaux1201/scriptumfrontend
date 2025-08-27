@@ -1,0 +1,70 @@
+.global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main {
+    margin-top: 100px;
+    width: 100%;
+}
+
+.backLink {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.backLink:hover {
+    font-weight: 700;
+}
+
+.backArrow {
+    margin-right: 10px;
+}
+
+.section {
+    margin:50px;
+}
+
+.titleSection {
+    font-family: "Overlock", cursive;
+    font-size: 2.5rem;
+    margin: 0 50px 10px 50px;
+}
+
+.titleSectionContainer {
+    display: flex;
+    align-items: center;
+}
+
+.characterContainer {
+    margin: 20px 0 0 50px;
+}
+
+.titleCharacter {
+    margin: 50px 50px;
+    font-size: 1.5rem;
+}
+
+.addButton {
+    cursor: pointer;
+    background-color: transparent;
+    border: solid 1px #E28413;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 700;
+    color: #E28413;
+}
+
+.addButton:hover {
+    background-color: #E28413;
+    color: #FBF5F3;
+}
+
+.characterList {
+    margin-left: 50px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
