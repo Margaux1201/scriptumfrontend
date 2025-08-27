@@ -25,3 +25,62 @@
 .backArrow {
     margin-right: 10px;
 }
+
+.form {
+    margin: 50px 100px;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.basic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.photo {
+    object-fit: cover;
+    object-position: top;
+    border-radius: 50%;
+    margin-right: 50px;
+}
+
+.rightBasic {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+.characterName {
+    font-family: "Hind", cursive;
+    font-size: 3rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.characterRole {
+    font-size: 1.2rem;
+    margin: 20px;
+    padding: 5px 25px;
+    border-radius: 50px;
+}
+
+.subBasic {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.flexibleSquare {
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
