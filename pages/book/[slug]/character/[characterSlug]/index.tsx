@@ -17,6 +17,23 @@ const Character = () => {
     state: string;
   }
 
+  interface Job {
+    job: string;
+    place: string;
+  }
+
+  interface Family {
+    member: string;
+    fullname: string;
+    deceased: boolean;
+    cause: string;
+  }
+
+  interface Addiction {
+    type: string;
+    intensity: string;
+  }
+
   interface Character {
     name: string;
     slug: string;
@@ -33,6 +50,11 @@ const Character = () => {
     hometown: string;
     language: string[];
     study: Study[];
+    job: Job;
+    relation: string;
+    family: Family[];
+    religion: string;
+    addictions: Addiction[];
   }
 
   const Sasha: Character = {
@@ -47,12 +69,36 @@ const Character = () => {
     species: "Humain",
     dayBirth: 12,
     monthBirth: 3,
-    astro: "♓ Poisson",
+    astro: "♓",
     hometown: "Portland",
     language: ["Anglais"],
     study: [
       { domain: "Science Génétique", level: "Doctorat", state: "Interrompu" },
     ],
+    job: { job: "Fille d'écurie", place: "Mojave" },
+    relation: "marié.e",
+    family: [
+      {
+        member: "Père",
+        fullname: "Arthur Manners",
+        deceased: true,
+        cause: "Pandémie",
+      },
+      {
+        member: "Mère",
+        fullname: "Mary Manners",
+        deceased: true,
+        cause: "Pandémie",
+      },
+      {
+        member: "Epoux.se",
+        fullname: "Kinzie O'Donnell",
+        deceased: false,
+        cause: "",
+      },
+    ],
+    religion: "Agnostique",
+    addictions: [{ type: "Marijuana", intensity: "Occasionnelle" }],
   };
 
   // Styles pour adapter le tag au rôle
@@ -134,17 +180,42 @@ const Character = () => {
 
   // converstion tableau language en composant
   const langues = Sasha.language.map((element: string, i: number) => {
-    return <h6 key={i}>{element}</h6>;
+    return (
+      <h6 key={i} className={styles.strictSquare}>
+        {element}
+      </h6>
+    );
   });
 
   // converstion tableau language en composant
   const etudes = Sasha.study.map((element: Study, i: number) => {
     return (
-      <>
-        <h6>{element.domain}</h6>
-        <h6>{element.level}</h6>
-        <h6>{element.state}</h6>
-      </>
+      <div className={styles.severalSquares} key={i}>
+        <h6 className={styles.strictSquare}>{element.domain}</h6>
+        <h6 className={styles.strictSquare}>{element.level}</h6>
+        <h6 className={styles.strictSquare}>{element.state}</h6>
+      </div>
+    );
+  });
+
+  const familyMembers = Sasha.family.map((element: Family, i: number) => {
+    return (
+      <div className={styles.severalSquares} key={i}>
+        <h6 className={styles.strictSquare}>{element.member}</h6>
+        <h6 className={styles.strictSquare}>{element.fullname}</h6>
+        {element.deceased && (
+          <h6 className={styles.strictSquare}>{`✝️ ${element.cause}`}</h6>
+        )}
+      </div>
+    );
+  });
+
+  const dependances = Sasha.addictions.map((element: Addiction, i: number) => {
+    return (
+      <div className={styles.severalSquares} key={i}>
+        <h6 className={styles.strictSquare}>{element.type}</h6>
+        <h6 className={styles.strictSquare}>{element.intensity}</h6>
+      </div>
     );
   });
 
@@ -184,27 +255,93 @@ const Character = () => {
               </div>
             </div>
           </section>
-          <section>
-            <h2>Informations générales</h2>
-            <div>
-              <h4>Espèce :</h4>
-              <h6>{Sasha.species}</h6>
+          {/* INFORMATIONS DE BASES */}
+          <section className={styles.section}>
+            <h2 className={styles.titleSection}>Informations générales</h2>
+            <div className={styles.oneLine}>
+              <h4 className={styles.titleLine}>Espèce :</h4>
+              <h6 className={styles.strictSquare}>{Sasha.species}</h6>
             </div>
-            <div>
-              <h4>Naissance :</h4>
-              <div>
-                <h6>{`${Sasha.dayBirth} ${monthInString} (${Sasha.astro})`}</h6>
-                <h6>{Sasha.hometown}</h6>
+            {/* Date de naissance */}
+            {Sasha.dayBirth && Sasha.monthBirth && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Naissance :</h4>
+                <div className={styles.severalSquares}>
+                  <h6
+                    className={styles.strictSquare}
+                  >{`${Sasha.astro} ${Sasha.dayBirth} ${monthInString}`}</h6>
+                  <h6 className={styles.strictSquare}>{Sasha.hometown}</h6>
+                </div>
               </div>
-            </div>
-            <div>
-              <h4>Langues :</h4>
-              <div>{langues}</div>
-            </div>
-            <div>
-              <h4>Etudes :</h4>
-              <div>{etudes}</div>
-            </div>
+            )}
+            {/* Langues parlés */}
+            {Sasha.language.length > 0 && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Langues :</h4>
+                <div className={styles.severalSquares}>{langues}</div>
+              </div>
+            )}
+            {/* Etudes */}
+            {Sasha.study.length > 0 && (
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLines}>Etudes :</h4>
+                <div>{etudes}</div>
+              </div>
+            )}
+            {/* Travail ou métier */}
+            {Sasha.job && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Profession :</h4>
+                <div className={styles.severalSquares}>
+                  <h6 className={styles.strictSquare}>{Sasha.job.job}</h6>
+                  <h6 className={styles.strictSquare}>{Sasha.job.place}</h6>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* VIE PERSONNELLE */}
+          <section className={styles.section}>
+            <h2 className={styles.titleSection}>Vie Personnelle</h2>
+            {!Sasha.relation &&
+              Sasha.family.length === 0 &&
+              !Sasha.religion &&
+              Sasha.addictions.length === 0 && (
+                <p className={styles.noInfo}>
+                  {`Aucune information n'a été trouvée sur la vie personnelle de ce personnage.
+                  L'histoire vous apportera peut-être plus de réponse. 😉`}
+                </p>
+              )}
+            {/* Situation Matrimoniale */}
+            {Sasha.relation && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Situation Matriomaniale :</h4>
+                <h6 className={styles.strictSquare}>{Sasha.relation}</h6>
+              </div>
+            )}
+            {/* Situation familiale */}
+            {Sasha.family.length > 0 && (
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLinesInTwo}>
+                  Situation Familiale :
+                </h4>
+                <div>{familyMembers}</div>
+              </div>
+            )}
+            {/* Religion */}
+            {Sasha.religion && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Religion :</h4>
+                <h6 className={styles.strictSquare}>{Sasha.religion}</h6>
+              </div>
+            )}
+            {/* Dépendances */}
+            {Sasha.addictions.length > 0 && (
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLines}>Dépendances :</h4>
+                <div>{dependances}</div>
+              </div>
+            )}
           </section>
         </div>
       </main>
