@@ -42,6 +42,7 @@ const Character = () => {
 
   interface Character {
     name: string;
+    surname: string;
     slug: string;
     slogan: string;
     url: string;
@@ -50,6 +51,8 @@ const Character = () => {
     gender: string;
     height: string;
     species: string;
+    isThereRace: boolean;
+    race: string;
     dayBirth: number;
     monthBirth: number;
     astro: string;
@@ -69,6 +72,7 @@ const Character = () => {
 
   const Sasha: Character = {
     name: "Sasha Manners",
+    surname: "",
     slug: "sasha-manners",
     slogan: "Rien n'est magique, mais tout n'est pas explicable",
     url: "/assets/images/Sasha réaliste.png",
@@ -77,6 +81,8 @@ const Character = () => {
     gender: "femme",
     height: "1m65",
     species: "Humain",
+    isThereRace: false,
+    race: "",
     dayBirth: 12,
     monthBirth: 3,
     astro: "♓",
@@ -369,10 +375,33 @@ const Character = () => {
           {/* INFORMATIONS DE BASES */}
           <section className={styles.section}>
             <h2 className={styles.titleSection}>Informations générales</h2>
-            <div className={styles.oneLine}>
-              <h4 className={styles.titleLine}>Espèce :</h4>
-              <h6 className={styles.strictSquare}>{Sasha.species}</h6>
-            </div>
+            {/* Surnom */}
+            {Sasha.surname && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Surnom :</h4>
+                <h6 className={styles.strictSquare}>{Sasha.surname}</h6>
+              </div>
+            )}
+            {/* Espèce */}
+            {Sasha.species && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Espèce :</h4>
+                <h6 className={styles.strictSquare}>
+                  {Sasha.species[0].toUpperCase()}
+                  {Sasha.species.slice(1)}
+                </h6>
+              </div>
+            )}
+            {/* Race */}
+            {Sasha.isThereRace && Sasha.race && (
+              <div className={styles.oneLine}>
+                <h4 className={styles.titleLine}>Race :</h4>
+                <h6 className={styles.strictSquare}>
+                  {Sasha.race[0].toUpperCase()}
+                  {Sasha.race.slice(1)}
+                </h6>
+              </div>
+            )}
             {/* Date de naissance */}
             {Sasha.dayBirth && Sasha.monthBirth && (
               <div className={styles.oneLine}>

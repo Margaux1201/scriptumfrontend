@@ -1,0 +1,127 @@
+.global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main {
+    margin-top: 100px;
+    width: 100%;
+    height: 100vh;
+    max-width: 1000px;
+}
+
+.backLink {
+    background-color: transparent;
+    border: none;
+    font-weight: 700;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.backLink:hover {
+    font-weight: 700;
+    color: #E28413;
+}
+
+.backArrow {
+    margin-right: 10px;
+}
+
+.form {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 700px;
+}
+
+/* DEBUT PARTIE GENERAL */
+
+.general {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* PHOTO */
+.photoInputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #E28413;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+}
+
+.photoPreview {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 50px;
+    margin-left: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.photoInput {
+    margin-top: 20px;
+    width: 200px;
+}
+
+/* Autres input générales */
+
+.rigthPart {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+}
+
+.input {
+    margin-top: 18px;
+    width: 200px;
+    padding: 5px 10px;
+}
+
+.select {
+    margin-top: 18px;
+    width: 200px;
+    padding: 5px 7px;
+}
+
+
+/* INFORMATIONS DE BASES */
+
+.section {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 0 0 50px;
+    width: 100%;
+}
+
+.titleSection {
+    font-family: "Overlock", cursive;
+    font-size: 2rem;
+    margin: 0 0 25px 0;
+}
+
+.sectionContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.oneLine {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.inputFacult {
+    width: 200px;
+    padding: 5px 10px;
+}

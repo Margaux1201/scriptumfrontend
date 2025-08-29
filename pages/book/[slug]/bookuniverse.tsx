@@ -81,7 +81,7 @@ const BookUniverse = () => {
         );
         alert("Une erreur réseau est survenue");
       });
-  }, []);
+  }, [bookAuthor, user.token]);
 
   useEffect(() => {
     if (!user.token) {
@@ -154,7 +154,12 @@ const BookUniverse = () => {
           ) : (
             <div className={styles.titleSectionContainer}>
               <h2 className={styles.titleSection}>👤 Personnages</h2>
-              <button className={styles.addButton}>
+              <button
+                className={styles.addButton}
+                onClick={() =>
+                  router.push(`/book/${slug}/character/newcharacter`)
+                }
+              >
                 <FontAwesomeIcon icon={faPlus} /> {"Ajouter un personnage"}
               </button>
             </div>
