@@ -1,0 +1,2722 @@
+[
+  {
+    "id": 1,
+    "trait": "débrouillard",
+    "type": "positif"
+  },
+  {
+    "id": 2,
+    "trait": "étrange",
+    "type": "neutre"
+  },
+  {
+    "id": 3,
+    "trait": "distrait",
+    "type": "négatif"
+  },
+  {
+    "id": 4,
+    "trait": "affectueux",
+    "type": "positif"
+  },
+  {
+    "id": 5,
+    "trait": "agile",
+    "type": "positif"
+  },
+  {
+    "id": 6,
+    "trait": "aventureux",
+    "type": "positif"
+  },
+  {
+    "id": 7,
+    "trait": "agréable",
+    "type": "positif"
+  },
+  {
+    "id": 8,
+    "trait": "alerte",
+    "type": "neutre"
+  },
+  {
+    "id": 9,
+    "trait": "incroyable",
+    "type": "positif"
+  },
+  {
+    "id": 10,
+    "trait": "ambitieux",
+    "type": "positif"
+  },
+  {
+    "id": 11,
+    "trait": "aimable",
+    "type": "positif"
+  },
+  {
+    "id": 12,
+    "trait": "amusant",
+    "type": "positif"
+  },
+  {
+    "id": 13,
+    "trait": "analytique",
+    "type": "neutre"
+  },
+  {
+    "id": 14,
+    "trait": "angélique",
+    "type": "positif"
+  },
+  {
+    "id": 15,
+    "trait": "apathique",
+    "type": "négatif"
+  },
+  {
+    "id": 16,
+    "trait": "anxieux",
+    "type": "négatif"
+  },
+  {
+    "id": 17,
+    "trait": "fougueux",
+    "type": "neutre"
+  },
+  {
+    "id": 18,
+    "trait": "faux",
+    "type": "négatif"
+  },
+  {
+    "id": 19,
+    "trait": "créatif",
+    "type": "positif"
+  },
+  {
+    "id": 20,
+    "trait": "assertif",
+    "type": "neutre"
+  },
+  {
+    "id": 21,
+    "trait": "attentif",
+    "type": "positif"
+  },
+  {
+    "id": 22,
+    "trait": "banal",
+    "type": "neutre"
+  },
+  {
+    "id": 23,
+    "trait": "affreux",
+    "type": "négatif"
+  },
+  {
+    "id": 24,
+    "trait": "génial",
+    "type": "positif"
+  },
+  {
+    "id": 25,
+    "trait": "équilibré",
+    "type": "neutre"
+  },
+  {
+    "id": 26,
+    "trait": "beaux/belle",
+    "type": "positif"
+  },
+  {
+    "id": 27,
+    "trait": "bienfaisant",
+    "type": "positif"
+  },
+  {
+    "id": 28,
+    "trait": "mélancolique",
+    "type": "négatif"
+  },
+  {
+    "id": 29,
+    "trait": "émoussé",
+    "type": "négatif"
+  },
+  {
+    "id": 30,
+    "trait": "bruyant",
+    "type": "négatif"
+  },
+  {
+    "id": 31,
+    "trait": "brave",
+    "type": "positif"
+  },
+  {
+    "id": 32,
+    "trait": "vif",
+    "type": "positif"
+  },
+  {
+    "id": 33,
+    "trait": "brillant",
+    "type": "positif"
+  },
+  {
+    "id": 34,
+    "trait": "insensible",
+    "type": "négatif"
+  },
+  {
+    "id": 35,
+    "trait": "candide",
+    "type": "positif"
+  },
+  {
+    "id": 36,
+    "trait": "acariâtre",
+    "type": "négatif"
+  },
+  {
+    "id": 37,
+    "trait": "capable",
+    "type": "neutre"
+  },
+  {
+    "id": 38,
+    "trait": "prudent",
+    "type": "neutre"
+  },
+  {
+    "id": 39,
+    "trait": "imprudent",
+    "type": "négatif"
+  },
+  {
+    "id": 40,
+    "trait": "acerbe",
+    "type": "négatif"
+  },
+  {
+    "id": 41,
+    "trait": "charismatique",
+    "type": "positif"
+  },
+  {
+    "id": 42,
+    "trait": "puéril",
+    "type": "négatif"
+  },
+  {
+    "id": 43,
+    "trait": "enfantin",
+    "type": "neutre"
+  },
+  {
+    "id": 44,
+    "trait": "souriant",
+    "type": "positif"
+  },
+  {
+    "id": 45,
+    "trait": "chic",
+    "type": "positif"
+  },
+  {
+    "id": 46,
+    "trait": "grossier",
+    "type": "négatif"
+  },
+  {
+    "id": 47,
+    "trait": "circonspect",
+    "type": "neutre"
+  },
+  {
+    "id": 48,
+    "trait": "courtois",
+    "type": "positif"
+  },
+  {
+    "id": 49,
+    "trait": "propre",
+    "type": "positif"
+  },
+  {
+    "id": 50,
+    "trait": "intelligent",
+    "type": "positif"
+  },
+  {
+    "id": 51,
+    "trait": "maladroit",
+    "type": "négatif"
+  },
+  {
+    "id": 52,
+    "trait": "rationnel",
+    "type": "neutre"
+  },
+  {
+    "id": 53,
+    "trait": "froid",
+    "type": "négatif"
+  },
+  {
+    "id": 54,
+    "trait": "compétent",
+    "type": "neutre"
+  },
+  {
+    "id": 55,
+    "trait": "calme",
+    "type": "neutre"
+  },
+  {
+    "id": 56,
+    "trait": "vaniteux",
+    "type": "négatif"
+  },
+  {
+    "id": 57,
+    "trait": "confiant",
+    "type": "positif"
+  },
+  {
+    "id": 58,
+    "trait": "condescendant",
+    "type": "négatif"
+  },
+  {
+    "id": 59,
+    "trait": "confus",
+    "type": "neutre"
+  },
+  {
+    "id": 60,
+    "trait": "consciencieux",
+    "type": "positif"
+  },
+  {
+    "id": 61,
+    "trait": "prévenant",
+    "type": "positif"
+  },
+  {
+    "id": 62,
+    "trait": "satisfait",
+    "type": "neutre"
+  },
+  {
+    "id": 63,
+    "trait": "cool",
+    "type": "positif"
+  },
+  {
+    "id": 64,
+    "trait": "tête froide",
+    "type": "neutre"
+  },
+  {
+    "id": 65,
+    "trait": "coopératif",
+    "type": "positif"
+  },
+  {
+    "id": 66,
+    "trait": "cordial",
+    "type": "neutre"
+  },
+  {
+    "id": 67,
+    "trait": "courageux",
+    "type": "positif"
+  },
+  {
+    "id": 68,
+    "trait": "lâche",
+    "type": "négatif"
+  },
+  {
+    "id": 69,
+    "trait": "grincheux",
+    "type": "négatif"
+  },
+  {
+    "id": 70,
+    "trait": "astucieux",
+    "type": "positif"
+  },
+  {
+    "id": 71,
+    "trait": "excentrique",
+    "type": "neutre"
+  },
+  {
+    "id": 72,
+    "trait": "bourru",
+    "type": "neutre"
+  },
+  {
+    "id": 73,
+    "trait": "critique",
+    "type": "neutre"
+  },
+  {
+    "id": 74,
+    "trait": "cruel",
+    "type": "négatif"
+  },
+  {
+    "id": 75,
+    "trait": "curieux",
+    "type": "neutre"
+  },
+  {
+    "id": 76,
+    "trait": "cynique",
+    "type": "neutre"
+  },
+  {
+    "id": 77,
+    "trait": "délicat",
+    "type": "neutre"
+  },
+  {
+    "id": 78,
+    "trait": "catégorique",
+    "type": "neutre"
+  },
+  {
+    "id": 79,
+    "trait": "profond",
+    "type": "positif"
+  },
+  {
+    "id": 80,
+    "trait": "respectueux",
+    "type": "positif"
+  },
+  {
+    "id": 81,
+    "trait": "habile",
+    "type": "positif"
+  },
+  {
+    "id": 82,
+    "trait": "sensible",
+    "type": "neutre"
+  },
+  {
+    "id": 83,
+    "trait": "démoniaque",
+    "type": "négatif"
+  },
+  {
+    "id": 84,
+    "trait": "dépendant",
+    "type": "négatif"
+  },
+  {
+    "id": 85,
+    "trait": "charmant",
+    "type": "positif"
+  },
+  {
+    "id": 86,
+    "trait": "modeste",
+    "type": "neutre"
+  },
+  {
+    "id": 87,
+    "trait": "déprimé",
+    "type": "négatif"
+  },
+  {
+    "id": 88,
+    "trait": "dévoué",
+    "type": "positif"
+  },
+  {
+    "id": 89,
+    "trait": "adroit",
+    "type": "positif"
+  },
+  {
+    "id": 90,
+    "trait": "assidu",
+    "type": "positif"
+  },
+  {
+    "id": 91,
+    "trait": "direct",
+    "type": "neutre"
+  },
+  {
+    "id": 92,
+    "trait": "sale",
+    "type": "négatif"
+  },
+  {
+    "id": 93,
+    "trait": "perspicace",
+    "type": "positif"
+  },
+  {
+    "id": 94,
+    "trait": "discret",
+    "type": "neutre"
+  },
+  {
+    "id": 95,
+    "trait": "perturbateur",
+    "type": "négatif"
+  },
+  {
+    "id": 96,
+    "trait": "distant",
+    "type": "négatif"
+  },
+  {
+    "id": 97,
+    "trait": "éperdu",
+    "type": "neutre"
+  },
+  {
+    "id": 98,
+    "trait": "méfiant",
+    "type": "négatif"
+  },
+  {
+    "id": 99,
+    "trait": "démodé",
+    "type": "négatif"
+  },
+  {
+    "id": 100,
+    "trait": "dramatique",
+    "type": "négatif"
+  },
+  {
+    "id": 101,
+    "trait": "morne",
+    "type": "négatif"
+  },
+  {
+    "id": 102,
+    "trait": "somnolent",
+    "type": "neutre"
+  },
+  {
+    "id": 103,
+    "trait": "drogué",
+    "type": "négatif"
+  },
+  {
+    "id": 104,
+    "trait": "alcoolique",
+    "type": "négatif"
+  },
+  {
+    "id": 105,
+    "trait": "ennuyeux",
+    "type": "négatif"
+  },
+  {
+    "id": 106,
+    "trait": "déférent",
+    "type": "neutre"
+  },
+  {
+    "id": 107,
+    "trait": "désireux",
+    "type": "neutre"
+  },
+  {
+    "id": 108,
+    "trait": "sérieux",
+    "type": "neutre"
+  },
+  {
+    "id": 109,
+    "trait": "facile à vivre",
+    "type": "positif"
+  },
+  {
+    "id": 110,
+    "trait": "efficace",
+    "type": "neutre"
+  },
+  {
+    "id": 111,
+    "trait": "égoïste",
+    "type": "négatif"
+  },
+  {
+    "id": 112,
+    "trait": "fragile",
+    "type": "neutre"
+  },
+  {
+    "id": 113,
+    "trait": "émotif",
+    "type": "neutre"
+  },
+  {
+    "id": 114,
+    "trait": "énergique",
+    "type": "positif"
+  },
+  {
+    "id": 115,
+    "trait": "entreprenant",
+    "type": "neutre"
+  },
+  {
+    "id": 116,
+    "trait": "serein",
+    "type": "positif"
+  },
+  {
+    "id": 117,
+    "trait": "enthousiaste",
+    "type": "positif"
+  },
+  {
+    "id": 118,
+    "trait": "évasif",
+    "type": "neutre"
+  },
+  {
+    "id": 119,
+    "trait": "exigeant",
+    "type": "neutre"
+  },
+  {
+    "id": 120,
+    "trait": "excellent",
+    "type": "positif"
+  },
+  {
+    "id": 121,
+    "trait": "excitable",
+    "type": "neutre"
+  },
+  {
+    "id": 122,
+    "trait": "expérimenté",
+    "type": "positif"
+  },
+  {
+    "id": 123,
+    "trait": "fabuleux",
+    "type": "positif"
+  },
+  {
+    "id": 124,
+    "trait": "fastidieux",
+    "type": "négatif"
+  },
+  {
+    "id": 125,
+    "trait": "féroce",
+    "type": "négatif"
+  },
+  {
+    "id": 126,
+    "trait": "fervent",
+    "type": "positif"
+  },
+  {
+    "id": 127,
+    "trait": "ardent",
+    "type": "neutre"
+  },
+  {
+    "id": 128,
+    "trait": "mou/molle",
+    "type": "négatif"
+  },
+  {
+    "id": 129,
+    "trait": "amical",
+    "type": "positif"
+  },
+  {
+    "id": 130,
+    "trait": "franc",
+    "type": "neutre"
+  },
+  {
+    "id": 131,
+    "trait": "drôle",
+    "type": "positif"
+  },
+  {
+    "id": 132,
+    "trait": "difficile",
+    "type": "négatif"
+  },
+  {
+    "id": 133,
+    "trait": "trait_fictif_133",
+    "type": "neutre"
+  },
+  {
+    "id": 134,
+    "trait": "gentil",
+    "type": "positif"
+  },
+  {
+    "id": 135,
+    "trait": "généreux",
+    "type": "positif"
+  },
+  {
+    "id": 136,
+    "trait": "cafardeux",
+    "type": "négatif"
+  },
+  {
+    "id": 137,
+    "trait": "glouton",
+    "type": "positif"
+  },
+  {
+    "id": 138,
+    "trait": "bon",
+    "type": "positif"
+  },
+  {
+    "id": 139,
+    "trait": "grave",
+    "type": "neutre"
+  },
+  {
+    "id": 140,
+    "trait": "super",
+    "type": "positif"
+  },
+  {
+    "id": 141,
+    "trait": "grognon",
+    "type": "négatif"
+  },
+  {
+    "id": 142,
+    "trait": "vigilant",
+    "type": "neutre"
+  },
+  {
+    "id": 143,
+    "trait": "odieux",
+    "type": "négatif"
+  },
+  {
+    "id": 144,
+    "trait": "sympathique",
+    "type": "positif"
+  },
+  {
+    "id": 145,
+    "trait": "serviable",
+    "type": "positif"
+  },
+  {
+    "id": 146,
+    "trait": "indécis",
+    "type": "neutre"
+  },
+  {
+    "id": 147,
+    "trait": "sang chaud",
+    "type": "neutre"
+  },
+  {
+    "id": 148,
+    "trait": "hypercritique",
+    "type": "négatif"
+  },
+  {
+    "id": 149,
+    "trait": "hystérique",
+    "type": "négatif"
+  },
+  {
+    "id": 150,
+    "trait": "idiot",
+    "type": "négatif"
+  },
+  {
+    "id": 151,
+    "trait": "inactif",
+    "type": "neutre"
+  },
+  {
+    "id": 152,
+    "trait": "illogique",
+    "type": "négatif"
+  },
+  {
+    "id": 153,
+    "trait": "imaginatif",
+    "type": "positif"
+  },
+  {
+    "id": 154,
+    "trait": "immature",
+    "type": "négatif"
+  },
+  {
+    "id": 155,
+    "trait": "indécent",
+    "type": "négatif"
+  },
+  {
+    "id": 156,
+    "trait": "impatient",
+    "type": "négatif"
+  },
+  {
+    "id": 157,
+    "trait": "imperturbable",
+    "type": "neutre"
+  },
+  {
+    "id": 158,
+    "trait": "impétueux",
+    "type": "neutre"
+  },
+  {
+    "id": 159,
+    "trait": "inaccessible",
+    "type": "neutre"
+  },
+  {
+    "id": 160,
+    "trait": "impressionnable",
+    "type": "neutre"
+  },
+  {
+    "id": 161,
+    "trait": "impressionnant",
+    "type": "positif"
+  },
+  {
+    "id": 162,
+    "trait": "impulsif",
+    "type": "négatif"
+  },
+  {
+    "id": 163,
+    "trait": "oisif",
+    "type": "négatif"
+  },
+  {
+    "id": 164,
+    "trait": "incisif",
+    "type": "négatif"
+  },
+  {
+    "id": 165,
+    "trait": "incompétent",
+    "type": "négatif"
+  },
+  {
+    "id": 166,
+    "trait": "irréfléchi",
+    "type": "négatif"
+  },
+  {
+    "id": 167,
+    "trait": "contradictoire",
+    "type": "négatif"
+  },
+  {
+    "id": 168,
+    "trait": "indépendant",
+    "type": "neutre"
+  },
+  {
+    "id": 169,
+    "trait": "indiscret",
+    "type": "négatif"
+  },
+  {
+    "id": 170,
+    "trait": "amorphe",
+    "type": "négatif"
+  },
+  {
+    "id": 171,
+    "trait": "infatigable",
+    "type": "neutre"
+  },
+  {
+    "id": 172,
+    "trait": "inventif",
+    "type": "neutre"
+  },
+  {
+    "id": 173,
+    "trait": "inexpérimenté",
+    "type": "négatif"
+  },
+  {
+    "id": 174,
+    "trait": "indifférent",
+    "type": "neutre"
+  },
+  {
+    "id": 175,
+    "trait": "inspirant",
+    "type": "positif"
+  },
+  {
+    "id": 176,
+    "trait": "doué",
+    "type": "positif"
+  },
+  {
+    "id": 177,
+    "trait": "intéressant",
+    "type": "positif"
+  },
+  {
+    "id": 178,
+    "trait": "intolérant",
+    "type": "négatif"
+  },
+  {
+    "id": 179,
+    "trait": "irascible",
+    "type": "négatif"
+  },
+  {
+    "id": 180,
+    "trait": "irritant",
+    "type": "négatif"
+  },
+  {
+    "id": 181,
+    "trait": "irritable",
+    "type": "neutre"
+  },
+  {
+    "id": 182,
+    "trait": "enjoué",
+    "type": "positif"
+  },
+  {
+    "id": 183,
+    "trait": "jovial",
+    "type": "positif"
+  },
+  {
+    "id": 184,
+    "trait": "joyeux",
+    "type": "positif"
+  },
+  {
+    "id": 185,
+    "trait": "dénigrant",
+    "type": "négatif"
+  },
+  {
+    "id": 186,
+    "trait": "passionné",
+    "type": "positif"
+  },
+  {
+    "id": 187,
+    "trait": "amène",
+    "type": "neutre"
+  },
+  {
+    "id": 188,
+    "trait": "nul",
+    "type": "négatif"
+  },
+  {
+    "id": 189,
+    "trait": "paresseux",
+    "type": "négatif"
+  },
+  {
+    "id": 190,
+    "trait": "suspicieux",
+    "type": "négatif"
+  },
+  {
+    "id": 191,
+    "trait": "léthargique",
+    "type": "négatif"
+  },
+  {
+    "id": 192,
+    "trait": "pondéré",
+    "type": "neutre"
+  },
+  {
+    "id": 193,
+    "trait": "impassible",
+    "type": "neutre"
+  },
+  {
+    "id": 194,
+    "trait": "souple",
+    "type": "neutre"
+  },
+  {
+    "id": 195,
+    "trait": "dynamique",
+    "type": "neutre"
+  },
+  {
+    "id": 196,
+    "trait": "logique",
+    "type": "neutre"
+  },
+  {
+    "id": 197,
+    "trait": "bavard",
+    "type": "neutre"
+  },
+  {
+    "id": 198,
+    "trait": "avenant",
+    "type": "positif"
+  },
+  {
+    "id": 199,
+    "trait": "sociable",
+    "type": "positif"
+  },
+  {
+    "id": 200,
+    "trait": "maternelle",
+    "type": "neutre"
+  },
+  {
+    "id": 201,
+    "trait": "mature",
+    "type": "positif"
+  },
+  {
+    "id": 202,
+    "trait": "méchant",
+    "type": "négatif"
+  },
+  {
+    "id": 203,
+    "trait": "sans-gêne",
+    "type": "négatif"
+  },
+  {
+    "id": 204,
+    "trait": "méthodique",
+    "type": "neutre"
+  },
+  {
+    "id": 205,
+    "trait": "méticuleux",
+    "type": "neutre"
+  },
+  {
+    "id": 206,
+    "trait": "doux",
+    "type": "positif"
+  },
+  {
+    "id": 207,
+    "trait": "misérable",
+    "type": "négatif"
+  },
+  {
+    "id": 208,
+    "trait": "réservé",
+    "type": "neutre"
+  },
+  {
+    "id": 209,
+    "trait": "débile",
+    "type": "négatif"
+  },
+  {
+    "id": 210,
+    "trait": "morose",
+    "type": "négatif"
+  },
+  {
+    "id": 211,
+    "trait": "déterminé",
+    "type": "neutre"
+  },
+  {
+    "id": 212,
+    "trait": "mélomane",
+    "type": "neutre"
+  },
+  {
+    "id": 213,
+    "trait": "naïf",
+    "type": "neutre"
+  },
+  {
+    "id": 214,
+    "trait": "mauvais",
+    "type": "négatif"
+  },
+  {
+    "id": 215,
+    "trait": "spontané",
+    "type": "neutre"
+  },
+  {
+    "id": 216,
+    "trait": "abject",
+    "type": "négatif"
+  },
+  {
+    "id": 217,
+    "trait": "pessimiste",
+    "type": "négatif"
+  },
+  {
+    "id": 218,
+    "trait": "nerveux",
+    "type": "neutre"
+  },
+  {
+    "id": 219,
+    "trait": "fouineur",
+    "type": "négatif"
+  },
+  {
+    "id": 220,
+    "trait": "nonchalant",
+    "type": "négatif"
+  },
+  {
+    "id": 221,
+    "trait": "obligeant",
+    "type": "négatif"
+  },
+  {
+    "id": 222,
+    "trait": "horrible",
+    "type": "négatif"
+  },
+  {
+    "id": 223,
+    "trait": "injuste",
+    "type": "négatif"
+  },
+  {
+    "id": 224,
+    "trait": "juste",
+    "type": "positif"
+  },
+  {
+    "id": 225,
+    "trait": "ordonné",
+    "type": "neutre"
+  },
+  {
+    "id": 226,
+    "trait": "ostentatoire",
+    "type": "neutre"
+  },
+  {
+    "id": 227,
+    "trait": "extraverti",
+    "type": "neutre"
+  },
+  {
+    "id": 228,
+    "trait": "honnête",
+    "type": "positif"
+  },
+  {
+    "id": 229,
+    "trait": "avide",
+    "type": "négatif"
+  },
+  {
+    "id": 230,
+    "trait": "docile",
+    "type": "neutre"
+  },
+  {
+    "id": 231,
+    "trait": "paternel",
+    "type": "neutre"
+  },
+  {
+    "id": 232,
+    "trait": "paternaliste",
+    "type": "négatif"
+  },
+  {
+    "id": 233,
+    "trait": "patient",
+    "type": "neutre"
+  },
+  {
+    "id": 234,
+    "trait": "paisible",
+    "type": "positif"
+  },
+  {
+    "id": 235,
+    "trait": "maussade",
+    "type": "négatif"
+  },
+  {
+    "id": 236,
+    "trait": "pensif",
+    "type": "neutre"
+  },
+  {
+    "id": 237,
+    "trait": "persévérant",
+    "type": "positif"
+  },
+  {
+    "id": 238,
+    "trait": "pointilleux",
+    "type": "neutre"
+  },
+  {
+    "id": 239,
+    "trait": "susceptible",
+    "type": "négatif"
+  },
+  {
+    "id": 240,
+    "trait": "pénible",
+    "type": "négatif"
+  },
+  {
+    "id": 241,
+    "trait": "simple",
+    "type": "neutre"
+  },
+  {
+    "id": 242,
+    "trait": "ordinaire",
+    "type": "neutre"
+  },
+  {
+    "id": 243,
+    "trait": "loyale",
+    "type": "positif"
+  },
+  {
+    "id": 244,
+    "trait": "espiègle",
+    "type": "neutre"
+  },
+  {
+    "id": 245,
+    "trait": "plaisant",
+    "type": "positif"
+  },
+  {
+    "id": 246,
+    "trait": "vaillant",
+    "type": "positif"
+  },
+  {
+    "id": 247,
+    "trait": "intrépide",
+    "type": "positif"
+  },
+  {
+    "id": 248,
+    "trait": "poli",
+    "type": "positif"
+  },
+  {
+    "id": 249,
+    "trait": "populaire",
+    "type": "positif"
+  },
+  {
+    "id": 250,
+    "trait": "optimiste",
+    "type": "positif"
+  },
+  {
+    "id": 251,
+    "trait": "puissant",
+    "type": "positif"
+  },
+  {
+    "id": 252,
+    "trait": "adaptable",
+    "type": "positif"
+  },
+  {
+    "id": 253,
+    "trait": "déloyal",
+    "type": "négatif"
+  },
+  {
+    "id": 254,
+    "trait": "joli",
+    "type": "positif"
+  },
+  {
+    "id": 255,
+    "trait": "averti",
+    "type": "neutre"
+  },
+  {
+    "id": 256,
+    "trait": "fier",
+    "type": "neutre"
+  },
+  {
+    "id": 257,
+    "trait": "provocateur",
+    "type": "négatif"
+  },
+  {
+    "id": 258,
+    "trait": "responsable",
+    "type": "positif"
+  },
+  {
+    "id": 259,
+    "trait": "ponctuel",
+    "type": "neutre"
+  },
+  {
+    "id": 260,
+    "trait": "querelleur",
+    "type": "négatif"
+  },
+  {
+    "id": 261,
+    "trait": "agressif",
+    "type": "négatif"
+  },
+  {
+    "id": 262,
+    "trait": "rapide",
+    "type": "neutre"
+  },
+  {
+    "id": 263,
+    "trait": "colérique",
+    "type": "négatif"
+  },
+  {
+    "id": 264,
+    "trait": "silencieux",
+    "type": "neutre"
+  },
+  {
+    "id": 265,
+    "trait": "réaliste",
+    "type": "neutre"
+  },
+  {
+    "id": 266,
+    "trait": "rassurant",
+    "type": "positif"
+  },
+  {
+    "id": 267,
+    "trait": "solitaire",
+    "type": "neutre"
+  },
+  {
+    "id": 268,
+    "trait": "fiable",
+    "type": "positif"
+  },
+  {
+    "id": 269,
+    "trait": "introverti",
+    "type": "neutre"
+  },
+  {
+    "id": 270,
+    "trait": "rancunier",
+    "type": "négatif"
+  },
+  {
+    "id": 271,
+    "trait": "pudique",
+    "type": "neutre"
+  },
+  {
+    "id": 272,
+    "trait": "soumis",
+    "type": "négatif"
+  },
+  {
+    "id": 273,
+    "trait": "savant",
+    "type": "positif"
+  },
+  {
+    "id": 274,
+    "trait": "respectable",
+    "type": "positif"
+  },
+  {
+    "id": 275,
+    "trait": "humble",
+    "type": "neutre"
+  },
+  {
+    "id": 276,
+    "trait": "leader",
+    "type": "positif"
+  },
+  {
+    "id": 277,
+    "trait": "turbulent",
+    "type": "neutre"
+  },
+  {
+    "id": 278,
+    "trait": "vénérable",
+    "type": "positif"
+  },
+  {
+    "id": 279,
+    "trait": "ridicule",
+    "type": "négatif"
+  },
+  {
+    "id": 280,
+    "trait": "triste",
+    "type": "négatif"
+  },
+  {
+    "id": 281,
+    "trait": "insolent",
+    "type": "négatif"
+  },
+  {
+    "id": 282,
+    "trait": "grivois",
+    "type": "neutre"
+  },
+  {
+    "id": 283,
+    "trait": "tranquille",
+    "type": "neutre"
+  },
+  {
+    "id": 284,
+    "trait": "assuré",
+    "type": "positif"
+  },
+  {
+    "id": 285,
+    "trait": "individualiste",
+    "type": "négatif"
+  },
+  {
+    "id": 286,
+    "trait": "sentimental",
+    "type": "neutre"
+  },
+  {
+    "id": 287,
+    "trait": "romantique",
+    "type": "positif"
+  },
+  {
+    "id": 288,
+    "trait": "ouvert",
+    "type": "positif"
+  },
+  {
+    "id": 289,
+    "trait": "flegmatique",
+    "type": "neutre"
+  },
+  {
+    "id": 290,
+    "trait": "austère",
+    "type": "négatif"
+  },
+  {
+    "id": 291,
+    "trait": "minutieux",
+    "type": "positif"
+  },
+  {
+    "id": 292,
+    "trait": "sanguin",
+    "type": "négatif"
+  },
+  {
+    "id": 293,
+    "trait": "futé",
+    "type": "positif"
+  },
+  {
+    "id": 294,
+    "trait": "timide",
+    "type": "neutre"
+  },
+  {
+    "id": 295,
+    "trait": "imbécile",
+    "type": "négatif"
+  },
+  {
+    "id": 296,
+    "trait": "sincère",
+    "type": "positif"
+  },
+  {
+    "id": 297,
+    "trait": "ramolli",
+    "type": "négatif"
+  },
+  {
+    "id": 298,
+    "trait": "élégant",
+    "type": "positif"
+  },
+  {
+    "id": 299,
+    "trait": "négligent",
+    "type": "négatif"
+  },
+  {
+    "id": 300,
+    "trait": "fainéant",
+    "type": "négatif"
+  },
+  {
+    "id": 301,
+    "trait": "négligé",
+    "type": "négatif"
+  },
+  {
+    "id": 302,
+    "trait": "lent",
+    "type": "neutre"
+  },
+  {
+    "id": 303,
+    "trait": "malin",
+    "type": "positif"
+  },
+  {
+    "id": 304,
+    "trait": "soigneux",
+    "type": "neutre"
+  },
+  {
+    "id": 305,
+    "trait": "sarcastique",
+    "type": "neutre"
+  },
+  {
+    "id": 306,
+    "trait": "snob",
+    "type": "négatif"
+  },
+  {
+    "id": 307,
+    "trait": "prétentieux",
+    "type": "négatif"
+  },
+  {
+    "id": 308,
+    "trait": "sombre",
+    "type": "négatif"
+  },
+  {
+    "id": 309,
+    "trait": "sobre",
+    "type": "neutre"
+  },
+  {
+    "id": 310,
+    "trait": "sophistiqué",
+    "type": "positif"
+  },
+  {
+    "id": 311,
+    "trait": "émouvant",
+    "type": "positif"
+  },
+  {
+    "id": 312,
+    "trait": "impitoyable",
+    "type": "négatif"
+  },
+  {
+    "id": 313,
+    "trait": "aigri",
+    "type": "négatif"
+  },
+  {
+    "id": 314,
+    "trait": "spirituel",
+    "type": "neutre"
+  },
+  {
+    "id": 315,
+    "trait": "religieux",
+    "type": "neutre"
+  },
+  {
+    "id": 316,
+    "trait": "malveillant",
+    "type": "négatif"
+  },
+  {
+    "id": 317,
+    "trait": "vindicatif",
+    "type": "neutre"
+  },
+  {
+    "id": 318,
+    "trait": "bienveillant",
+    "type": "positif"
+  },
+  {
+    "id": 319,
+    "trait": "stable",
+    "type": "neutre"
+  },
+  {
+    "id": 320,
+    "trait": "instable",
+    "type": "négatif"
+  },
+  {
+    "id": 321,
+    "trait": "digne",
+    "type": "positif"
+  },
+  {
+    "id": 322,
+    "trait": "fidèle",
+    "type": "positif"
+  },
+  {
+    "id": 323,
+    "trait": "sévère",
+    "type": "négatif"
+  },
+  {
+    "id": 324,
+    "trait": "stoïque",
+    "type": "neutre"
+  },
+  {
+    "id": 325,
+    "trait": "marquant",
+    "type": "neutre"
+  },
+  {
+    "id": 326,
+    "trait": "fort",
+    "type": "positif"
+  },
+  {
+    "id": 327,
+    "trait": "stupide",
+    "type": "négatif"
+  },
+  {
+    "id": 328,
+    "trait": "robuste",
+    "type": "neutre"
+  },
+  {
+    "id": 329,
+    "trait": "subtil",
+    "type": "neutre"
+  },
+  {
+    "id": 330,
+    "trait": "insipide",
+    "type": "négatif"
+  },
+  {
+    "id": 331,
+    "trait": "boudeur",
+    "type": "négatif"
+  },
+  {
+    "id": 332,
+    "trait": "hautain",
+    "type": "négatif"
+  },
+  {
+    "id": 333,
+    "trait": "superficiel",
+    "type": "négatif"
+  },
+  {
+    "id": 334,
+    "trait": "hargneux",
+    "type": "neutre"
+  },
+  {
+    "id": 335,
+    "trait": "soupçonneux",
+    "type": "neutre"
+  },
+  {
+    "id": 336,
+    "trait": "tendre",
+    "type": "positif"
+  },
+  {
+    "id": 337,
+    "trait": "diplomate",
+    "type": "positif"
+  },
+  {
+    "id": 338,
+    "trait": "impertinent",
+    "type": "négatif"
+  },
+  {
+    "id": 339,
+    "trait": "talentueux",
+    "type": "positif"
+  },
+  {
+    "id": 340,
+    "trait": "bougon",
+    "type": "négatif"
+  },
+  {
+    "id": 341,
+    "trait": "réfléchi",
+    "type": "neutre"
+  },
+  {
+    "id": 342,
+    "trait": "mesuré",
+    "type": "neutre"
+  },
+  {
+    "id": 343,
+    "trait": "étourdi",
+    "type": "neutre"
+  },
+  {
+    "id": 344,
+    "trait": "craintif",
+    "type": "neutre"
+  },
+  {
+    "id": 345,
+    "trait": "écorché",
+    "type": "négatif"
+  },
+  {
+    "id": 346,
+    "trait": "tolérant",
+    "type": "positif"
+  },
+  {
+    "id": 347,
+    "trait": "hypersensible",
+    "type": "neutre"
+  },
+  {
+    "id": 348,
+    "trait": "pacifique",
+    "type": "neutre"
+  },
+  {
+    "id": 349,
+    "trait": "laid",
+    "type": "négatif"
+  },
+  {
+    "id": 350,
+    "trait": "moche",
+    "type": "négatif"
+  },
+  {
+    "id": 351,
+    "trait": "crédule",
+    "type": "négatif"
+  },
+  {
+    "id": 352,
+    "trait": "déséquilibré",
+    "type": "négatif"
+  },
+  {
+    "id": 353,
+    "trait": "dément",
+    "type": "négatif"
+  },
+  {
+    "id": 354,
+    "trait": "fou/folle",
+    "type": "neutre"
+  },
+  {
+    "id": 355,
+    "trait": "dérangé",
+    "type": "négatif"
+  },
+  {
+    "id": 356,
+    "trait": "incertain",
+    "type": "neutre"
+  },
+  {
+    "id": 357,
+    "trait": "perfide",
+    "type": "négatif"
+  },
+  {
+    "id": 358,
+    "trait": "placide",
+    "type": "neutre"
+  },
+  {
+    "id": 359,
+    "trait": "hostile",
+    "type": "négatif"
+  },
+  {
+    "id": 360,
+    "trait": "inconscient",
+    "type": "négatif"
+  },
+  {
+    "id": 361,
+    "trait": "rustre",
+    "type": "négatif"
+  },
+  {
+    "id": 362,
+    "trait": "désagréable",
+    "type": "négatif"
+  },
+  {
+    "id": 363,
+    "trait": "impopulaire",
+    "type": "négatif"
+  },
+  {
+    "id": 364,
+    "trait": "infidèle",
+    "type": "négatif"
+  },
+  {
+    "id": 365,
+    "trait": "instinctif",
+    "type": "neutre"
+  },
+  {
+    "id": 366,
+    "trait": "dingue",
+    "type": "négatif"
+  },
+  {
+    "id": 367,
+    "trait": "absurde",
+    "type": "négatif"
+  },
+  {
+    "id": 368,
+    "trait": "vénal",
+    "type": "négatif"
+  },
+  {
+    "id": 369,
+    "trait": "polyvalent",
+    "type": "neutre"
+  },
+  {
+    "id": 370,
+    "trait": "précautionneux",
+    "type": "neutre"
+  },
+  {
+    "id": 371,
+    "trait": "chaleureux",
+    "type": "positif"
+  },
+  {
+    "id": 372,
+    "trait": "convivial",
+    "type": "positif"
+  },
+  {
+    "id": 373,
+    "trait": "défiant",
+    "type": "neutre"
+  },
+  {
+    "id": 374,
+    "trait": "faible",
+    "type": "négatif"
+  },
+  {
+    "id": 375,
+    "trait": "bien élevé",
+    "type": "positif"
+  },
+  {
+    "id": 376,
+    "trait": "scrupuleux",
+    "type": "neutre"
+  },
+  {
+    "id": 377,
+    "trait": "honorable",
+    "type": "négatif"
+  },
+  {
+    "id": 378,
+    "trait": "raisonnable",
+    "type": "neutre"
+  },
+  {
+    "id": 379,
+    "trait": "volontaire",
+    "type": "positif"
+  },
+  {
+    "id": 380,
+    "trait": "merveilleux",
+    "type": "positif"
+  },
+  {
+    "id": 381,
+    "trait": "véhément",
+    "type": "négatif"
+  },
+  {
+    "id": 382,
+    "trait": "vulnérable",
+    "type": "neutre"
+  },
+  {
+    "id": 383,
+    "trait": "zélé",
+    "type": "neutre"
+  },
+  {
+    "id": 384,
+    "trait": "dégourdi",
+    "type": "positif"
+  },
+  {
+    "id": 385,
+    "trait": "bizarre",
+    "type": "négatif"
+  },
+  {
+    "id": 386,
+    "trait": "singulier",
+    "type": "neutre"
+  },
+  {
+    "id": 387,
+    "trait": "énigmatique",
+    "type": "neutre"
+  },
+  {
+    "id": 388,
+    "trait": "mystérieux",
+    "type": "neutre"
+  },
+  {
+    "id": 389,
+    "trait": "dissipé",
+    "type": "neutre"
+  },
+  {
+    "id": 390,
+    "trait": "rêveur",
+    "type": "positif"
+  },
+  {
+    "id": 391,
+    "trait": "tête en l'air",
+    "type": "neutre"
+  },
+  {
+    "id": 392,
+    "trait": "appliqué",
+    "type": "positif"
+  },
+  {
+    "id": 393,
+    "trait": "studieux",
+    "type": "positif"
+  },
+  {
+    "id": 394,
+    "trait": "posé",
+    "type": "neutre"
+  },
+  {
+    "id": 395,
+    "trait": "concentré",
+    "type": "neutre"
+  },
+  {
+    "id": 396,
+    "trait": "câlin",
+    "type": "positif"
+  },
+  {
+    "id": 397,
+    "trait": "fraternel",
+    "type": "neutre"
+  },
+  {
+    "id": 398,
+    "trait": "cajoleur",
+    "type": "positif"
+  },
+  {
+    "id": 399,
+    "trait": "éveillé",
+    "type": "positif"
+  },
+  {
+    "id": 400,
+    "trait": "gracieux",
+    "type": "positif"
+  },
+  {
+    "id": 401,
+    "trait": "audacieux",
+    "type": "neutre"
+  },
+  {
+    "id": 402,
+    "trait": "hardi",
+    "type": "positif"
+  },
+  {
+    "id": 403,
+    "trait": "téméraire",
+    "type": "neutre"
+  },
+  {
+    "id": 404,
+    "trait": "casse-cou",
+    "type": "neutre"
+  },
+  {
+    "id": 405,
+    "trait": "poltron",
+    "type": "négatif"
+  },
+  {
+    "id": 406,
+    "trait": "pleutre",
+    "type": "négatif"
+  },
+  {
+    "id": 407,
+    "trait": "peureux",
+    "type": "négatif"
+  },
+  {
+    "id": 408,
+    "trait": "affable",
+    "type": "neutre"
+  },
+  {
+    "id": 409,
+    "trait": "attachant",
+    "type": "positif"
+  },
+  {
+    "id": 410,
+    "trait": "attentionné",
+    "type": "positif"
+  },
+  {
+    "id": 411,
+    "trait": "attirant",
+    "type": "positif"
+  },
+  {
+    "id": 412,
+    "trait": "séduisant",
+    "type": "positif"
+  },
+  {
+    "id": 413,
+    "trait": "extraordinaire",
+    "type": "positif"
+  },
+  {
+    "id": 414,
+    "trait": "fantastique",
+    "type": "positif"
+  },
+  {
+    "id": 415,
+    "trait": "altruiste",
+    "type": "positif"
+  },
+  {
+    "id": 416,
+    "trait": "arriviste",
+    "type": "négatif"
+  },
+  {
+    "id": 417,
+    "trait": "carriériste",
+    "type": "neutre"
+  },
+  {
+    "id": 418,
+    "trait": "opportuniste",
+    "type": "négatif"
+  },
+  {
+    "id": 419,
+    "trait": "intrigant",
+    "type": "neutre"
+  },
+  {
+    "id": 420,
+    "trait": "abordable",
+    "type": "positif"
+  },
+  {
+    "id": 421,
+    "trait": "accueillant",
+    "type": "positif"
+  },
+  {
+    "id": 422,
+    "trait": "complaisant",
+    "type": "neutre"
+  },
+  {
+    "id": 423,
+    "trait": "rigolo",
+    "type": "positif"
+  },
+  {
+    "id": 424,
+    "trait": "marrant",
+    "type": "neutre"
+  },
+  {
+    "id": 425,
+    "trait": "parfait",
+    "type": "positif"
+  },
+  {
+    "id": 426,
+    "trait": "pur",
+    "type": "positif"
+  },
+  {
+    "id": 427,
+    "trait": "fataliste",
+    "type": "négatif"
+  },
+  {
+    "id": 428,
+    "trait": "mollason",
+    "type": "négatif"
+  },
+  {
+    "id": 429,
+    "trait": "passif",
+    "type": "neutre"
+  },
+  {
+    "id": 430,
+    "trait": "angoissé",
+    "type": "neutre"
+  },
+  {
+    "id": 431,
+    "trait": "soucieux",
+    "type": "neutre"
+  },
+  {
+    "id": 432,
+    "trait": "tourmenté",
+    "type": "négatif"
+  },
+  {
+    "id": 433,
+    "trait": "survolté",
+    "type": "neutre"
+  },
+  {
+    "id": 434,
+    "trait": "exubérant",
+    "type": "neutre"
+  },
+  {
+    "id": 435,
+    "trait": "hypocrite",
+    "type": "négatif"
+  },
+  {
+    "id": 436,
+    "trait": "manipulateur",
+    "type": "négatif"
+  },
+  {
+    "id": 437,
+    "trait": "innovateur",
+    "type": "positif"
+  },
+  {
+    "id": 438,
+    "trait": "observateur",
+    "type": "neutre"
+  },
+  {
+    "id": 439,
+    "trait": "insignifiant",
+    "type": "négatif"
+  },
+  {
+    "id": 440,
+    "trait": "vulgaire",
+    "type": "négatif"
+  },
+  {
+    "id": 441,
+    "trait": "quelconque",
+    "type": "négatif"
+  },
+  {
+    "id": 442,
+    "trait": "petit",
+    "type": "neutre"
+  },
+  {
+    "id": 443,
+    "trait": "abominable",
+    "type": "négatif"
+  },
+  {
+    "id": 444,
+    "trait": "effrayant",
+    "type": "négatif"
+  },
+  {
+    "id": 445,
+    "trait": "monstrueux",
+    "type": "négatif"
+  },
+  {
+    "id": 446,
+    "trait": "atroce",
+    "type": "négatif"
+  },
+  {
+    "id": 447,
+    "trait": "hideux",
+    "type": "négatif"
+  },
+  {
+    "id": 448,
+    "trait": "repoussant",
+    "type": "négatif"
+  },
+  {
+    "id": 449,
+    "trait": "prodige",
+    "type": "positif"
+  },
+  {
+    "id": 450,
+    "trait": "sublime",
+    "type": "positif"
+  },
+  {
+    "id": 451,
+    "trait": "ravissant",
+    "type": "positif"
+  },
+  {
+    "id": 452,
+    "trait": "splendide",
+    "type": "positif"
+  },
+  {
+    "id": 453,
+    "trait": "charitable",
+    "type": "positif"
+  },
+  {
+    "id": 454,
+    "trait": "nostalgique",
+    "type": "neutre"
+  },
+  {
+    "id": 455,
+    "trait": "ténébreux",
+    "type": "neutre"
+  },
+  {
+    "id": 456,
+    "trait": "brutal",
+    "type": "négatif"
+  },
+  {
+    "id": 457,
+    "trait": "glacial",
+    "type": "négatif"
+  },
+  {
+    "id": 458,
+    "trait": "rebelle",
+    "type": "neutre"
+  },
+  {
+    "id": 459,
+    "trait": "réfractaire",
+    "type": "négatif"
+  },
+  {
+    "id": 460,
+    "trait": "ingénu",
+    "type": "neutre"
+  },
+  {
+    "id": 461,
+    "trait": "innocent",
+    "type": "positif"
+  },
+  {
+    "id": 462,
+    "trait": "cupide",
+    "type": "négatif"
+  },
+  {
+    "id": 463,
+    "trait": "gourmand",
+    "type": "neutre"
+  },
+  {
+    "id": 464,
+    "trait": "coléreux",
+    "type": "négatif"
+  },
+  {
+    "id": 465,
+    "trait": "revêche",
+    "type": "négatif"
+  },
+  {
+    "id": 466,
+    "trait": "renfrogné",
+    "type": "neutre"
+  },
+  {
+    "id": 467,
+    "trait": "rusé",
+    "type": "neutre"
+  },
+  {
+    "id": 468,
+    "trait": "fourbe",
+    "type": "négatif"
+  },
+  {
+    "id": 469,
+    "trait": "avisé",
+    "type": "neutre"
+  },
+  {
+    "id": 470,
+    "trait": "sage",
+    "type": "positif"
+  },
+  {
+    "id": 471,
+    "trait": "dangereux",
+    "type": "négatif"
+  },
+  {
+    "id": 472,
+    "trait": "sauvage",
+    "type": "neutre"
+  },
+  {
+    "id": 473,
+    "trait": "inconsidéré",
+    "type": "négatif"
+  },
+  {
+    "id": 474,
+    "trait": "amer",
+    "type": "négatif"
+  },
+  {
+    "id": 475,
+    "trait": "captivant",
+    "type": "positif"
+  },
+  {
+    "id": 476,
+    "trait": "fascinant",
+    "type": "positif"
+  },
+  {
+    "id": 477,
+    "trait": "persuasif",
+    "type": "neutre"
+  },
+  {
+    "id": 478,
+    "trait": "convaincant",
+    "type": "neutre"
+  },
+  {
+    "id": 479,
+    "trait": "frivole",
+    "type": "neutre"
+  },
+  {
+    "id": 480,
+    "trait": "bête",
+    "type": "négatif"
+  },
+  {
+    "id": 481,
+    "trait": "gai",
+    "type": "positif"
+  },
+  {
+    "id": 482,
+    "trait": "radieux",
+    "type": "positif"
+  },
+  {
+    "id": 483,
+    "trait": "rieur",
+    "type": "positif"
+  },
+  {
+    "id": 484,
+    "trait": "coquet",
+    "type": "neutre"
+  },
+  {
+    "id": 485,
+    "trait": "distingué",
+    "type": "positif"
+  },
+  {
+    "id": 486,
+    "trait": "raffiné",
+    "type": "positif"
+  },
+  {
+    "id": 487,
+    "trait": "classe",
+    "type": "positif"
+  },
+  {
+    "id": 488,
+    "trait": "athlétique",
+    "type": "neutre"
+  },
+  {
+    "id": 489,
+    "trait": "avare",
+    "type": "négatif"
+  },
+  {
+    "id": 490,
+    "trait": "économe",
+    "type": "neutre"
+  },
+  {
+    "id": 491,
+    "trait": "radin",
+    "type": "négatif"
+  },
+  {
+    "id": 492,
+    "trait": "dépensier",
+    "type": "négatif"
+  },
+  {
+    "id": 493,
+    "trait": "modéré",
+    "type": "neutre"
+  },
+  {
+    "id": 494,
+    "trait": "galant",
+    "type": "positif"
+  },
+  {
+    "id": 495,
+    "trait": "clairvoyant",
+    "type": "neutre"
+  },
+  {
+    "id": 496,
+    "trait": "gauche",
+    "type": "négatif"
+  },
+  {
+    "id": 497,
+    "trait": "inhabile",
+    "type": "négatif"
+  },
+  {
+    "id": 498,
+    "trait": "malhabile",
+    "type": "négatif"
+  },
+  {
+    "id": 499,
+    "trait": "manchot",
+    "type": "négatif"
+  },
+  {
+    "id": 500,
+    "trait": "droit",
+    "type": "neutre"
+  },
+  {
+    "id": 501,
+    "trait": "imbu",
+    "type": "négatif"
+  },
+  {
+    "id": 502,
+    "trait": "orgueilleux",
+    "type": "négatif"
+  },
+  {
+    "id": 503,
+    "trait": "présomptueux",
+    "type": "négatif"
+  },
+  {
+    "id": 504,
+    "trait": "sûr de soi",
+    "type": "positif"
+  },
+  {
+    "id": 505,
+    "trait": "arrogant",
+    "type": "négatif"
+  },
+  {
+    "id": 506,
+    "trait": "méprisant",
+    "type": "négatif"
+  },
+  {
+    "id": 507,
+    "trait": "dédaigneux",
+    "type": "négatif"
+  },
+  {
+    "id": 508,
+    "trait": "travailleur",
+    "type": "neutre"
+  },
+  {
+    "id": 509,
+    "trait": "héroïque",
+    "type": "positif"
+  },
+  {
+    "id": 510,
+    "trait": "teigneux",
+    "type": "négatif"
+  },
+  {
+    "id": 511,
+    "trait": "farfelu",
+    "type": "neutre"
+  },
+  {
+    "id": 512,
+    "trait": "partageur",
+    "type": "positif"
+  },
+  {
+    "id": 513,
+    "trait": "trait_fictif_513",
+    "type": "positif"
+  },
+  {
+    "id": 514,
+    "trait": "malpoli",
+    "type": "négatif"
+  },
+  {
+    "id": 515,
+    "trait": "sadique",
+    "type": "négatif"
+  },
+  {
+    "id": 516,
+    "trait": "sanguinaire",
+    "type": "négatif"
+  },
+  {
+    "id": 517,
+    "trait": "barbare",
+    "type": "négatif"
+  },
+  {
+    "id": 518,
+    "trait": "cinglant",
+    "type": "négatif"
+  },
+  {
+    "id": 519,
+    "trait": "imprévisible",
+    "type": "neutre"
+  },
+  {
+    "id": 520,
+    "trait": "immoral",
+    "type": "négatif"
+  },
+  {
+    "id": 521,
+    "trait": "effronté",
+    "type": "négatif"
+  },
+  {
+    "id": 522,
+    "trait": "autoritaire",
+    "type": "neutre"
+  },
+  {
+    "id": 523,
+    "trait": "conciliant",
+    "type": "neutre"
+  },
+  {
+    "id": 524,
+    "trait": "empathique",
+    "type": "positif"
+  },
+  {
+    "id": 525,
+    "trait": "antipathique",
+    "type": "négatif"
+  },
+  {
+    "id": 526,
+    "trait": "cavalier",
+    "type": "neutre"
+  },
+  {
+    "id": 527,
+    "trait": "charmeur",
+    "type": "neutre"
+  },
+  {
+    "id": 528,
+    "trait": "désinvolte",
+    "type": "neutre"
+  },
+  {
+    "id": 528,
+    "trait": "révérencieux",
+    "type": "neutre"
+  },
+  {
+    "id": 529,
+    "trait": "compatissant",
+    "type": "positif"
+  },
+  {
+    "id": 530,
+    "trait": "diabolique",
+    "type": "négatif"
+  },
+  {
+    "id": 531,
+    "trait": "pervers",
+    "type": "négatif"
+  },
+  {
+    "id": 532,
+    "trait": "narcissique",
+    "type": "négatif"
+  },
+  {
+    "id": 533,
+    "trait": "machiavélique",
+    "type": "négatif"
+  },
+  {
+    "id": 534,
+    "trait": "autonome",
+    "type": "neutre"
+  },
+  {
+    "id": 535,
+    "trait": "mignon",
+    "type": "positif"
+  },
+  {
+    "id": 536,
+    "trait": "effacé",
+    "type": "neutre"
+  },
+  {
+    "id": 536,
+    "trait": "crasseux",
+    "type": "négatif"
+  },
+  {
+    "id": 537,
+    "trait": "mutin",
+    "type": "neutre"
+  },
+  {
+    "id": 538,
+    "trait": "moqueur",
+    "type": "neutre"
+  },
+  {
+    "id": 539,
+    "trait": "vieux jeu",
+    "type": "négatif"
+  },
+  {
+    "id": 540,
+    "trait": "toxicomane",
+    "type": "négatif"
+  },
+  {
+    "id": 541,
+    "trait": "loufoque",
+    "type": "positif"
+  },
+  {
+    "id": 542,
+    "trait": "fêtarde",
+    "type": "neutre"
+  }
+]

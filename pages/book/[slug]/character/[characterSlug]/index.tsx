@@ -34,6 +34,12 @@ const Character = () => {
     intensity: string;
   }
 
+  interface Trait {
+    id: number;
+    trait: string;
+    type: string;
+  }
+
   interface Character {
     name: string;
     slug: string;
@@ -55,6 +61,10 @@ const Character = () => {
     family: Family[];
     religion: string;
     addictions: Addiction[];
+    traits: Trait[];
+    fears: string[];
+    talents: string[];
+    background: string;
   }
 
   const Sasha: Character = {
@@ -98,7 +108,22 @@ const Character = () => {
       },
     ],
     religion: "Agnostique",
-    addictions: [{ type: "Marijuana", intensity: "Occasionnelle" }],
+    addictions: [{ type: "Marijuana", intensity: "Récréatif" }],
+    traits: [
+      { id: 187, trait: "intelligent", type: "positif" },
+      { id: 46, trait: "chaleureux", type: "positif" },
+      { id: 325, trait: "curieux", type: "neutre" },
+      { id: 103, trait: "maladroit", type: "négatif" },
+    ],
+    fears: ["chauve-souris", "eaux profondes"],
+    talents: ["DJ"],
+    background: `
+    Elle grandit dans une famille aimante et connut une enfance heureuse, jusqu’à ses 17 ans où ses parents la chassèrent du foyer. Sans ressources, elle passa plusieurs mois sous un pont avant d’obtenir une bourse et un logement étudiant à Portland. Déterminée, elle poursuivit des études brillantes, visant un doctorat.
+
+    Deux ans avant son examen final, la Grande Pandémie frappa. Elle survécut plusieurs semaines sur le campus avec d’autres étudiants et professeurs, jusqu’à ce qu’un groupe hostile renverse la communauté. En fuite, elle trouva refuge dans un immeuble de bureaux et y rencontra Kinzie O’Donnell. Ensemble, elles volèrent un camping-car de luxe et prirent la route, traversant un Ouest américain dévasté.
+
+    Leur périple les mena finalement à la base de Mojave, où elles décidèrent de poser leurs bagages. C’est là qu’elles se marièrent, scellant leur lien après tant d’épreuves.
+    `,
   };
 
   // Styles pour adapter le tag au rôle
@@ -178,16 +203,34 @@ const Character = () => {
       monthInString = "Inconnu";
   }
 
+  // Tri des langues par odre alphabétique
+  Sasha.language.sort();
   // converstion tableau language en composant
   const langues = Sasha.language.map((element: string, i: number) => {
     return (
-      <h6 key={i} className={styles.strictSquare}>
-        {element}
-      </h6>
+      <div className={styles.severalSquares} key={i}>
+        <h6 className={styles.strictSquare}>{element}</h6>
+      </div>
     );
   });
 
-  // converstion tableau language en composant
+  // Tri des études par niveau d'études
+  const studyLevelOrder: Record<string, number> = {
+    Doctorat: 1,
+    Master: 2,
+    Université: 3,
+    Lycée: 4,
+    Collège: 5,
+    Primaire: 6,
+  };
+  Sasha.study.sort((a: Study, b: Study): any => {
+    const priorityDiff = studyLevelOrder[a.level] - studyLevelOrder[b.level];
+    if (priorityDiff !== 0) return priorityDiff;
+
+    if (a.state === "Diplômé" && b.state !== "Diplômé") return -1;
+    if (a.state !== "Diplômé" && b.state === "Diplômé") return 1;
+  });
+  // Convertion tableau language en composant
   const etudes = Sasha.study.map((element: Study, i: number) => {
     return (
       <div className={styles.severalSquares} key={i}>
@@ -198,6 +241,16 @@ const Character = () => {
     );
   });
 
+  // Tri des familles par les décès
+  const priorityOrder: Record<string, number> = {
+    false: 1,
+    true: 2,
+  };
+  Sasha.family.sort(
+    (a, b) =>
+      priorityOrder[String(a.deceased)] - priorityOrder[String(b.deceased)]
+  );
+  // Convertion tableau Family en composant
   const familyMembers = Sasha.family.map((element: Family, i: number) => {
     return (
       <div className={styles.severalSquares} key={i}>
@@ -210,12 +263,70 @@ const Character = () => {
     );
   });
 
+  // Tri des addictions par ordre d'intensité
+  const intensityOrder: Record<string, number> = {
+    Récréatif: 1,
+    Régulière: 2,
+    Fréquente: 3,
+    Quotidienne: 4,
+    Excessive: 5,
+    Sévère: 6,
+  };
+  Sasha.addictions.sort(
+    (a, b) => intensityOrder[a.intensity] - intensityOrder[b.intensity]
+  );
+  // Convertion tableau Addictions en composant
   const dependances = Sasha.addictions.map((element: Addiction, i: number) => {
     return (
       <div className={styles.severalSquares} key={i}>
         <h6 className={styles.strictSquare}>{element.type}</h6>
         <h6 className={styles.strictSquare}>{element.intensity}</h6>
       </div>
+    );
+  });
+
+  // Tri des traits par ordre alphabéthique
+  Sasha.traits.sort((a, b) => a.trait.localeCompare(b.trait));
+  // Convertion tableau Traits en composant
+  const Caracteres = Sasha.traits.map((element: Trait, i: number) => {
+    //Adapte la couleur du tag avec le type de Traits
+    let traitStyle = {};
+    if (element.type === "positif") {
+      traitStyle = { backgroundColor: "#107E7D" };
+    } else if (element.type === "neutre") {
+      traitStyle = { backgroundColor: "grey" };
+    } else if (element.type === "négatif") {
+      traitStyle = { backgroundColor: "#CB3138" };
+    }
+
+    return (
+      <h6 style={traitStyle} className={styles.tag}>
+        {element.trait}
+      </h6>
+    );
+  });
+
+  // Tri des phobies par ordre alphabétique
+  Sasha.fears.sort();
+  // Conversion tableau Fear en composant
+  const peurs = Sasha.fears.map((element: string, i: number) => {
+    return (
+      <h6 key={i} className={styles.strictSquare}>
+        {element[0].toUpperCase()}
+        {element.slice(1)}
+      </h6>
+    );
+  });
+
+  // Tri des talents pas ordre alphabétique
+  Sasha.talents.sort();
+  // Conversion tableau Talent en composant
+  const hobbies = Sasha.talents.map((element: string, i: number) => {
+    return (
+      <h6 key={i} className={styles.strictSquare}>
+        {element[0].toUpperCase()}
+        {element.slice(1)}
+      </h6>
     );
   });
 
@@ -276,9 +387,9 @@ const Character = () => {
             )}
             {/* Langues parlés */}
             {Sasha.language.length > 0 && (
-              <div className={styles.oneLine}>
-                <h4 className={styles.titleLine}>Langues :</h4>
-                <div className={styles.severalSquares}>{langues}</div>
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLines}>Langues :</h4>
+                <div>{langues}</div>
               </div>
             )}
             {/* Etudes */}
@@ -316,7 +427,10 @@ const Character = () => {
             {Sasha.relation && (
               <div className={styles.oneLine}>
                 <h4 className={styles.titleLine}>Situation Matriomaniale :</h4>
-                <h6 className={styles.strictSquare}>{Sasha.relation}</h6>
+                <h6 className={styles.strictSquare}>
+                  {Sasha.relation[0].toUpperCase()}
+                  {Sasha.relation.slice(1)}
+                </h6>
               </div>
             )}
             {/* Situation familiale */}
@@ -342,6 +456,47 @@ const Character = () => {
                 <div>{dependances}</div>
               </div>
             )}
+          </section>
+          {/* PERSONNALITE */}
+          <section className={styles.section}>
+            <h2 className={styles.titleSection}>Personnalité</h2>
+            {Sasha.traits.length === 0 &&
+              Sasha.fears.length === 0 &&
+              Sasha.talents.length === 0 && (
+                <p
+                  className={styles.noInfo}
+                >{`Aucune information n'a été trouvée sur la personnalité de ce personnage.
+                  L'histoire vous apportera peut-être plus de réponse. 😉`}</p>
+              )}
+            {/* Traits de caractère */}
+            {Sasha.traits.length > 0 && (
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLines}>
+                  Trait de caractères :
+                </h4>
+                <div className={styles.severalSquares}>{Caracteres}</div>
+              </div>
+            )}
+            {/* Peurs et phobies */}
+            {Sasha.fears.length > 0 && (
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLines}>Peurs/Phobies :</h4>
+                <div className={styles.severalSquares}>{peurs}</div>
+              </div>
+            )}
+            {/* Talents */}
+            {Sasha.talents.length > 0 && (
+              <div className={styles.severalLines}>
+                <h4 className={styles.titleForSeveralLines}>Talents :</h4>
+                <div className={styles.severalSquares}>{hobbies}</div>
+              </div>
+            )}
+          </section>
+          <section className={styles.section}>
+            <h2 className={styles.titleSection}>Background</h2>
+            <div className={styles.backgroundContainer}>
+              <p className={styles.background}>{Sasha.background}</p>
+            </div>
           </section>
         </div>
       </main>

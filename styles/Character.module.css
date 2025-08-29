@@ -167,6 +167,29 @@
     width: 125px;
 }
 
+.tag {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50px;
+}
+
+.backgroundContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+    text-align: justify;
+    white-space: pre-wrap;
+    border: solid 1px #0F0F0F;
+    border-radius: 10px;
+    padding: 0 20px;
+    margin: 0;
+    font-size: small;
+    width: 90%;
+}
+
 @media (min-width: 910px) {
     .section {
         margin: 50px 0 0 50px;
