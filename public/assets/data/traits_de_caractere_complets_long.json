@@ -661,8 +661,8 @@
   },
   {
     "id": 133,
-    "trait": "trait_fictif_133",
-    "type": "neutre"
+    "trait": "violent",
+    "type": "négatif"
   },
   {
     "id": 134,
@@ -2561,8 +2561,8 @@
   },
   {
     "id": 513,
-    "trait": "trait_fictif_513",
-    "type": "positif"
+    "trait": "pragmatique",
+    "type": "neutre"
   },
   {
     "id": 514,
