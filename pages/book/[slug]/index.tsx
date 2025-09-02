@@ -395,13 +395,15 @@ const BookDetail = () => {
       <div className={styles.gridContent}>
         <div className={styles.leftPart}>
           <div className={styles.imgContainer}>
-            <Image
-              src={bookImage}
-              height={500}
-              width={300}
-              alt={bookTitle}
-              style={{ objectFit: "fill" }}
-            />
+            {bookImage && (
+              <Image
+                src={bookImage}
+                height={500}
+                width={300}
+                alt={bookTitle}
+                style={{ objectFit: "fill" }}
+              />
+            )}
           </div>
           <h4 className={styles.public}>{getBookPublicType(bookPublicType)}</h4>
           <h4 className={styles.status}>

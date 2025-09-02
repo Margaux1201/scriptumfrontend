@@ -58,6 +58,7 @@ const NewCharacter = () => {
   const [age, setAge] = useState<number>(0);
   const [gender, setGender] = useState<string>("");
   const [height, setHeight] = useState<string>("");
+  const [slogan, setSlogan] = useState<string>("");
   const [specie, setSpecie] = useState<string>("");
   const [isRace, setIsRace] = useState<boolean>(false);
   const [race, setRace] = useState<string>("");
@@ -66,7 +67,7 @@ const NewCharacter = () => {
   const [hometown, setHometown] = useState<string>("");
   const [languages, setLanguages] = useState<string[]>([]);
   const [studies, setStudies] = useState<Study[]>([]);
-  const [jobs, setJobs] = useState<Job>({ job: "", place: "" });
+  const [job, setJob] = useState<Job>({ job: "", place: "" });
   const [relationship, setRelationship] = useState<string>("");
   const [familyRelation, setFamilyRelation] = useState<Family[]>([]);
   const [religion, setReligion] = useState<string>("");
@@ -347,7 +348,125 @@ const NewCharacter = () => {
     setTalents(newTalents);
   };
 
-  console.log(talents);
+  // Fonction pour envoyer le formulaire à la création de personnage
+  const handleSubmit = (): void => {
+    if (!user.token) {
+      alert("Votre session a expiré, reconnectez-vous.");
+      return;
+    }
+
+    if (isRace && race.trim() === "") {
+      alert("Vous devez renseignez une race");
+      return;
+    }
+
+    if (!photo) {
+      alert("Veuillez importer une image");
+      return;
+    }
+
+    if (
+      fullName.trim() === "" ||
+      !fullName ||
+      !role ||
+      age === 0 ||
+      !gender ||
+      !height ||
+      height.trim() === "" ||
+      !slogan ||
+      slogan.trim() === "" ||
+      background.trim() === "" ||
+      !background
+    ) {
+      alert("Veuillez remplir tous les champs obligatoires");
+    }
+
+    //  initialisation du FormData
+    const formData = new FormData();
+    // Ajout des données dans le formData
+    formData.append("token", user.token);
+    formData.append("book", `${slug}`);
+    photo && formData.append("image", photo);
+    fullName && formData.append("name", fullName);
+    surname && formData.append("surname", surname);
+    role && formData.append("role", role);
+    age > 0 && formData.append("age", age.toString());
+    gender && formData.append("sexe", gender);
+    height && formData.append("height", height);
+    slogan && formData.append("slogan", slogan);
+    specie && formData.append("species", specie);
+    formData.append("is_there_race", isRace.toString());
+    isRace && formData.append("race", race);
+    dayBirth > 0 && formData.append("day_birth", dayBirth.toString());
+    monthBirth > 0 && formData.append("month_birth", monthBirth.toString());
+    hometown && formData.append("hometown", hometown);
+    languages.length > 0 &&
+      formData.append("languages", JSON.stringify(languages));
+    studies.length > 0 && formData.append("studies", JSON.stringify(studies));
+    job.job && job.place && formData.append("job", JSON.stringify(job));
+    relationship && formData.append("relation", relationship);
+    familyRelation.length > 0 &&
+      formData.append("family", JSON.stringify(familyRelation));
+    religion && formData.append("religion", religion);
+    addictions.length > 0 &&
+      formData.append("addictions", JSON.stringify(addictions));
+    stockedTraits.length > 0 &&
+      formData.append("traits", JSON.stringify(stockedTraits));
+    fears.length > 0 && formData.append("fears", JSON.stringify(fears));
+    talents.length > 0 && formData.append("talents", JSON.stringify(talents));
+    background && formData.append("background", background);
+
+    // Envoie du formData pour la création du personnage
+    fetch(`http://127.0.0.1:8000/api/createcharacter/`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("NOUVEAU PERSO 🙌🙌🙌", data);
+            setPhoto(null);
+            setFullName("");
+            setSurname("");
+            setRole("");
+            setAge(0);
+            setGender("");
+            setHeight("");
+            setSlogan("");
+            setSpecie("");
+            setIsRace(false);
+            setDayBirth(0);
+            setMonthBirth(0);
+            setRace("");
+            setHometown("");
+            setLanguages([]);
+            setStudies([]);
+            setJob({ job: "", place: "" });
+            setRelationship("");
+            setFamilyRelation([]);
+            setReligion("");
+            setAddictions([]);
+            setStockedTraits([]);
+            setFears([]);
+            setTalents([]);
+            setBackground("");
+            alert(`Votre personnage ${data.name} a bien été enregistré.e`);
+            router.push(`/book/${data.book}/bookuniverse`);
+          }
+        })
+      )
+      // .then(async (res) => {
+      //   const text = await res.text();
+      //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+      // })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout d'un personnage :", error);
+        alert("Une erreur réseau est survenue");
+      });
+  };
+
+  console.log(stockedTraits);
+  console.log("📸📸📸", photo);
 
   return (
     <div className={styles.global}>
@@ -452,13 +571,13 @@ const NewCharacter = () => {
             <div className={styles.sectionContainer}>
               <div className={styles.backgroundContainer}>
                 <textarea
-                  name="background"
+                  name="slogan"
                   id="desc"
                   maxLength={150}
-                  value={background}
-                  onChange={(e) => setBackground(e.target.value)}
+                  value={slogan}
+                  onChange={(e) => setSlogan(e.target.value)}
                   className={styles.mantraArea}
-                  placeholder="Ecrit le mantra de ton personnage"
+                  placeholder="Ecrit le mantra de ton personnage (requis)"
                 ></textarea>
               </div>
               <p className={styles.caracMantraLimit}>
@@ -612,18 +731,18 @@ const NewCharacter = () => {
               <div className={styles.oneLine}>
                 <input
                   type="text"
-                  value={jobs.job}
+                  value={job.job}
                   onChange={(e) =>
-                    setJobs((prev) => ({ ...prev, job: e.target.value }))
+                    setJob((prev) => ({ ...prev, job: e.target.value }))
                   }
                   placeholder="Profession"
                   className={styles.input}
                 />
                 <input
                   type="text"
-                  value={jobs.place}
+                  value={job.place}
                   onChange={(e) =>
-                    setJobs((prev) => ({ ...prev, place: e.target.value }))
+                    setJob((prev) => ({ ...prev, place: e.target.value }))
                   }
                   placeholder="Lieu"
                   className={styles.input}
@@ -852,7 +971,7 @@ const NewCharacter = () => {
             </div>
           </section>
           <section className={styles.section}>
-            <h2 className={styles.titleSection}>Background</h2>
+            <h2 className={styles.titleSection}>Background *</h2>
             <div className={styles.backgroundContainer}>
               <textarea
                 name="background"
@@ -868,7 +987,9 @@ const NewCharacter = () => {
             </p>
           </section>
           <div className={styles.submitContainer}>
-            <button className={styles.submitBtn}>Enregistrer</button>
+            <button className={styles.submitBtn} onClick={handleSubmit}>
+              Enregistrer
+            </button>
           </div>
         </div>
       </main>

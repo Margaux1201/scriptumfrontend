@@ -21,55 +21,16 @@ const BookUniverse = () => {
     role: string;
   }
 
-  const charactersList: Character[] = [
-    {
-      name: "Charlie Tennant",
-      slug: "charlie-tennant",
-      slogan: "Le bon camp est celui de notre propre Cause",
-      url: "/assets/images/Charlie réaliste.png",
-      role: "adversaire",
-    },
-    {
-      name: "Kathleen Marks",
-      slug: "kathleen-marks",
-      slogan: "L'évolution est la seule issue pour vaincre la mort",
-      url: "/assets/images/Kathleen réaliste.png",
-      role: "antagoniste",
-    },
-    {
-      name: "Michael Chase",
-      slug: "michael-chase",
-      slogan: "On survie pour notre famille et la famille permet notre survie",
-      url: "/assets/images/Mike réaliste.png",
-      role: "protagoniste",
-    },
-    {
-      name: "Sasha Manners",
-      slug: "sasha-manners",
-      slogan: "Rien n'est magique, mais tout n'est pas explicable",
-      url: "/assets/images/Sasha réaliste.png",
-      role: "allié",
-    },
-    {
-      name: "Irène",
-      slug: "irène",
-      slogan:
-        "L'ordre est la fondation de la sécurite. Sans cela, tout s'effondre",
-      url: "/assets/images/Irène réaliste.png",
-      role: "neutre",
-    },
-  ];
-
   const [isCurrentUserAuthor, setIsCurrentUserAuthor] =
     useState<boolean>(false);
   const [bookAuthor, setBookAuthor] = useState<string>("");
+  const [characterList, setCharacterList] = useState<Character[]>([]);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
       .then((res) =>
         res.json().then((data) => {
           if (res.ok) {
-            console.log(data);
             setBookAuthor(data.author_name);
           }
         })
@@ -81,7 +42,29 @@ const BookUniverse = () => {
         );
         alert("Une erreur réseau est survenue");
       });
-  }, [bookAuthor, user.token]);
+
+    fetch(`http://127.0.0.1:8000/api/${slug}/getallcharacters/`).then(
+      (response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("ALL PERSOS 🤩🤩🤩", data.results);
+            setCharacterList([]);
+            for (let character of data.results) {
+              setCharacterList((prev) => [
+                ...prev,
+                {
+                  name: character.name,
+                  slug: character.slug,
+                  slogan: character.slogan,
+                  url: character.image,
+                  role: character.role,
+                },
+              ]);
+            }
+          }
+        })
+    );
+  }, []);
 
   useEffect(() => {
     if (!user.token) {
@@ -109,18 +92,67 @@ const BookUniverse = () => {
     );
   }, [bookAuthor, user.token]);
 
-  const characters = charactersList.map((oneCharact: Character, i: number) => {
-    return (
-      <CharacterCard
-        key={i}
-        name={oneCharact.name}
-        slug={oneCharact.slug}
-        slogan={oneCharact.slogan}
-        role={oneCharact.role}
-        url={oneCharact.url}
-      />
-    );
-  });
+  // Conversion et tri des "gentils"
+  const goodCharacterList = characterList.filter(
+    (oneCharacter: Character) =>
+      oneCharacter.role === "protagoniste" || oneCharacter.role === "allié"
+  );
+
+  const goodCharacters = goodCharacterList.map(
+    (oneCharact: Character, i: number) => {
+      return (
+        <CharacterCard
+          key={i}
+          name={oneCharact.name}
+          slug={oneCharact.slug}
+          slogan={oneCharact.slogan}
+          role={oneCharact.role}
+          url={oneCharact.url}
+        />
+      );
+    }
+  );
+
+  // Conversion et tri des "neutres"
+  const neutralCharacterList = characterList.filter(
+    (oneCharacter: Character) => oneCharacter.role === "neutre"
+  );
+
+  const neutralCharacters = neutralCharacterList.map(
+    (oneCharact: Character, i: number) => {
+      return (
+        <CharacterCard
+          key={i}
+          name={oneCharact.name}
+          slug={oneCharact.slug}
+          slogan={oneCharact.slogan}
+          role={oneCharact.role}
+          url={oneCharact.url}
+        />
+      );
+    }
+  );
+
+  // Conversion et tri des "méchants"
+  const badCharacterList = characterList.filter(
+    (oneCharacter: Character) =>
+      oneCharacter.role === "antagoniste" || oneCharacter.role === "adversaire"
+  );
+
+  const badCharacters = badCharacterList.map(
+    (oneCharact: Character, i: number) => {
+      return (
+        <CharacterCard
+          key={i}
+          name={oneCharact.name}
+          slug={oneCharact.slug}
+          slogan={oneCharact.slogan}
+          role={oneCharact.role}
+          url={oneCharact.url}
+        />
+      );
+    }
+  );
 
   console.log(user, isCurrentUserAuthor);
 
@@ -166,11 +198,29 @@ const BookUniverse = () => {
           )}
           <div className={styles.characterContainer}>
             <h3 className={styles.titleCharacter}>😇 Protagonistes</h3>
-            <div className={styles.characterList}>{characters}</div>
+            <div className={styles.characterList}>
+              {goodCharacterList ? (
+                goodCharacters
+              ) : (
+                <p>Aucun personnage trouvé dans cette catégorie</p>
+              )}
+            </div>
             <h3 className={styles.titleCharacter}>😐 Neutres</h3>
-            <div className={styles.characterList}></div>
+            <div className={styles.characterList}>
+              {neutralCharacterList ? (
+                neutralCharacters
+              ) : (
+                <p>Aucun personnage trouvé dans cette catégorie</p>
+              )}
+            </div>
             <h3 className={styles.titleCharacter}>😈 Antagonistes</h3>
-            <div className={styles.characterList}></div>
+            <div className={styles.characterList}>
+              {badCharacterList ? (
+                badCharacters
+              ) : (
+                <p>Aucun personnage trouvé dans cette catégorie</p>
+              )}
+            </div>
           </div>
         </section>
         <section className={styles.section}>

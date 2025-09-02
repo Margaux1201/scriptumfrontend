@@ -33,7 +33,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    border: #E28413 dashed 1px;
+    border: #E28413 solid 2px;
     border-radius: 10px;
     padding: 50px;
     width: 95%;
@@ -78,7 +78,7 @@
 
 .subBasic {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     width: 100%;
 }
@@ -89,7 +89,7 @@
     padding: 10px;
     font-size: 0.75rem;
     font-weight: 700;
-    margin: 10px 0;
+    margin: 10px 10px;
 }
 
 .strictSquare {
@@ -182,11 +182,10 @@
 .background {
     text-align: justify;
     white-space: pre-wrap;
-    border: solid 1px #0F0F0F;
-    border-radius: 10px;
     padding: 0 20px;
     margin: 0;
     font-size: small;
+    font-weight: 500;
     width: 90%;
 }
 

@@ -32,13 +32,13 @@ const CharacterCard = (props: {
     };
   } else if (props.role === "adversaire") {
     roleStyles = {
-      backgroundColor: "rgba(32, 32, 32, 0.5)",
-      border: "solid 2px rgba(32, 32, 32, 1)",
+      backgroundColor: "rgba(203, 49, 56, 0.5)",
+      border: "solid 2px rgb(203, 49, 56)",
     };
   } else if (props.role === "antagoniste") {
     roleStyles = {
-      backgroundColor: "rgba(203, 49, 56, 0.5)",
-      border: "solid 2px rgb(203, 49, 56)",
+      backgroundColor: "rgba(32, 32, 32, 0.5)",
+      border: "solid 2px rgba(32, 32, 32, 1)",
     };
   } else {
     roleStyles = {

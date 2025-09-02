@@ -1882,7 +1882,7 @@
   {
     "id": 377,
     "trait": "honorable",
-    "type": "négatif"
+    "type": "positif"
   },
   {
     "id": 378,
@@ -2716,7 +2716,27 @@
   },
   {
     "id": 542,
-    "trait": "fêtarde",
+    "trait": "fêtard",
     "type": "neutre"
+  },
+  {
+    "id": 543,
+    "trait": "taquin",
+    "type": "neutre"
+  },
+  {
+    "id": 544,
+    "trait": "strict",
+    "type": "neutre"
+  },
+  {
+    "id": 545,
+    "trait": "rigide",
+    "type": "négatif"
+  },
+  {
+    "id": 546,
+    "trait": "résilient",
+    "type": "positif"
   }
 ]
