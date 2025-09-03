@@ -1,6 +1,7 @@
 import styles from "../../../styles/BookUniverse.module.css";
 import Header from "../../../components/Header";
 import CharacterCard from "../../../components/CharacterCard";
+import PlaceCard from "../../../components/PlaceCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
@@ -92,6 +93,58 @@ const BookUniverse = () => {
     );
   }, [bookAuthor, user.token]);
 
+  interface Place {
+    title: string;
+    content: string;
+    image: string;
+  }
+
+  const placesList = [
+    {
+      title: "Mojave",
+      content:
+        "Une des plus grandes bases des Etats-Unis spécialisé dans la fabrication de munitions. Cette ancienne ville construite dans le désert de Mojave, au Nevada, quelques années avant la Grande Pandémie, a été fortifiée d'un immense mur, permettant une sécurité optimale contre les menaces extérieures.",
+      image: "/assets/images/Ville de Mojave.png",
+    },
+    {
+      title: "Réserve naturelle",
+      content:
+        "D'abord une réserve ornithologique forestière. Le lac qu'elle renfermait a été changé en rivière, afin de favoriser le développement des bois, à la frontière du désert. Lors de la Pandémie, des zoologistes ont secouru les animaux des infectés et les ont relaché dans cette réserve.",
+      image: "/assets/images/Ville de Mojave.png",
+    },
+    {
+      title: "Camp des pillards",
+      content:
+        "Situé dans la zone nord de la réserve. Une base fortifiée en bois de sapin et constituée de bidonvilles en guise d'habitation.",
+      image: "/assets/images/Ville de Mojave.png",
+    },
+    {
+      title: "Abattoir",
+      content:
+        "Entre le camp des pillards et la base de Mojave, cet abattoir a été laissé à l'abandon bien avant la Grande Pandémie. Des grafitis, de la végétation et de la crasse se sont installés sur les murs décrêpis ou les machineries rouillées.",
+      image: "/assets/images/Ville de Mojave.png",
+    },
+  ];
+
+  let longCardStyleRight = { alignItems: "flex-end" };
+  let longCardStyleLeft = { alignItems: "flex-start" };
+
+  // Conversion des places
+  const places = placesList?.map((place: Place, i: number) => (
+    <div
+      className={styles.longCard}
+      style={i % 2 === 0 ? longCardStyleLeft : longCardStyleRight}
+    >
+      <PlaceCard
+        id={i}
+        title={place.title}
+        content={place.content}
+        image={place.image}
+        isEditable={isCurrentUserAuthor}
+      />
+    </div>
+  ));
+
   // Conversion et tri des "gentils"
   const goodCharacterList = characterList.filter(
     (oneCharacter: Character) =>
@@ -108,6 +161,7 @@ const BookUniverse = () => {
           slogan={oneCharact.slogan}
           role={oneCharact.role}
           url={oneCharact.url}
+          isEditable={isCurrentUserAuthor}
         />
       );
     }
@@ -128,6 +182,7 @@ const BookUniverse = () => {
           slogan={oneCharact.slogan}
           role={oneCharact.role}
           url={oneCharact.url}
+          isEditable={isCurrentUserAuthor}
         />
       );
     }
@@ -149,6 +204,7 @@ const BookUniverse = () => {
           slogan={oneCharact.slogan}
           role={oneCharact.role}
           url={oneCharact.url}
+          isEditable={isCurrentUserAuthor}
         />
       );
     }
@@ -178,7 +234,7 @@ const BookUniverse = () => {
               </button>
             </div>
           )}
-          <div></div>
+          <div className={styles.placeList}>{places}</div>
         </section>
         <section className={styles.section}>
           {!isCurrentUserAuthor ? (

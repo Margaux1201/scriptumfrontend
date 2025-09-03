@@ -130,13 +130,13 @@ const Character = () => {
     };
   } else if (role === "adversaire") {
     roleStyles = {
-      backgroundColor: "rgba(32, 32, 32, 0.5)",
-      border: "solid 2px rgba(32, 32, 32, 1)",
+      backgroundColor: "rgba(203, 49, 56, 0.5)",
+      border: "solid 2px rgb(203, 49, 56)",
     };
   } else if (role === "antagoniste") {
     roleStyles = {
-      backgroundColor: "rgba(203, 49, 56, 0.5)",
-      border: "solid 2px rgb(203, 49, 56)",
+      backgroundColor: "rgba(32, 32, 32, 0.5)",
+      border: "solid 2px rgba(32, 32, 32, 1)",
     };
   } else {
     roleStyles = {
@@ -411,7 +411,7 @@ const Character = () => {
               </div>
             )}
             {/* Travail ou métier */}
-            {job && (
+            {job.job && job.place && (
               <div className={styles.oneLine}>
                 <h4 className={styles.titleLine}>Profession :</h4>
                 <div className={styles.severalSquares}>

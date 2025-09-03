@@ -1,0 +1,310 @@
+.global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main {
+    margin-top: 100px;
+    width: 100%;
+    height: 100vh;
+    max-width: 1000px;
+}
+
+.backLink {
+    background-color: transparent;
+    border: none;
+    font-weight: 700;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.backLink:hover {
+    font-weight: 700;
+    color: #E28413;
+}
+
+.backArrow {
+    margin-right: 10px;
+}
+
+.form {
+    margin: 25px auto;
+    padding: 50px 20px;
+    width: 100%;
+    max-width: 1000px;
+    border: #E28413 solid 2px;
+    border-radius: 10px;
+}
+
+/* DEBUT PARTIE GENERAL */
+
+.general {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* PHOTO */
+.photoInputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    margin-right: 100px;
+}
+
+.photoPreview {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 100px;
+    margin-left: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.photoInput {
+    margin-top: 20px;
+    width: 200px;
+}
+
+/* Autres input générales */
+
+.rigthPart {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+}
+
+.input {
+    margin-top: 18px;
+    width: 200px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+.select {
+    margin-top: 18px;
+    width: 200px;
+    padding: 5px 7px;
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+
+/* INFORMATIONS DE BASES */
+
+.section {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 0 0 100px;
+    width: 100%;
+}
+
+.titleSection {
+    font-family: "Overlock", cursive;
+    font-size: 2rem;
+    margin: 0 0 25px 0;
+}
+
+.sectionContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.oneLine {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.inputFacult  {
+    width: 200px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+.mantraArea {
+    min-height: 50px;
+    width: 500px;
+    resize: vertical;
+    font-family: 'Mukta Vaani', cursive;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.caracMantraLimit {
+    text-align: right;
+    margin: 0;
+    margin-right: 47%;
+    font-size: small;
+    font-style: italic;
+}
+
+.selectFacult {
+    width: 200px;
+    padding: 5px 7px;
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+.addBtn {
+    cursor: pointer;
+    color: #E28413;
+    font-weight: 700;
+    background-color: transparent;
+    border: #E28413 solid 1px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 15px;
+    width: 200px;
+}
+
+.addBtn:hover {
+    background-color: #E28413;
+    color: white;
+}
+
+.inputsContainer {
+    margin-left: 25px;
+}
+
+.deleteBtn {
+    margin-top: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: transparent;
+    color: #E28413;
+    border: #E28413 solid 2px;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+.deleteBtn:hover {
+    background-color: #E28413;
+    color: white;
+}
+
+.titleLine {
+    margin: 0;
+}
+
+/* Traits de personnalité */
+
+.searchInput {
+    width: 300px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+.suggestionContainer {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    border: #E28413 solid 2px;
+    border-radius: 10px;
+    margin: 10px 25px;
+    padding: 20px;
+    width: 75%;
+
+}
+
+.suggestTraits {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    padding: 5px 10px;
+    color: white;
+}
+
+.selectedTraitsArea {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-left: 25px;
+}
+
+
+.traitTag {
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    padding: 5px 0 5px 10px;
+    color: white;
+    margin: 20px 0;
+}
+
+.traitName {
+    margin: 0;
+    margin-right: 5px;
+    font-size: medium;
+}
+
+.deleteTraitBtn {
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: white;
+}
+
+/* description */
+
+.backgroundContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.backgroundArea {
+    width: 75%;
+    min-height: 150px;
+    border-radius: 10px;
+    resize: vertical;
+    font-family: 'Mukta Vaani', cursive;
+    padding: 10px;
+    margin-left: 25px;
+}
+
+.caracLimit {
+    text-align: right;
+    margin: 0;
+    margin-right: 23%;
+    font-size: small;
+    font-style: italic;
+}
+
+.submitBtn {
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    background-color: #E28413;
+    border: #E28413 solid 1px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.submitContainer {
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.submitBtn:hover {
+    background-color: #107E7D;
+    border: #107E7D solid 1px;
+    color: white;
+}

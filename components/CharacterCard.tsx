@@ -1,6 +1,4 @@
 import styles from "../styles/CharacterCard.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
@@ -10,6 +8,7 @@ const CharacterCard = (props: {
   slug: string;
   role: string;
   slogan: string;
+  isEditable: boolean;
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -51,19 +50,32 @@ const CharacterCard = (props: {
     router.push(`/book/${slug}/character/${props.slug}`);
   };
 
+  const handleEdit = (): void => {
+    router.push(`/book/${slug}/character/${props.slug}/editcharacter`);
+  };
+
   return (
-    <div style={roleStyles} className={styles.card} onClick={handleClick}>
-      <Image
-        src={props.url}
-        alt={props.name}
-        height={100}
-        width={100}
-        className={styles.image}
-      />
-      <div className={styles.lineCard} style={roleStyles}></div>
-      <h2 className={styles.titleCard}>{props.name}</h2>
-      <p className={styles.sloganCard}>"{props.slogan}"</p>
-      <FontAwesomeIcon icon={faCircleXmark} className={styles.deleteBtn} />
+    <div className={styles.global}>
+      <div style={roleStyles} className={styles.card} onClick={handleClick}>
+        <Image
+          src={props.url}
+          alt={props.name}
+          height={100}
+          width={100}
+          className={styles.image}
+        />
+        <div className={styles.lineCard} style={roleStyles}></div>
+        <h2 className={styles.titleCard}>{props.name}</h2>
+        <p className={styles.sloganCard}>"{props.slogan}"</p>
+      </div>
+      {props.isEditable && (
+        <div className={styles.buttonContainer}>
+          <button className={styles.button}>Supprimer</button>
+          <button className={styles.button} onClick={handleEdit}>
+            Modifier
+          </button>
+        </div>
+      )}
     </div>
   );
 };

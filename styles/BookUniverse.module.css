@@ -66,6 +66,18 @@
     color: #FBF5F3;
 }
 
+.longCard {
+    display: flex;
+    flex-direction: column;
+}
+
+.placeList {
+    width: 90%;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
 .characterList {
     margin-left: 100px;
     display: flex;
