@@ -1,17 +1,22 @@
 import styles from "../styles/CharacterCard.module.css";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { UserState } from "@/reducers/user";
 import Image from "next/image";
 
 const CharacterCard = (props: {
+  id: number;
   url: string;
   name: string;
   slug: string;
   role: string;
   slogan: string;
   isEditable: boolean;
+  deleteCharacter: Function;
 }) => {
   const router = useRouter();
   const { slug } = router.query;
+  const user = useSelector((store: { user: UserState }) => store.user);
 
   let roleStyles = {};
   if (props.role === "protagoniste") {
@@ -54,6 +59,35 @@ const CharacterCard = (props: {
     router.push(`/book/${slug}/character/${props.slug}/editcharacter`);
   };
 
+  const handleDelete = (): void => {
+    if (!props.isEditable) {
+      alert("Vous n'êtes pas autorisé à supprimer ce personnage");
+      return;
+    }
+
+    fetch(`http://127.0.0.1:8000/api/deletecharacter/${props.slug}/`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then((res) => {
+        if (res.status === 204) {
+          props.deleteCharacter(props.id);
+          alert("Le personnage a bien été supprimé");
+        } else {
+          // S'il y a un body d'erreur, response.json()
+          return res.json().then((data) => {
+            console.error("Erreur suppression :", data);
+            alert("Erreur lors de la suppression");
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppresion de compte :", error);
+        alert("Une erreur réseau est survenue");
+      });
+  };
+
   return (
     <div className={styles.global}>
       <div style={roleStyles} className={styles.card} onClick={handleClick}>
@@ -70,7 +104,9 @@ const CharacterCard = (props: {
       </div>
       {props.isEditable && (
         <div className={styles.buttonContainer}>
-          <button className={styles.button}>Supprimer</button>
+          <button className={styles.button} onClick={handleDelete}>
+            Supprimer
+          </button>
           <button className={styles.button} onClick={handleEdit}>
             Modifier
           </button>

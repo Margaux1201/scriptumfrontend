@@ -1,7 +1,7 @@
-import styles from "../styles/PlaceCard.module.css";
+import styles from "../styles/LongCard.module.css";
 import Image from "next/image";
 
-const PlaceCard = (props: {
+const LongCard = (props: {
   title: string;
   image: string;
   id: number;
@@ -53,4 +53,4 @@ const PlaceCard = (props: {
   );
 };
 
-export default PlaceCard;
+export default LongCard;

@@ -1,7 +1,7 @@
 import styles from "../../../styles/BookUniverse.module.css";
 import Header from "../../../components/Header";
 import CharacterCard from "../../../components/CharacterCard";
-import PlaceCard from "../../../components/PlaceCard";
+import LongCard from "../../../components/PlaceCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
@@ -93,7 +93,7 @@ const BookUniverse = () => {
     );
   }, [bookAuthor, user.token]);
 
-  interface Place {
+  interface LongCard {
     title: string;
     content: string;
     image: string;
@@ -126,16 +126,16 @@ const BookUniverse = () => {
     },
   ];
 
-  let longCardStyleRight = { alignItems: "flex-end" };
-  let longCardStyleLeft = { alignItems: "flex-start" };
+  const longCardStyleRight = { alignItems: "flex-end" };
+  const longCardStyleLeft = { alignItems: "flex-start" };
 
-  // Conversion des places
-  const places = placesList?.map((place: Place, i: number) => (
+  // Conversion des places en composant
+  const places = placesList?.map((place: LongCard, i: number) => (
     <div
       className={styles.longCard}
       style={i % 2 === 0 ? longCardStyleLeft : longCardStyleRight}
     >
-      <PlaceCard
+      <LongCard
         id={i}
         title={place.title}
         content={place.content}
@@ -144,6 +144,11 @@ const BookUniverse = () => {
       />
     </div>
   ));
+
+  //Fonction pour supprimer un personnage en inverse-dataFlow
+  const deleteCharacter = (element: number) => {
+    setCharacterList((prev) => prev.filter((_, i) => i != element));
+  };
 
   // Conversion et tri des "gentils"
   const goodCharacterList = characterList.filter(
@@ -156,12 +161,14 @@ const BookUniverse = () => {
       return (
         <CharacterCard
           key={i}
+          id={i}
           name={oneCharact.name}
           slug={oneCharact.slug}
           slogan={oneCharact.slogan}
           role={oneCharact.role}
           url={oneCharact.url}
           isEditable={isCurrentUserAuthor}
+          deleteCharacter={deleteCharacter}
         />
       );
     }
@@ -177,12 +184,14 @@ const BookUniverse = () => {
       return (
         <CharacterCard
           key={i}
+          id={i}
           name={oneCharact.name}
           slug={oneCharact.slug}
           slogan={oneCharact.slogan}
           role={oneCharact.role}
           url={oneCharact.url}
           isEditable={isCurrentUserAuthor}
+          deleteCharacter={deleteCharacter}
         />
       );
     }
@@ -199,16 +208,34 @@ const BookUniverse = () => {
       return (
         <CharacterCard
           key={i}
+          id={i}
           name={oneCharact.name}
           slug={oneCharact.slug}
           slogan={oneCharact.slogan}
           role={oneCharact.role}
           url={oneCharact.url}
           isEditable={isCurrentUserAuthor}
+          deleteCharacter={deleteCharacter}
         />
       );
     }
   );
+
+  // Conversion des creatures en composant
+  const creatures = placesList?.map((place: LongCard, i: number) => (
+    <div
+      className={styles.longCard}
+      style={i % 2 === 0 ? longCardStyleLeft : longCardStyleRight}
+    >
+      <LongCard
+        id={i}
+        title={place.title}
+        content={place.content}
+        image={place.image}
+        isEditable={isCurrentUserAuthor}
+      />
+    </div>
+  ));
 
   console.log(user, isCurrentUserAuthor);
 
@@ -290,7 +317,7 @@ const BookUniverse = () => {
               </button>
             </div>
           )}
-          <div></div>
+          <div className={styles.creatureList}>{creatures}</div>
         </section>
       </main>
     </div>

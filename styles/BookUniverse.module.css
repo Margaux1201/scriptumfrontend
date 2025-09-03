@@ -71,7 +71,7 @@
     flex-direction: column;
 }
 
-.placeList {
+.placeList, .creatureList {
     width: 90%;
     margin-left: 50px;
     display: flex;
