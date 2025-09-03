@@ -152,6 +152,35 @@ const ChapterDetail = () => {
     router.push(`/book/${slug}/chapter/${chapterSlug}/editchapter`);
   };
 
+  const handleDeleteChapter = (): void => {
+    if (!isAuthorCurrentUser) {
+      alert("Vous n'êtes pas autorisé à supprimer ce chapitre");
+      return;
+    }
+
+    fetch(`http://127.0.0.1:8000/api/${slug}/deletechapter/${chapterSlug}/`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then((res) => {
+        if (res.status === 204) {
+          alert("Le chapitre a bien été supprimé");
+          router.push(`/book/${slug}`);
+        } else {
+          // S'il y a un body d'erreur, response.json()
+          return res.json().then((data) => {
+            console.error("Erreur suppression :", data);
+            alert("Erreur lors de la suppression");
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppresion de compte :", error);
+        alert("Une erreur réseau est survenue");
+      });
+  };
+
   return (
     <div className={styles.global}>
       <Header />
@@ -174,21 +203,15 @@ const ChapterDetail = () => {
               {chapterContent}
             </p>
           </div>
-          {isAuthorCurrentUser ? (
-            <button className={styles.navBtn} onClick={handleEditChapter}>
-              Modifier le chapitre
-            </button>
-          ) : (
-            <label htmlFor="chapterRead" className={styles.chapterRead}>
-              <input
-                type="checkbox"
-                id="chapterRead"
-                checked={chapterRead}
-                onChange={() => setChapterRead(!chapterRead)}
-                className={styles.chapterInput}
-              />
-              Chapitre lu !
-            </label>
+          {isAuthorCurrentUser && (
+            <div className={styles.buttonContainer}>
+              <button className={styles.navBtn} onClick={handleDeleteChapter}>
+                Supprimer le chapitre
+              </button>
+              <button className={styles.navBtn} onClick={handleEditChapter}>
+                Modifier le chapitre
+              </button>
+            </div>
           )}
         </div>
         <div className={styles.rightPart}>

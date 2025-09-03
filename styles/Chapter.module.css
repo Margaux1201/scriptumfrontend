@@ -8,7 +8,7 @@
 .main {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    max-width: 1000px;
+    max-width: 1500px;
 }
 
 .leftPart {
@@ -88,15 +88,20 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
-    margin-left: 20%;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.buttonContainer {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .navBtn {
     margin-top: 20px;
-    width: 60%;
     background-color: transparent;
     border: 1px solid #0F0F0F;
     border-radius: 10px;
