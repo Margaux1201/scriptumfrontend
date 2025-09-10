@@ -9,6 +9,7 @@ const CharacterCard = (props: {
   url: string;
   name: string;
   slug: string;
+  bookSlug: string;
   role: string;
   slogan: string;
   isEditable: boolean;
@@ -65,14 +66,17 @@ const CharacterCard = (props: {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/deletecharacter/${props.slug}/`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: user.token }),
-    })
+    fetch(
+      `http://127.0.0.1:8000/api/${props.bookSlug}/deletecharacter/${props.slug}/`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      }
+    )
       .then((res) => {
         if (res.status === 204) {
-          props.deleteCharacter(props.id);
+          props.deleteCharacter(props.name);
           alert("Le personnage a bien été supprimé");
         } else {
           // S'il y a un body d'erreur, response.json()

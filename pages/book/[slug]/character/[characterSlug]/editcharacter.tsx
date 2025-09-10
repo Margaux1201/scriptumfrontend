@@ -435,36 +435,23 @@ const NewCharacter = () => {
     gender && formData.append("sexe", gender);
     height && formData.append("height", height);
     slogan && formData.append("slogan", slogan);
-    specie && formData.append("species", specie);
+    formData.append("species", specie);
     formData.append("is_there_race", isRace.toString());
     isRace && formData.append("race", race);
     dayBirth > 0 && formData.append("day_birth", dayBirth.toString());
     monthBirth > 0 && formData.append("month_birth", monthBirth.toString());
-    hometown && formData.append("hometown", hometown);
-    languages?.length > 0 &&
-      languages &&
-      formData.append("languages", JSON.stringify(languages));
-    studies?.length > 0 &&
-      studies &&
-      formData.append("studies", JSON.stringify(studies));
-    job.job && job.place && formData.append("job", JSON.stringify(job));
-    relationship && formData.append("relation", relationship);
-    familyRelation?.length > 0 &&
-      familyRelation &&
-      formData.append("family", JSON.stringify(familyRelation));
-    religion && formData.append("religion", religion);
-    addictions?.length > 0 &&
-      addictions &&
-      formData.append("addictions", JSON.stringify(addictions));
-    stockedTraits?.length > 0 &&
-      stockedTraits &&
-      formData.append("traits", JSON.stringify(stockedTraits));
-    fears?.length > 0 &&
-      fears &&
-      formData.append("fears", JSON.stringify(fears));
-    talents?.length > 0 &&
-      talents &&
-      formData.append("talents", JSON.stringify(talents));
+    formData.append("hometown", hometown);
+
+    formData.append("languages", JSON.stringify(languages));
+    formData.append("studies", JSON.stringify(studies));
+    formData.append("job", JSON.stringify(job));
+    formData.append("relation", relationship);
+    formData.append("family", JSON.stringify(familyRelation));
+    formData.append("religion", religion);
+    formData.append("addictions", JSON.stringify(addictions));
+    formData.append("traits", JSON.stringify(stockedTraits));
+    formData.append("fears", JSON.stringify(fears));
+    formData.append("talents", JSON.stringify(talents));
     background && formData.append("background", background);
 
     // Envoie du formData pour la création du personnage

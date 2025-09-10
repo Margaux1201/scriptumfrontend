@@ -84,3 +84,101 @@
     gap: 30px;
     flex-wrap: wrap;
 }
+
+/* PARTIE MODAL */
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalTitle {
+    font-family: "Overlock", cursive;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.photoInputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: #E28413 dashed 1px;
+    height: 300px;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.photoPreview {
+    border-radius: 10px;
+}
+
+.photoInput {
+    margin-bottom: 10px;
+}
+
+.titlePlace {
+    margin-top: 20px;
+    border: solid 1px #0F0F0F;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 1rem;
+}
+
+.contentPlace {
+    margin-top: 20px;
+    border: solid 1px #0F0F0F;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: medium;
+    resize: vertical;
+    width: 75%;
+    min-height: 100px;
+}
+
+.legendText {
+    display: flex;
+    width: 75%;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+}
+
+.caractLimit {
+    margin-top: 0;
+    font-size: smaller;
+    font-style: italic;
+}
+
+.modalButtons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.modalButtonFull {
+    margin-top: 20px;
+    font-family: 'Mukta Vaani', cursive;
+    background-color: #E28413;
+    margin-left: 10px;
+    color: #FBF5F3;
+}
+
+.modalButtonEmpty {
+    margin-top: 20px;
+    font-family: 'Mukta Vaani', cursive;
+}
+
+.modalButtonFull:hover {
+    background-color: #107E7D !important;
+    color: #FBF5F3 !important;
+    border-color: #107E7D !important;
+}
+
+.modalButtonEmpty:hover {
+    color: #E28413 !important;
+    border-color: #E28413 !important;
+}
