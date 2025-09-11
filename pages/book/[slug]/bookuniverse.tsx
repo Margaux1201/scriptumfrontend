@@ -53,9 +53,11 @@ const BookUniverse = () => {
 
   // Etats pour gérer les inputs de chaque modale
   const [photoModal, setPhotoModal] = useState<File | null>(null);
+  const [urlPhotoModal, setUrlPhotoModal] = useState<string>("");
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [titleModal, setTitleModal] = useState<string>("");
   const [contentModal, setContentModal] = useState<string>("");
+  const [slugModal, setSlugModal] = useState<string>("");
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
@@ -255,51 +257,100 @@ const BookUniverse = () => {
       });
   };
 
-  // Modale de modification
-  const handleOpenUpdatePlace = (): void => {
-    setOpenCreatePlaceModal(true);
+  // Fonction pour ouvrir la modale de modifaction de carte
+  const openUpdatePlace = (element: string) => {
+    if (!isCurrentUserAuthor) {
+      alert("Vous n'êtes pas autorisé à supprimer ce personnage");
+      return;
+    }
+    fetch(`http://127.0.0.1:8000/api/${slug}/getinfoplace/${element}/`).then(
+      (response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("DETAIL LIEU 🧭🧭🧭", data);
+            setUrlPhotoModal(data.image);
+            setTitleModal(data.name);
+            setContentModal(data.content);
+            setSlugModal(data.slug);
+            setOpenUpdatePlaceModal(true);
+          }
+        })
+    );
   };
 
+  // Fonction pour annuler la modification d'une carte
   const handleUpdatePlaceCancel = (): void => {
     setPhotoModal(null);
     if (inputFileRef.current) {
       inputFileRef.current.value = "";
     }
+    setUrlPhotoModal("");
     setTitleModal("");
     setContentModal("");
+    setSlugModal("");
     setOpenUpdatePlaceModal(false);
   };
 
   const handleUpdatePlace = (): void => {
+    // Vérifie si l'utilisateur est connecté
     if (!user.token) {
       alert("Veuillez vous connecter pour ajouter un lieu");
       setPhotoModal(null);
       if (inputFileRef.current) {
         inputFileRef.current.value = "";
       }
+      setUrlPhotoModal("");
+      setSlugModal("");
       setTitleModal("");
       setContentModal("");
       setOpenCreatePlaceModal(false);
       return;
     }
 
-    if (
-      !titleModal ||
-      titleModal.trim() === "" ||
-      !contentModal ||
-      contentModal.trim() === ""
-    ) {
+    // Vérifie que les champs ont du texte
+    if (titleModal.trim() === "" || contentModal.trim() === "") {
       alert("Veuillez remplir tous les champs");
       return;
     }
 
-    setPhotoModal(null);
-    if (inputFileRef.current) {
-      inputFileRef.current.value = "";
-    }
-    setTitleModal("");
-    setContentModal("");
-    setOpenCreatePlaceModal(false);
+    // Ajouter les données dans le file data
+    const formData = new FormData();
+    formData.append("token", user.token);
+    photoModal && formData.append("image", photoModal);
+    titleModal && formData.append("name", titleModal);
+    contentModal && formData.append("content", contentModal);
+
+    // Envoie de la requête pour modifier la carte
+    fetch(`http://127.0.0.1:8000/api/${slug}/updateplace/${slugModal}/`, {
+      method: "PATCH",
+      body: formData,
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("Place modifié :", data);
+          setPlaceList((prev) =>
+            prev.filter((onePlace) => onePlace.slug != slugModal)
+          );
+          const newData: LongCard = {
+            title: data.name,
+            content: data.content,
+            image: data.image,
+            slug: data.slug,
+          };
+          setPlaceList((prev) => [...prev, newData]);
+          // Reset des données de la modale avant fermeture
+          setPhotoModal(null);
+          if (inputFileRef.current) {
+            inputFileRef.current.value = "";
+          }
+          setUrlPhotoModal("");
+          setSlugModal("");
+          setTitleModal("");
+          setContentModal("");
+          setOpenUpdatePlaceModal(false);
+        }
+      })
+    );
   };
 
   // Styles conditionnels des cartes de lieux
@@ -329,6 +380,7 @@ const BookUniverse = () => {
         slug={place.slug}
         isEditable={isCurrentUserAuthor}
         deleteCard={deletePlace}
+        updateCard={openUpdatePlace}
       />
     </div>
   ));
@@ -423,6 +475,9 @@ const BookUniverse = () => {
     );
   };
 
+  // Fonction pour modifier une carte créature
+  const openUpdateCreature = (slug: string) => {};
+
   // Conversion des creatures en composant
   const creatures = creatureList?.map((creature: LongCard, i: number) => (
     <div
@@ -439,6 +494,7 @@ const BookUniverse = () => {
         bookSlug={`${slug}`}
         isEditable={isCurrentUserAuthor}
         deleteCard={deleteCreature}
+        updateCard={openUpdateCreature}
       />
     </div>
   ));
@@ -603,21 +659,19 @@ const BookUniverse = () => {
         <Modal closable={false} open={openUpdatePlaceModal} footer={null}>
           <div className={styles.modal}>
             <h2 className={styles.modalTitle}>Modification d'un lieu</h2>
-            <div
-              className={styles.photoInputContainer}
-              style={stylePhotoContainer}
-            >
-              {photoModal && (
-                <div>
-                  <Image
-                    src={URL.createObjectURL(photoModal)}
-                    alt="Preview"
-                    width={300}
-                    height={300}
-                    className={styles.photoPreview}
-                  />
-                </div>
-              )}
+            <div style={stylePhotoContainer}>
+              <div>
+                <Image
+                  src={
+                    photoModal ? URL.createObjectURL(photoModal) : urlPhotoModal
+                  }
+                  alt="Preview"
+                  width={300}
+                  height={300}
+                  className={styles.photoPreview}
+                />
+              </div>
+
               <input
                 ref={inputFileRef}
                 type="file"
@@ -662,7 +716,7 @@ const BookUniverse = () => {
                 onClick={handleUpdatePlace}
                 className={styles.modalButtonFull}
               >
-                Publier
+                Modifier
               </Button>
             </div>
           </div>

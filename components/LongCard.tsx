@@ -12,6 +12,7 @@ const LongCard = (props: {
   bookSlug: string;
   slug: string;
   deleteCard: Function;
+  updateCard: Function;
   isEditable: boolean;
 }) => {
   const user = useSelector((store: { user: UserState }) => store.user);
@@ -29,6 +30,7 @@ const LongCard = (props: {
     paddingRight: "20px",
   };
 
+  // Fonction pour supprimer la carte
   const handleDeleteCard = (): void => {
     if (!props.isEditable) {
       alert("Vous n'êtes pas autorisé à supprimer ce personnage");
@@ -66,6 +68,11 @@ const LongCard = (props: {
     // Si la carte est une créature
   };
 
+  // Fonction pour modifier la carte
+  const handleUpdateCard = (): void => {
+    props.updateCard(props.slug);
+  };
+
   return (
     <div
       className={styles.card}
@@ -91,7 +98,9 @@ const LongCard = (props: {
             <button className={styles.button} onClick={handleDeleteCard}>
               Supprimer
             </button>
-            <button className={styles.button}>Modifier</button>
+            <button className={styles.button} onClick={handleUpdateCard}>
+              Modifier
+            </button>
           </div>
         )}
       </div>
