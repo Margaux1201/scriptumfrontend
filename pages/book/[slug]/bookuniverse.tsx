@@ -82,14 +82,14 @@ const BookUniverse = () => {
           if (response.ok) {
             console.log("ALL PLACES 🗺️🗺️🗺️", data);
             setPlaceList([]);
-            for (let character of data.results) {
+            for (let onePlace of data.results) {
               setPlaceList((prev) => [
                 ...prev,
                 {
-                  title: character.name,
-                  content: character.content,
-                  image: character.image,
-                  slug: character.slug,
+                  title: onePlace.name,
+                  content: onePlace.content,
+                  image: onePlace.image,
+                  slug: onePlace.slug,
                 },
               ]);
             }
@@ -119,6 +119,27 @@ const BookUniverse = () => {
                   slogan: character.slogan,
                   url: character.image,
                   role: character.role,
+                },
+              ]);
+            }
+          }
+        })
+    );
+
+    fetch(`http://127.0.0.1:8000/api/${slug}/getallcreatures/`).then(
+      (response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("ALL CREATURES 🐉🐉🐉", data.results);
+            setCreatureList([]);
+            for (let oneCreature of data.results) {
+              setCreatureList((prev) => [
+                ...prev,
+                {
+                  title: oneCreature.name,
+                  content: oneCreature.content,
+                  image: oneCreature.image,
+                  slug: oneCreature.slug,
                 },
               ]);
             }
@@ -159,8 +180,6 @@ const BookUniverse = () => {
     image: string;
   }
 
-  // PARTIE LIEUX
-
   // Fonction pour mettre à jour la photo
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -172,6 +191,8 @@ const BookUniverse = () => {
   if (photoModal) {
     stylePhotoContainer = { border: "none" };
   }
+
+  // PARTIE LIEUX
 
   // Modale de création
   const handleOpenCreatePlace = (): void => {
@@ -198,6 +219,17 @@ const BookUniverse = () => {
       setTitleModal("");
       setContentModal("");
       setOpenCreatePlaceModal(false);
+      return;
+    }
+    // Vérifie si l'utilisateur est l'auteur du livre
+    if (!isCurrentUserAuthor) {
+      alert("Vous devez être l'auteur du livre pour ajouter un lieu");
+      setPhotoModal(null);
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
+      setTitleModal("");
+      setContentModal("");
       return;
     }
 
@@ -260,7 +292,7 @@ const BookUniverse = () => {
   // Fonction pour ouvrir la modale de modifaction de carte
   const openUpdatePlace = (element: string) => {
     if (!isCurrentUserAuthor) {
-      alert("Vous n'êtes pas autorisé à supprimer ce personnage");
+      alert("Vous n'êtes pas autorisé à modifier ce lieu");
       return;
     }
     fetch(`http://127.0.0.1:8000/api/${slug}/getinfoplace/${element}/`).then(
@@ -294,7 +326,7 @@ const BookUniverse = () => {
   const handleUpdatePlace = (): void => {
     // Vérifie si l'utilisateur est connecté
     if (!user.token) {
-      alert("Veuillez vous connecter pour ajouter un lieu");
+      alert("Veuillez vous connecter pour modifier un lieu");
       setPhotoModal(null);
       if (inputFileRef.current) {
         inputFileRef.current.value = "";
@@ -304,6 +336,18 @@ const BookUniverse = () => {
       setTitleModal("");
       setContentModal("");
       setOpenCreatePlaceModal(false);
+      return;
+    }
+
+    // Vérifie si l'utilisateur est l'auteur du livre
+    if (!isCurrentUserAuthor) {
+      alert("Vous devez être l'auteur du livre pour modifier un lieu");
+      setPhotoModal(null);
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
+      setTitleModal("");
+      setContentModal("");
       return;
     }
 
@@ -468,6 +512,106 @@ const BookUniverse = () => {
     }
   );
 
+  // PARTIE CREATURE
+
+  // Fonction pour ouvrir la modale de création de créature
+  const handleOpenCreateCreature = (): void => {
+    setOpenCreateCreatureModal(true);
+  };
+
+  // Fonction pour fermer la modale de création de créature
+  const handleCreateCreatureCancel = (): void => {
+    setPhotoModal(null);
+    if (inputFileRef.current) {
+      inputFileRef.current.value = "";
+    }
+    setTitleModal("");
+    setContentModal("");
+    setOpenCreateCreatureModal(false);
+  };
+
+  // Fonction pour créer la créature
+  const handleCreateCreature = (): void => {
+    // Vérifie si l'utilisateur est connecté
+    if (!user.token) {
+      alert("Veuillez vous connecter pour ajouter un lieu");
+      setPhotoModal(null);
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
+      setTitleModal("");
+      setContentModal("");
+      return;
+    }
+    // Vérifie si l'utilisateur est l'auteur du livre
+    if (!isCurrentUserAuthor) {
+      alert("Vous devez être l'auteur du livre pour ajouter une créature");
+      setPhotoModal(null);
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
+      setTitleModal("");
+      setContentModal("");
+      return;
+    }
+    // Vérifie que tous les champs sont remplis
+    if (
+      !photoModal ||
+      !titleModal ||
+      titleModal.trim() === "" ||
+      !contentModal ||
+      contentModal.trim() === ""
+    ) {
+      alert("Veuillez remplir tous les champs");
+      return;
+    }
+
+    // Ajoute les données dans le data file
+    const formData = new FormData();
+    formData.append("token", user.token);
+    formData.append("image", photoModal);
+    formData.append("name", titleModal);
+    formData.append("content", contentModal);
+    formData.append("book", `${slug}`);
+    // Lance la requête de création de créature
+    fetch(`http://127.0.0.1:8000/api/createcreature/`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("NEW CREATURE 🐊🐊🐊", data);
+            setCreatureList((prev) => [
+              ...prev,
+              {
+                title: data.name,
+                content: data.content,
+                image: data.image,
+                slug: data.slug,
+              },
+            ]);
+            placeList.sort();
+            setPhotoModal(null);
+            if (inputFileRef.current) {
+              inputFileRef.current.value = "";
+            }
+            setTitleModal("");
+            setContentModal("");
+            setOpenCreateCreatureModal(false);
+          }
+        })
+      )
+      // .then(async (res) => {
+      //   const text = await res.text();
+      //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+      // })
+      .catch((error) => {
+        console.error("Erreur lors de l'ajout d'une créature :", error);
+        alert("Une erreur réseau est survenue");
+      });
+  };
+
   // Fonction pour supprimer une carte Creature
   const deleteCreature = (element: string) => {
     setCreatureList((prev) =>
@@ -476,7 +620,117 @@ const BookUniverse = () => {
   };
 
   // Fonction pour modifier une carte créature
-  const openUpdateCreature = (slug: string) => {};
+  const openUpdateCreature = (slugCreature: string) => {
+    if (!isCurrentUserAuthor) {
+      alert("Vous n'êtes pas autorisé à modifier cette créature");
+      return;
+    }
+    fetch(
+      `http://127.0.0.1:8000/api/${slug}/getinfocreature/${slugCreature}/`
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("DETAIL CREATURE 🐲🐲🐲", data);
+          setUrlPhotoModal(data.image);
+          setTitleModal(data.name);
+          setContentModal(data.content);
+          setSlugModal(data.slug);
+          setOpenUpdateCreatureModal(true);
+        }
+      })
+    );
+  };
+
+  //Fonction pour fermer la modale de modification de créature
+  const handleUpdateCreatureCancel = (): void => {
+    setPhotoModal(null);
+    if (inputFileRef.current) {
+      inputFileRef.current.value = "";
+    }
+    setUrlPhotoModal("");
+    setTitleModal("");
+    setContentModal("");
+    setSlugModal("");
+    setOpenUpdateCreatureModal(false);
+  };
+
+  // Fonction pour modifier une carte de créature
+  const handleUpdateCreature = (): void => {
+    // Vérifie si l'utilisateur est connecté
+    if (!user.token) {
+      alert("Veuillez vous connecter pour modifier une créature");
+      setPhotoModal(null);
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
+      setUrlPhotoModal("");
+      setSlugModal("");
+      setTitleModal("");
+      setContentModal("");
+      setOpenCreatePlaceModal(false);
+      return;
+    }
+
+    // Vérifie si l'utilisateur est l'auteur du livre
+    if (!isCurrentUserAuthor) {
+      alert("Vous devez être l'auteur du livre pour modifier une créature");
+      setPhotoModal(null);
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
+      setUrlPhotoModal("");
+      setSlugModal("");
+      setTitleModal("");
+      setContentModal("");
+      setOpenCreatePlaceModal(false);
+      return;
+    }
+
+    // Vérifie que les champs ont du texte
+    if (titleModal.trim() === "" || contentModal.trim() === "") {
+      alert("Veuillez remplir tous les champs");
+      return;
+    }
+
+    // Ajouter les données dans le file data
+    const formData = new FormData();
+    formData.append("token", user.token);
+    photoModal && formData.append("image", photoModal);
+    titleModal && formData.append("name", titleModal);
+    contentModal && formData.append("content", contentModal);
+
+    // Envoie de la requête pour modifier la carte
+    fetch(`http://127.0.0.1:8000/api/${slug}/updatecreature/${slugModal}/`, {
+      method: "PATCH",
+      body: formData,
+    }).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("Creature modifiée :", data);
+          setCreatureList((prev) =>
+            prev.filter((oneCreature) => oneCreature.slug != slugModal)
+          );
+          const newData: LongCard = {
+            title: data.name,
+            content: data.content,
+            image: data.image,
+            slug: data.slug,
+          };
+          setCreatureList((prev) => [...prev, newData]);
+          // Reset des données de la modale avant fermeture
+          setPhotoModal(null);
+          if (inputFileRef.current) {
+            inputFileRef.current.value = "";
+          }
+          setUrlPhotoModal("");
+          setSlugModal("");
+          setTitleModal("");
+          setContentModal("");
+          setOpenUpdateCreatureModal(false);
+        }
+      })
+    );
+  };
 
   // Conversion des creatures en composant
   const creatures = creatureList?.map((creature: LongCard, i: number) => (
@@ -499,7 +753,7 @@ const BookUniverse = () => {
     </div>
   ));
 
-  console.log(user, isCurrentUserAuthor);
+  console.log(creatureList);
 
   return (
     <div className={styles.global}>
@@ -577,7 +831,10 @@ const BookUniverse = () => {
           ) : (
             <div className={styles.titleSectionContainer}>
               <h2 className={styles.titleSection}>🐲 Créatures</h2>
-              <button className={styles.addButton}>
+              <button
+                className={styles.addButton}
+                onClick={handleOpenCreateCreature}
+              >
                 <FontAwesomeIcon icon={faPlus} /> {"Ajouter une créature"}
               </button>
             </div>
@@ -722,6 +979,144 @@ const BookUniverse = () => {
           </div>
         </Modal>
         {/* FIN PARTIE MODAL LIEU */}
+
+        {/* DEBUT PARTIE MODAL CREATURE */}
+        {/* Création */}
+        <Modal closable={false} open={openCreateCreatureModal} footer={null}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalTitle}>Création d'une Créature</h2>
+            <div
+              className={styles.photoInputContainer}
+              style={stylePhotoContainer}
+            >
+              {photoModal && (
+                <div>
+                  <Image
+                    src={URL.createObjectURL(photoModal)}
+                    alt="Preview"
+                    width={300}
+                    height={300}
+                    className={styles.photoPreview}
+                  />
+                </div>
+              )}
+              <input
+                ref={inputFileRef}
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className={styles.photoInput}
+                required
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Nom de la créature *"
+              value={titleModal}
+              onChange={(e) => setTitleModal(e.target.value)}
+              className={styles.titlePlace}
+              required
+            />
+            <textarea
+              name="content"
+              id="newContentPlace"
+              placeholder="Description de la créature *"
+              maxLength={1000}
+              value={contentModal}
+              onChange={(e) => setContentModal(e.target.value)}
+              className={styles.contentPlace}
+            ></textarea>
+            <div className={styles.legendText}>
+              <p className={styles.caractLimit}>
+                {contentModal.length} /1000 caractères
+              </p>
+            </div>
+            <div className={styles.modalButtons}>
+              <Button
+                key="back"
+                onClick={handleCreateCreatureCancel}
+                className={styles.modalButtonEmpty}
+              >
+                Annuler
+              </Button>
+              <Button
+                key="submit"
+                onClick={handleCreateCreature}
+                className={styles.modalButtonFull}
+              >
+                Publier
+              </Button>
+            </div>
+          </div>
+        </Modal>
+
+        {/* Modification */}
+        <Modal closable={false} open={openUpdateCreatureModal} footer={null}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalTitle}>Modification d'une créature</h2>
+            <div style={stylePhotoContainer}>
+              <div>
+                <Image
+                  src={
+                    photoModal ? URL.createObjectURL(photoModal) : urlPhotoModal
+                  }
+                  alt="Preview"
+                  width={300}
+                  height={300}
+                  className={styles.photoPreview}
+                />
+              </div>
+
+              <input
+                ref={inputFileRef}
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className={styles.photoInput}
+                required
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Nom de la créature *"
+              value={titleModal}
+              onChange={(e) => setTitleModal(e.target.value)}
+              className={styles.titlePlace}
+              required
+            />
+            <textarea
+              name="content"
+              id="updateContentPlace"
+              placeholder="Description de la créature *"
+              maxLength={1000}
+              value={contentModal}
+              onChange={(e) => setContentModal(e.target.value)}
+              className={styles.contentPlace}
+            ></textarea>
+            <div className={styles.legendText}>
+              <p className={styles.caractLimit}>
+                {contentModal.length} /1000 caractères
+              </p>
+            </div>
+            <div className={styles.modalButtons}>
+              <Button
+                key="back"
+                onClick={handleUpdateCreatureCancel}
+                className={styles.modalButtonEmpty}
+              >
+                Annuler
+              </Button>
+              <Button
+                key="submit"
+                onClick={handleUpdateCreature}
+                className={styles.modalButtonFull}
+              >
+                Modifier
+              </Button>
+            </div>
+          </div>
+        </Modal>
+        {/* FIN PARTIE MODAL CREATURE */}
       </main>
     </div>
   );

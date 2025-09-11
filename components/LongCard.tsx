@@ -33,7 +33,7 @@ const LongCard = (props: {
   // Fonction pour supprimer la carte
   const handleDeleteCard = (): void => {
     if (!props.isEditable) {
-      alert("Vous n'êtes pas autorisé à supprimer ce personnage");
+      alert("Vous n'êtes pas autorisé à supprimer cette carte");
       return;
     }
 
@@ -66,6 +66,32 @@ const LongCard = (props: {
     }
 
     // Si la carte est une créature
+    if (props.cardType === "creature") {
+      fetch(
+        `http://127.0.0.1:8000/api/${props.bookSlug}/deletecreature/${props.slug}/`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: user.token }),
+        }
+      )
+        .then((response) => {
+          if (response.status === 204) {
+            props.deleteCard(props.title);
+            alert("La créature a bien été supprimée");
+          } else {
+            // S'il y a un body d'erreur, response.json()
+            return response.json().then((data) => {
+              console.error("Erreur suppression :", data);
+              alert("Erreur lors de la suppression");
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la suppresion de compte :", error);
+          alert("Une erreur réseau est survenue");
+        });
+    }
   };
 
   // Fonction pour modifier la carte
