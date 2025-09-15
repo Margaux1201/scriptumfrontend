@@ -2,6 +2,12 @@ import styles from "../styles/Home.module.css";
 import React, { FC, useEffect, useState } from "react";
 import Header from "./Header";
 import BookCard from "./BookCard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFavoriteBookStore,
+  Favorite,
+  removeFavoriteBookStore,
+} from "@/reducers/favorite";
 
 const Home: React.FC = () => {
   interface Warning {
@@ -31,8 +37,13 @@ const Home: React.FC = () => {
 
   const [search, setSearch] = useState<string>("");
   const [bookList, setBookList] = useState<Book[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+
+  const dispatch = useDispatch();
+  const favorites = useSelector(
+    (store: { favorite: Favorite }) => store.favorite
+  );
 
   const fetchBooks = async () => {
     const params = new URLSearchParams();
@@ -55,20 +66,40 @@ const Home: React.FC = () => {
     fetchBooks();
   }, [search, page]);
 
-  const dataBook = bookList.map((e: Book) => {
+  const toggleFavoriteBook = (
+    isFavorite: boolean,
+    bookSlug: string,
+    bookObject: any
+  ) => {
+    if (isFavorite) {
+      dispatch(removeFavoriteBookStore(bookSlug));
+    } else {
+      dispatch(addFavoriteBookStore(bookObject));
+    }
+  };
+  console.log("FAVORITE BOOK", favorites);
+
+  const dataBook = bookList.map((e: Book, i: number) => {
     let overview = e.description;
     if (overview.length > 250) {
       overview = overview.substring(0, 250) + "...";
     }
+
+    const isFavorite = favorites.favoriteBook.some(
+      (element) => element.slug === e.slug
+    );
+
     return (
       <BookCard
-        key={e.id}
+        key={i}
         title={e.title}
         author={e.author_name}
         desc={overview}
         rating={e.rating}
         url={e.image}
         slug={e.slug}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavoriteBook}
       />
     );
   });

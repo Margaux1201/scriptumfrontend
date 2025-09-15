@@ -6,14 +6,23 @@ import Review from "../../../components/Review";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import { UserState } from "@/reducers/user";
 import { Modal } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { UserState } from "@/reducers/user";
+import { Favorite } from "@/reducers/favorite";
+import {
+  addFavoriteAuthorStore,
+  removeFavoriteAuthorStore,
+} from "@/reducers/favorite";
 
 const BookDetail = () => {
   const router = useRouter();
   const { slug } = router.query;
+  const dispatch = useDispatch();
   const user = useSelector((store: { user: UserState }) => store.user);
+  const favorite = useSelector(
+    (store: { favorite: Favorite }) => store.favorite
+  );
 
   interface Review {
     book: string;
@@ -201,7 +210,7 @@ const BookDetail = () => {
 
   console.log(bookWarnings);
   // Liste des avertissements affichés
-  const warnings = bookWarnings.map((oneWarning, i) => (
+  const warnings = bookWarnings?.map((oneWarning, i) => (
     <div key={i}>
       <h4 className={styles.warningCategory}>{oneWarning.categorie}</h4>
       <div className={styles.warningLine}>
@@ -333,6 +342,19 @@ const BookDetail = () => {
     );
   }
 
+  const isAuthorFavorite = favorite.favoriteAuthor.some(
+    (element) => element === bookAuthor
+  );
+
+  // Fonction pour gérer le suivi de l'auteur
+  const handleFollowClick = (): void => {
+    if (!isAuthorFavorite) {
+      dispatch(addFavoriteAuthorStore(bookAuthor));
+    } else {
+      dispatch(removeFavoriteAuthorStore(bookAuthor));
+    }
+  };
+
   // fonction pour envoyer la review dans la bdd
   const handleRegisterReview = (): void => {
     if (score === 0 || comment.trim() === "") {
@@ -388,6 +410,8 @@ const BookDetail = () => {
         })
     );
   };
+
+  console.log(favorite);
 
   return (
     <div className={styles.main}>
@@ -466,7 +490,14 @@ const BookDetail = () => {
             <h2 className={styles.bookAuthor}>{bookAuthor}</h2>
             {!isAuthorCurrentUser && (
               <div className={styles.authorBtnContainer}>
-                <button className={styles.followBtn}>SUIVRE</button>
+                <button
+                  className={
+                    isAuthorFavorite ? styles.unFolowBtn : styles.followBtn
+                  }
+                  onClick={handleFollowClick}
+                >
+                  {isAuthorFavorite ? "SUIVI" : "SUIVRE"}
+                </button>
                 <button className={styles.signalButton}>SIGNALER</button>
               </div>
             )}
@@ -475,10 +506,28 @@ const BookDetail = () => {
           <h3 className={styles.sectionTitle}>Description</h3>
           <p className={styles.bookDescription}>{bookDescription}</p>
           <h3 className={styles.sectionTitle}>Tags</h3>
-          <div className={styles.themeLine}>{themes}</div>
+          <div className={styles.themeLine}>
+            {themes.length > 0 ? (
+              themes
+            ) : (
+              <div className={styles.noTag}>
+                <p className={styles.noTagSentence}>
+                  Aucun tag trouvé pour ce livre
+                </p>
+              </div>
+            )}
+          </div>
           <h3 className={styles.sectionTitle}>Avertissement</h3>
           {showWarning ? (
-            warnings
+            warnings ? (
+              warnings
+            ) : (
+              <div className={styles.noWarning}>
+                <p className={styles.noWarningSentence}>
+                  Aucun avertissement trouvé pour ce livre
+                </p>
+              </div>
+            )
           ) : (
             <div className={styles.warningCnt}>
               <button onClick={handleShowWarning} className={styles.warningBtn}>

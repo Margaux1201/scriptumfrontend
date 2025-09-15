@@ -12,6 +12,20 @@
     transform: scale(1.1);
 }
 
+.heartFavorite {
+    position: absolute;
+    top : 265px;
+    left: 165px;
+    z-index: 5;
+    color: #E28413;
+    width: 25px;
+    height: 25px;
+}
+
+.heartFavorite:hover {
+    transform: scale(1.5);
+}
+
 .bookTitle {
     font-family: 'Hind', cursive;
     font-weight: 700;

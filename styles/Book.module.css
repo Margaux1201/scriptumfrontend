@@ -195,6 +195,24 @@
     color: #FBF5F3;
 }
 
+.unFolowBtn {
+  margin-right: 10%;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-family: 'Mukta Vaani', cursive;
+  font-size: small;
+  font-weight: 700;
+  background-color: #107E7D;
+  color: #FBF5F3;
+  border: solid 2px #107E7D;
+  border-radius: 5px;
+}
+
+.unFolowBtn:hover {
+    background-color: #FBF5F3;
+    color: #107E7D;
+}
+
 .signalButton {
     border: solid 2px #CB3138;
     border-radius: 5px;
@@ -215,6 +233,7 @@
 .genreLine, .themeLine, .warningLine {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -302,14 +321,15 @@
   margin: 0;
 }
 
-.noReview {
+
+.noReview, .noTag, .noWarning {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.noReviewSentence {
+.noReviewSentence, .noTagSentence, .noWarningSentence {
   font-family: 'Mukta Vaani', cursive;
   font-size: large;
   border: #0F0F0F dashed 1px;

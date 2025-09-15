@@ -1,17 +1,35 @@
 import styles from "../styles/Header.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import React, { FC, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import type { MenuProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import { Dropdown, Button, Modal, DatePicker } from "antd";
+import { Dropdown, Button, Modal, DatePicker, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, clearUser, UserState } from "../reducers/user";
+import {
+  removeFavoriteBookStore,
+  removeFavoriteAuthorStore,
+  clearFavorite,
+} from "@/reducers/favorite";
+import { Favorite } from "@/reducers/favorite";
 
 const Header: React.FC = () => {
   const router = useRouter();
+
+  // Redux user
+  const dispatch = useDispatch();
+  const user = useSelector((store: { user: UserState }) => store.user);
+
+  interface Book {
+    image: string;
+    title: string;
+    state: string;
+    slug: string;
+  }
 
   // Etats pour le formulaire de connexion
   const [openLogin, setOpenLogin] = useState<boolean>(false);
@@ -44,6 +62,39 @@ const Header: React.FC = () => {
   // Etat pour ouvrir le formulaire d'ajout de nom d'auteur
   const [openAddAuthorName, setOpenAddAuthorName] = useState<boolean>(false);
 
+  // Etat pour gérer la bibliothèque
+  const [openUserLibrary, setOpenUserLibrary] = useState<boolean>(false);
+  const [allMyBooks, setAllMyBooks] = useState<Book[]>([]);
+
+  // Fonction pour ouvrir la modale "Ma bibliothèque"
+  const handleOpenLibraryModal = (): void => {
+    setOpenUserLibrary(true);
+    if (user.token) {
+      fetch(`http://127.0.0.1:8000/api/${user.token}/getallauthorbook/`).then(
+        (response) =>
+          response.json().then((data) => {
+            if (response.ok) {
+              console.log("MES LIVRES 📘📘📘", data.results);
+              setAllMyBooks([]);
+              for (let oneBook of data.results) {
+                const newBookObject = {
+                  image: oneBook.image,
+                  title: oneBook.title,
+                  state: oneBook.state,
+                  slug: oneBook.slug,
+                };
+                setAllMyBooks((prev) => [...prev, newBookObject]);
+              }
+            }
+          })
+      );
+    }
+  };
+
+  const handleCloseLibraryModal = (): void => {
+    setOpenUserLibrary(false);
+  };
+
   // Fonction pour stocker la date depuis DatePicker (Inscription)
   const onChange = (date: Dayjs | null, dateString: string | string[]) => {
     if (date && typeof dateString === "string") {
@@ -62,10 +113,6 @@ const Header: React.FC = () => {
       setUpdateBirthdate(dateForBackend);
     }
   };
-
-  // Redux user
-  const dispatch = useDispatch();
-  const user = useSelector((store: { user: UserState }) => store.user);
 
   // Fonctions pour ouvrir et fermer la modale de connexion
   const showLoginModal = (): void => {
@@ -317,7 +364,7 @@ const Header: React.FC = () => {
         })
       )
       .catch((error) => {
-        console.error("Erreur lors de l'inscription :", error);
+        console.error("Erreur lors de la modification du profil :", error);
         alert("Une erreur réseau est survenue");
       });
   };
@@ -409,6 +456,7 @@ const Header: React.FC = () => {
         label: "Me déconnecter",
         onClick: () => {
           dispatch(clearUser());
+          dispatch(clearFavorite());
         },
       },
       {
@@ -433,7 +481,9 @@ const Header: React.FC = () => {
             <Link href="/browse" className={styles.link}>
               Parcourir 🔍
             </Link>
-            <button className={styles.button}>Ma Bibliothèque</button>
+            <button className={styles.button} onClick={handleOpenLibraryModal}>
+              Ma Bibliothèque
+            </button>
             <div>
               <p className={styles.greetingUser}>Bienvenue</p>
               <p className={styles.greetingUser}>{user.pseudo} !</p>
@@ -450,6 +500,48 @@ const Header: React.FC = () => {
                 }
               />
             </Dropdown>
+
+            {/* MODALE MA BIBLIOTHEQUE */}
+            <Modal
+              open={openUserLibrary}
+              footer={null}
+              onCancel={handleCloseLibraryModal}
+            >
+              <Tabs
+                type="card"
+                items={[
+                  { titre: "Mes Livres", content: allMyBooks },
+                  { titre: "Mes Favoris", content: allMyBooks },
+                  { titre: "Mes Auteurs", content: allMyBooks },
+                ].map((element, i) => {
+                  const id = String(i + 1);
+                  const myContent = element.content?.length ? (
+                    allMyBooks.map((oneBook) => (
+                      <div>
+                        <FontAwesomeIcon icon={faCircleXmark} />
+                        <div key={oneBook.slug}>
+                          <Image
+                            src={oneBook.image}
+                            alt={oneBook.title}
+                            height={150}
+                            width={100}
+                          />
+                          <h3>{oneBook.title}</h3>
+                          <h5>{oneBook.state}</h5>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Aucun livre disponible</p>
+                  );
+                  return {
+                    label: `${element.titre}`,
+                    key: `${id}`,
+                    children: myContent,
+                  };
+                })}
+              ></Tabs>
+            </Modal>
 
             {/* MODIFICATION DE PROFILE */}
             <Modal closable={false} open={openUpdateProfile} footer={null}>
