@@ -45,6 +45,11 @@ const Home: React.FC = () => {
     (store: { favorite: Favorite }) => store.favorite
   );
 
+  // Fonction pour mettre à jour la liste des livres après suppression d'un livre
+  const deleteBook = (slug: string): void => {
+    setBookList((prev) => prev.filter((element) => element.slug != slug));
+  };
+
   const fetchBooks = async () => {
     const params = new URLSearchParams();
     if (search) params.append("search", search);
@@ -106,7 +111,7 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.main}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <div className={styles.title}>
         <h1 className={styles.h1}>
           <span className={styles.yellowWord}>Des histoires</span> à raconter...

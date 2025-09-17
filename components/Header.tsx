@@ -5,6 +5,8 @@ import Image from "next/image";
 import React, { FC, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import type { MenuProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { Dropdown, Button, Modal, DatePicker, Tabs } from "antd";
@@ -17,12 +19,15 @@ import {
 } from "@/reducers/favorite";
 import { Favorite } from "@/reducers/favorite";
 
-const Header: React.FC = () => {
+const Header = (props: { deleteBook: Function }) => {
   const router = useRouter();
 
   // Redux user
   const dispatch = useDispatch();
   const user = useSelector((store: { user: UserState }) => store.user);
+  const favorite = useSelector(
+    (store: { favorite: Favorite }) => store.favorite
+  );
 
   interface Book {
     image: string;
@@ -66,6 +71,8 @@ const Header: React.FC = () => {
   const [openUserLibrary, setOpenUserLibrary] = useState<boolean>(false);
   const [allMyBooks, setAllMyBooks] = useState<Book[]>([]);
 
+  // PARTIE BIBLIOTHEQUE
+
   // Fonction pour ouvrir la modale "Ma bibliothèque"
   const handleOpenLibraryModal = (): void => {
     setOpenUserLibrary(true);
@@ -94,6 +101,42 @@ const Header: React.FC = () => {
   const handleCloseLibraryModal = (): void => {
     setOpenUserLibrary(false);
   };
+
+  // Fonction pour supprimer un livre
+  const handleDeleteBook = (slug: string): void => {
+    if (!user.token) {
+      alert("Vous devez être connecté pour supprimer ce livre");
+      return;
+    }
+
+    fetch(`http://127.0.0.1:8000/api/deletebook/${slug}/`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          setAllMyBooks((prev) =>
+            prev.filter((element) => element.slug != slug)
+          );
+          props.deleteBook(slug);
+          alert("Le livre a bien été supprimé");
+          router.push("/");
+        } else {
+          // S'il y a un body d'erreur, response.json()
+          return response.json().then((data) => {
+            console.error("Erreur suppression :", data);
+            alert("Erreur lors de la suppression");
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppresion de compte :", error);
+        alert("Une erreur réseau est survenue");
+      });
+  };
+
+  // PARTIE GESTION UTILISATEUR
 
   // Fonction pour stocker la date depuis DatePicker (Inscription)
   const onChange = (date: Dayjs | null, dateString: string | string[]) => {
@@ -515,25 +558,53 @@ const Header: React.FC = () => {
                   { titre: "Mes Auteurs", content: allMyBooks },
                 ].map((element, i) => {
                   const id = String(i + 1);
-                  const myContent = element.content?.length ? (
-                    allMyBooks.map((oneBook) => (
-                      <div>
-                        <FontAwesomeIcon icon={faCircleXmark} />
-                        <div key={oneBook.slug}>
-                          <Image
-                            src={oneBook.image}
-                            alt={oneBook.title}
-                            height={150}
-                            width={100}
-                          />
-                          <h3>{oneBook.title}</h3>
-                          <h5>{oneBook.state}</h5>
-                        </div>
+                  const myContent =
+                    element.content?.length > 0 ? (
+                      <div className={styles.modaleLibraryContainer}>
+                        {element.content.map((oneBook) => (
+                          <div className={styles.cardMyLibrary}>
+                            {/* Bouton supprimer pour Mes Livres */}
+                            {element.titre === "Mes Livres" && (
+                              <FontAwesomeIcon
+                                icon={faCircleXmark}
+                                className={styles.deleteBookBtn}
+                                onClick={() => handleDeleteBook(oneBook.slug)}
+                              />
+                            )}
+                            {/* Bouton Favoris pour Mes Favoris */}
+                            {element.titre === "Mes Favoris" && (
+                              <FontAwesomeIcon
+                                icon={faHeartSolid}
+                                className={styles.favoriteBtn}
+                              />
+                            )}
+                            <div key={oneBook.slug}>
+                              <Image
+                                src={oneBook.image}
+                                alt={oneBook.title}
+                                height={150}
+                                width={100}
+                              />
+                              <h3 className={styles.libraryTitle}>
+                                {oneBook.title}
+                              </h3>
+                              <h5
+                                style={
+                                  oneBook.state === "En cours"
+                                    ? { color: "#E28413" }
+                                    : { color: "#107E7D" }
+                                }
+                                className={styles.libraryState}
+                              >
+                                {oneBook.state.toUpperCase()}
+                              </h5>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))
-                  ) : (
-                    <p>Aucun livre disponible</p>
-                  );
+                    ) : (
+                      <p>Aucun livre disponible</p>
+                    );
                   return {
                     label: `${element.titre}`,
                     key: `${id}`,
@@ -671,7 +742,6 @@ const Header: React.FC = () => {
             <Link href="/browse" className={styles.link}>
               Parcourir 🔍
             </Link>
-            <button className={styles.button}>Ma Bibliothèque</button>
 
             {/* CONNEXION */}
             <button className={styles.button} onClick={() => showLoginModal()}>

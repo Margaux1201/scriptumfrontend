@@ -59,6 +59,56 @@
     height: 100%;
 }
 
+/* Modale bibliothèque */
+
+.modaleLibraryContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 25px;
+}
+
+.cardMyLibrary {
+    width: 100px;
+    height: 225px;
+    margin: 0;
+}
+
+.deleteBookBtn {
+    cursor: pointer;
+    position: absolute;
+    color: #E28413;
+    height: 20px;
+    width: 20px;
+    top: 130px;
+}
+
+.deleteBookBtn:hover {
+    transform: scale(1.5);
+}
+
+.libraryTitle {
+    margin: 0;
+    font-size: small;
+}
+
+.libraryState {
+    margin: 0;
+    font-weight: 700;
+}
+
+.favoriteBtn {
+    cursor: pointer;
+    position: absolute;
+    color: #E28413;
+    width: 20px;
+    height: 20px;
+    top: 130px;
+}
+
+.favoriteBtn:hover {
+    transform: scale(1.5);
+}
+
 
 /* Formulaire en modale */
 

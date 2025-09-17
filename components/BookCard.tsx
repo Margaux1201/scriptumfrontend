@@ -51,7 +51,7 @@ const BookCard = (props: {
       // Si l'indice de l'étoile est inférieur à la note moyenne, on la colore en jaune
       style = { color: "#E28413" };
     }
-    stars.push(<FontAwesomeIcon icon={faStar} style={style} />);
+    stars.push(<FontAwesomeIcon icon={faStar} style={style} key={i} />);
   }
 
   return (
