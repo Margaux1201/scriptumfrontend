@@ -411,11 +411,15 @@ const BookDetail = () => {
     );
   };
 
+  const deleteBook = (bookSlug: string): void => {
+    bookSlug === slug && router.push("/");
+  };
+
   console.log(favorite);
 
   return (
     <div className={styles.main}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <div className={styles.gridContent}>
         <div className={styles.leftPart}>
           <div className={styles.imgContainer}>

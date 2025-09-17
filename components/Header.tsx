@@ -36,6 +36,13 @@ const Header = (props: { deleteBook: Function }) => {
     slug: string;
   }
 
+  interface FavoriteBook {
+    id: number;
+    user: number;
+    slug: string;
+    user_pseudo: string;
+  }
+
   // Etats pour le formulaire de connexion
   const [openLogin, setOpenLogin] = useState<boolean>(false);
   const [loginPseudo, setLoginPseudo] = useState<string>("");
@@ -70,6 +77,7 @@ const Header = (props: { deleteBook: Function }) => {
   // Etat pour gérer la bibliothèque
   const [openUserLibrary, setOpenUserLibrary] = useState<boolean>(false);
   const [allMyBooks, setAllMyBooks] = useState<Book[]>([]);
+  const [favoriteList, setFavoriteList] = useState<FavoriteBook[]>([]);
 
   // PARTIE BIBLIOTHEQUE
 
@@ -77,6 +85,7 @@ const Header = (props: { deleteBook: Function }) => {
   const handleOpenLibraryModal = (): void => {
     setOpenUserLibrary(true);
     if (user.token) {
+      // Récupération des livres créés par l'utilisateur
       fetch(`http://127.0.0.1:8000/api/${user.token}/getallauthorbook/`).then(
         (response) =>
           response.json().then((data) => {
@@ -95,6 +104,28 @@ const Header = (props: { deleteBook: Function }) => {
             }
           })
       );
+
+      // Récupération des favoris de l'utilisateur
+      fetch(`http://127.0.0.1:8000/api/getallfavorite/${user.token}/`)
+        .then((response) =>
+          response.json().then((data) => {
+            if (response.ok) {
+              console.log("MES FAVORIS 💝💝💝", data.results);
+              setFavoriteList([]);
+              for (let oneFavorite of data.results) {
+                setFavoriteList((prev) => [...prev, oneFavorite]);
+              }
+            }
+          })
+        )
+        // .then(async (res) => {
+        //   const text = await res.text();
+        //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+        // })
+        .catch((error) => {
+          console.error("Erreur lors de la récupération des favoris :", error);
+          alert("Une erreur réseau est survenue");
+        });
     }
   };
 
@@ -554,7 +585,7 @@ const Header = (props: { deleteBook: Function }) => {
                 type="card"
                 items={[
                   { titre: "Mes Livres", content: allMyBooks },
-                  { titre: "Mes Favoris", content: allMyBooks },
+                  { titre: "Mes Favoris", content: favoriteList },
                   { titre: "Mes Auteurs", content: allMyBooks },
                 ].map((element, i) => {
                   const id = String(i + 1);
@@ -571,6 +602,7 @@ const Header = (props: { deleteBook: Function }) => {
                                 onClick={() => handleDeleteBook(oneBook.slug)}
                               />
                             )}
+
                             {/* Bouton Favoris pour Mes Favoris */}
                             {element.titre === "Mes Favoris" && (
                               <FontAwesomeIcon
@@ -578,7 +610,15 @@ const Header = (props: { deleteBook: Function }) => {
                                 className={styles.favoriteBtn}
                               />
                             )}
-                            <div key={oneBook.slug}>
+
+                            {/* Carte livre */}
+                            <div
+                              key={oneBook.slug}
+                              className={styles.bookCard}
+                              onClick={() =>
+                                router.push(`/book/${oneBook.slug}`)
+                              }
+                            >
                               <Image
                                 src={oneBook.image}
                                 alt={oneBook.title}

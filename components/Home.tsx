@@ -8,6 +8,7 @@ import {
   Favorite,
   removeFavoriteBookStore,
 } from "@/reducers/favorite";
+import { UserState } from "@/reducers/user";
 
 const Home: React.FC = () => {
   interface Warning {
@@ -35,8 +36,16 @@ const Home: React.FC = () => {
     warnings: Warning[];
   }
 
+  interface FavoriteBook {
+    id: number;
+    user: number;
+    book: string;
+    user_pseudo: string;
+  }
+
   const [search, setSearch] = useState<string>("");
   const [bookList, setBookList] = useState<Book[]>([]);
+  const [favoriteList, setFavoriteList] = useState<FavoriteBook[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 
@@ -44,6 +53,7 @@ const Home: React.FC = () => {
   const favorites = useSelector(
     (store: { favorite: Favorite }) => store.favorite
   );
+  const user = useSelector((store: { user: UserState }) => store.user);
 
   // Fonction pour mettre à jour la liste des livres après suppression d'un livre
   const deleteBook = (slug: string): void => {
@@ -78,11 +88,44 @@ const Home: React.FC = () => {
   ) => {
     if (isFavorite) {
       dispatch(removeFavoriteBookStore(bookSlug));
+      fetch(`http://127.0.0.1:8000/api/deletefavorite/${bookSlug}/`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      }).then((response) => {
+        if (response.status === 204) {
+          setFavoriteList((prev) =>
+            prev.filter((element) => element.book != bookSlug)
+          );
+        } else {
+          // S'il y a un body d'erreur, response.json()
+          return response.json().then((data) => {
+            console.error("Erreur suppression du livre des favoris :", data);
+            alert("Erreur lors de la suppression");
+          });
+        }
+      });
     } else {
       dispatch(addFavoriteBookStore(bookObject));
+      fetch("http://127.0.0.1:8000/api/newfavorite/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token, book: bookSlug }),
+      })
+        .then((response) =>
+          response.json().then((data) => {
+            console.log("NEW FAVORI ❤️❤️❤️", data);
+            setFavoriteList((prev) => [...prev, data]);
+          })
+        )
+        .catch((error) => {
+          console.error("Erreur lors de l'ajout du livre en favori :", error);
+          alert("Une erreur réseau est survenue");
+        });
     }
   };
-  console.log("FAVORITE BOOK", favorites);
+
+  console.log("FAVORITE BOOK", favoriteList);
 
   const dataBook = bookList.map((e: Book, i: number) => {
     let overview = e.description;

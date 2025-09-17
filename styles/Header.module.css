@@ -86,6 +86,10 @@
     transform: scale(1.5);
 }
 
+.bookCard {
+    cursor: pointer;
+}
+
 .libraryTitle {
     margin: 0;
     font-size: small;
