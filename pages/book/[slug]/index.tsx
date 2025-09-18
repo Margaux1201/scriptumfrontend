@@ -18,6 +18,7 @@ import {
   removeFavoriteBookStore,
   removeFavoriteAuthorStore,
 } from "@/reducers/favorite";
+import { error } from "console";
 
 const BookDetail = () => {
   const router = useRouter();
@@ -229,6 +230,10 @@ const BookDetail = () => {
 
   // Fonction pour gérer la mise à jour du livre en favoris
   const handleFavoriteClick = (): void => {
+    if (!user.token) {
+      alert("Vous devez vous connecter pour ajouter des livres en favoris");
+      return;
+    }
     const isFavorite = favorite.favoriteBook.some(
       (element) => element.slug === slug
     );
@@ -396,15 +401,61 @@ const BookDetail = () => {
   }
 
   const isAuthorFavorite = favorite.favoriteAuthor.some(
-    (element) => element === bookAuthor
+    (element) => element.name === bookAuthor
   );
 
   // Fonction pour gérer le suivi de l'auteur
   const handleFollowClick = (): void => {
     if (!isAuthorFavorite) {
-      dispatch(addFavoriteAuthorStore(bookAuthor));
+      fetch("http://127.0.0.1:8000/api/newfollowedauthor/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token, author_name: bookAuthor }),
+      })
+        .then((response) =>
+          response.json().then((data) => {
+            if (response.ok) {
+              console.log("AUTEUR SUIVI ✏️✏️✏️", data);
+              let allBooks = [];
+              for (let oneBook of data.author.books) {
+                const newBook = {
+                  title: oneBook.title,
+                  author: oneBook.author_name,
+                  url: oneBook.image,
+                  rating: oneBook.rating,
+                  slug: oneBook.slug,
+                  state: oneBook.state,
+                };
+                allBooks.push(newBook);
+              }
+              const newAuthor = {
+                name: data.author.author_name,
+                books: allBooks,
+              };
+              dispatch(addFavoriteAuthorStore(newAuthor));
+            }
+          })
+        )
+        .catch((error) => {
+          console.error("Erreur lors du suivi de l'auteur :", error);
+          alert("Une erreur réseau est survenue");
+        });
     } else {
       dispatch(removeFavoriteAuthorStore(bookAuthor));
+      fetch(`http://127.0.0.1:8000/api/deletefollowedauthor/${bookAuthor}/`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      })
+        .then((response) => {
+          if (response.status === 204) {
+            console.log("AUTEUR UNFOLLOWED 💔💔💔");
+          }
+        })
+        .catch((error) => {
+          console.error("Erreur lors du unfollow de l'auteur :", error);
+          alert("Une erreur réseau est survenue");
+        });
     }
   };
 

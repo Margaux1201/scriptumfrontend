@@ -9,9 +9,14 @@ export interface Book {
     state: string;
 }
 
+export interface Author {
+    name: string;
+    books: Book[];
+}
+
 export interface Favorite {
     favoriteBook: Book[];
-    favoriteAuthor: string[];
+    favoriteAuthor: Author[];
 }
 
 const initialState : Favorite = {
@@ -29,11 +34,11 @@ export const favoriteSlice = createSlice ({
         removeFavoriteBookStore : (state, action: PayloadAction<string>) => {
             state.favoriteBook = state.favoriteBook.filter(element => element.slug != action.payload)
         },
-        addFavoriteAuthorStore : (state, action: PayloadAction<string>) => {
+        addFavoriteAuthorStore : (state, action: PayloadAction<Author>) => {
             state.favoriteAuthor.push(action.payload)
         },
         removeFavoriteAuthorStore : (state, action: PayloadAction<string>) => {
-            state.favoriteAuthor = state.favoriteAuthor.filter(element => element != action.payload)
+            state.favoriteAuthor = state.favoriteAuthor.filter(element => element.name != action.payload)
         },
         clearFavorite : (state) => {
             state.favoriteBook = [];
