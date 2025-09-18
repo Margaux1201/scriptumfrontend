@@ -94,9 +94,7 @@ const Home: React.FC = () => {
         body: JSON.stringify({ token: user.token }),
       }).then((response) => {
         if (response.status === 204) {
-          setFavoriteList((prev) =>
-            prev.filter((element) => element.book != bookSlug)
-          );
+          console.log("LIVRE RETIREE DES FAVORIS", bookObject);
         } else {
           // S'il y a un body d'erreur, response.json()
           return response.json().then((data) => {
@@ -115,7 +113,6 @@ const Home: React.FC = () => {
         .then((response) =>
           response.json().then((data) => {
             console.log("NEW FAVORI ❤️❤️❤️", data);
-            setFavoriteList((prev) => [...prev, data]);
           })
         )
         .catch((error) => {

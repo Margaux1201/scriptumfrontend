@@ -6,12 +6,16 @@ import Review from "../../../components/Review";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { UserState } from "@/reducers/user";
 import { Favorite } from "@/reducers/favorite";
 import {
+  addFavoriteBookStore,
   addFavoriteAuthorStore,
+  removeFavoriteBookStore,
   removeFavoriteAuthorStore,
 } from "@/reducers/favorite";
 
@@ -223,6 +227,55 @@ const BookDetail = () => {
     </div>
   ));
 
+  // Fonction pour gérer la mise à jour du livre en favoris
+  const handleFavoriteClick = (): void => {
+    const isFavorite = favorite.favoriteBook.some(
+      (element) => element.slug === slug
+    );
+    if (isFavorite) {
+      dispatch(removeFavoriteBookStore(`${slug}`));
+      fetch(`http://127.0.0.1:8000/api/deletefavorite/${slug}/`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      }).then((response) => {
+        if (response.status === 204) {
+          console.log("LIVRE RETIREE DES FAVORIS", bookTitle);
+        } else {
+          // S'il y a un body d'erreur, response.json()
+          return response.json().then((data) => {
+            console.error("Erreur suppression du livre des favoris :", data);
+            alert("Erreur lors de la suppression");
+          });
+        }
+      });
+    } else {
+      let newFavorite = {
+        title: bookTitle,
+        author: bookAuthor,
+        url: bookImage,
+        rating: bookRate,
+        slug: `${slug}`,
+        state: bookState,
+      };
+      dispatch(addFavoriteBookStore(newFavorite));
+      fetch("http://127.0.0.1:8000/api/newfavorite/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token, book: `${slug}` }),
+      })
+        .then((response) =>
+          response.json().then((data) => {
+            console.log("NEW FAVORI ❤️❤️❤️", data);
+          })
+        )
+        .catch((error) => {
+          console.error("Erreur lors de l'ajout du livre en favori :", error);
+          alert("Une erreur réseau est survenue");
+        });
+    }
+  };
+
   // fonction pour naviguer vers la page chapitre cliqué
   const handleChapterClick = (str: string): void => {
     router.push(`/book/${slug}/chapter/${str}`);
@@ -423,6 +476,15 @@ const BookDetail = () => {
       <div className={styles.gridContent}>
         <div className={styles.leftPart}>
           <div className={styles.imgContainer}>
+            <FontAwesomeIcon
+              icon={
+                favorite.favoriteBook.some((element) => element.slug === slug)
+                  ? faHeartSolid
+                  : faHeartRegular
+              }
+              className={styles.heartFavorite}
+              onClick={handleFavoriteClick}
+            />
             {bookImage && (
               <Image
                 src={bookImage}
@@ -459,9 +521,6 @@ const BookDetail = () => {
                 onClick={() => router.push(`/book/${slug}/bookuniverse`)}
               >
                 Découvrir l'univers
-              </button>
-              <button className={styles.leftButton}>
-                Commencer la lecture
               </button>
               <button className={styles.leftButton} onClick={openAddReview}>
                 Evaluer l'histoire

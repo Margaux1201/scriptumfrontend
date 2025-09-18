@@ -144,9 +144,13 @@ const EditChapter = () => {
       });
   };
 
+  const deleteBook = (bookSlug: string): void => {
+    bookSlug === slug && router.push("/");
+  };
+
   return (
     <div className={styles.container}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <main className={styles.main}>
         <section className={styles.leftPart}>
           <h1 className={styles.title}>Nouveau Chapitre</h1>

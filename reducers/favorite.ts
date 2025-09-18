@@ -6,6 +6,7 @@ export interface Book {
     url: string;
     rating: number;
     slug: string;
+    state: string;
 }
 
 export interface Favorite {

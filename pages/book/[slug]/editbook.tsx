@@ -377,9 +377,13 @@ const EditBook = () => {
       });
   };
 
+  const deleteBook = (bookSlug: string): void => {
+    bookSlug === slug && router.push("/");
+  };
+
   return (
     <div className={styles.global}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <main className={styles.main}>
         {/* SECTION GENERALE */}
         <section className={styles.general}>

@@ -6,13 +6,14 @@ import React, { FC, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import type { MenuProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { Dropdown, Button, Modal, DatePicker, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser, clearUser, UserState } from "../reducers/user";
 import {
+  addFavoriteBookStore,
+  addFavoriteAuthorStore,
   removeFavoriteBookStore,
   removeFavoriteAuthorStore,
   clearFavorite,
@@ -34,13 +35,6 @@ const Header = (props: { deleteBook: Function }) => {
     title: string;
     state: string;
     slug: string;
-  }
-
-  interface FavoriteBook {
-    id: number;
-    user: number;
-    slug: string;
-    user_pseudo: string;
   }
 
   // Etats pour le formulaire de connexion
@@ -77,7 +71,7 @@ const Header = (props: { deleteBook: Function }) => {
   // Etat pour gérer la bibliothèque
   const [openUserLibrary, setOpenUserLibrary] = useState<boolean>(false);
   const [allMyBooks, setAllMyBooks] = useState<Book[]>([]);
-  const [favoriteList, setFavoriteList] = useState<FavoriteBook[]>([]);
+  const [favoriteList, setFavoriteList] = useState<Book[]>([]);
 
   // PARTIE BIBLIOTHEQUE
 
@@ -106,28 +100,22 @@ const Header = (props: { deleteBook: Function }) => {
       );
 
       // Récupération des favoris de l'utilisateur
-      fetch(`http://127.0.0.1:8000/api/getallfavorite/${user.token}/`)
-        .then((response) =>
-          response.json().then((data) => {
-            if (response.ok) {
-              console.log("MES FAVORIS 💝💝💝", data.results);
-              setFavoriteList([]);
-              for (let oneFavorite of data.results) {
-                setFavoriteList((prev) => [...prev, oneFavorite]);
-              }
-            }
-          })
-        )
-        // .then(async (res) => {
-        //   const text = await res.text();
-        //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
-        // })
-        .catch((error) => {
-          console.error("Erreur lors de la récupération des favoris :", error);
-          alert("Une erreur réseau est survenue");
-        });
+      setFavoriteList([]);
+      for (let oneFavorite of favorite.favoriteBook) {
+        let newFavorite = {
+          image: oneFavorite.url,
+          title: oneFavorite.title,
+          state: oneFavorite.state,
+          slug: oneFavorite.slug,
+        };
+        setFavoriteList((prev) =>
+          [...prev, newFavorite].sort((a, b) => a.title.localeCompare(b.title))
+        );
+      }
     }
   };
+
+  console.log(favoriteList);
 
   const handleCloseLibraryModal = (): void => {
     setOpenUserLibrary(false);
@@ -275,6 +263,7 @@ const Header = (props: { deleteBook: Function }) => {
       alert("Veuillez remplir tous les champs.");
       return;
     }
+    // Requête pour connecté l'utilisateur
     fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -289,6 +278,28 @@ const Header = (props: { deleteBook: Function }) => {
             dispatch(setUser({ pseudo: data.pseudo, token: data.token }));
             setLoginPseudo("");
             setLoginPassword("");
+
+            // Requête pour récupérer les favoris de l'utilisateur
+            fetch(
+              `http://127.0.0.1:8000/api/getallfavorite/${data.token}/`
+            ).then((res) =>
+              res.json().then((dataFavorite) => {
+                if (res.ok) {
+                  console.log("CONNECTE FAVORITE ⭐⭐⭐", dataFavorite.results);
+                  for (let oneFav of dataFavorite.results) {
+                    let newFavorite = {
+                      title: oneFav.book_title,
+                      author: oneFav.book_author,
+                      url: oneFav.book_image,
+                      rating: oneFav.book_rating,
+                      slug: oneFav.book,
+                      state: oneFav.book_state,
+                    };
+                    dispatch(addFavoriteBookStore(newFavorite));
+                  }
+                }
+              })
+            );
             setOpenLogin(false);
           } else {
             const errors = Object.values(data).flat().join("\n");
@@ -301,6 +312,30 @@ const Header = (props: { deleteBook: Function }) => {
         console.error("Erreur lors de la connexion :", error);
         alert("Une erreur réseau est survenue");
       });
+  };
+
+  console.log(favorite);
+
+  // Fonction pour retirer le livre des favoris (dans la bibliothèque)
+  const handleRemoveFavorite = (slug: string): void => {
+    dispatch(removeFavoriteBookStore(slug));
+    fetch(`http://127.0.0.1:8000/api/deletefavorite/${slug}/`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    }).then((response) => {
+      if (response.status === 204) {
+        setFavoriteList((prev) =>
+          prev.filter((element) => element.slug != slug)
+        );
+      } else {
+        // S'il y a un body d'erreur, response.json()
+        return response.json().then((data) => {
+          console.error("Erreur suppression du livre des favoris :", data);
+          alert("Erreur lors de la suppression");
+        });
+      }
+    });
   };
 
   // Fonction pour s'inscrire
@@ -531,6 +566,8 @@ const Header = (props: { deleteBook: Function }) => {
         onClick: () => {
           dispatch(clearUser());
           dispatch(clearFavorite());
+          setAllMyBooks([]);
+          setFavoriteList([]);
         },
       },
       {
@@ -608,6 +645,9 @@ const Header = (props: { deleteBook: Function }) => {
                               <FontAwesomeIcon
                                 icon={faHeartSolid}
                                 className={styles.favoriteBtn}
+                                onClick={() =>
+                                  handleRemoveFavorite(oneBook.slug)
+                                }
                               />
                             )}
 
@@ -615,9 +655,10 @@ const Header = (props: { deleteBook: Function }) => {
                             <div
                               key={oneBook.slug}
                               className={styles.bookCard}
-                              onClick={() =>
-                                router.push(`/book/${oneBook.slug}`)
-                              }
+                              onClick={() => {
+                                router.push(`/book/${oneBook.slug}`);
+                                setOpenUserLibrary(false);
+                              }}
                             >
                               <Image
                                 src={oneBook.image}
@@ -628,16 +669,18 @@ const Header = (props: { deleteBook: Function }) => {
                               <h3 className={styles.libraryTitle}>
                                 {oneBook.title}
                               </h3>
-                              <h5
-                                style={
-                                  oneBook.state === "En cours"
-                                    ? { color: "#E28413" }
-                                    : { color: "#107E7D" }
-                                }
-                                className={styles.libraryState}
-                              >
-                                {oneBook.state.toUpperCase()}
-                              </h5>
+                              {element.titre === "Mes Livres" && (
+                                <h5
+                                  style={
+                                    oneBook.state === "En cours"
+                                      ? { color: "#E28413" }
+                                      : { color: "#107E7D" }
+                                  }
+                                  className={styles.libraryState}
+                                >
+                                  {oneBook.state?.toUpperCase()}
+                                </h5>
+                              )}
                             </div>
                           </div>
                         ))}

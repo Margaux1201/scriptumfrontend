@@ -4,6 +4,13 @@ import BrowseBookCard from "../components/BrowseBookCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFavoriteBookStore,
+  Favorite,
+  removeFavoriteBookStore,
+} from "@/reducers/favorite";
+import { UserState } from "@/reducers/user";
 
 function Browse() {
   interface Warning {
@@ -30,6 +37,12 @@ function Browse() {
     tomeNumber: number;
     warnings: Warning[];
   }
+
+  const dispatch = useDispatch();
+  const user = useSelector((store: { user: UserState }) => store.user);
+  const favorites = useSelector(
+    (store: { favorite: Favorite }) => store.favorite
+  );
 
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [filterState, setFilterState] = useState<string>("");
@@ -138,7 +151,58 @@ function Browse() {
     checkedPublic,
   ]);
 
+  //Fonction pour retirer de la page le livre supprimé
+  const deleteBook = (slug: string): void => {
+    setRecentBooks((prev) => prev.filter((element) => element.slug != slug));
+    setTopBooks((prev) => prev.filter((element) => element.slug != slug));
+  };
+
+  // FOnction pour gérer la mise en favoris des livres
+  const toggleFavoriteBook = (
+    isFavorite: boolean,
+    bookSlug: string,
+    bookObject: any
+  ) => {
+    if (isFavorite) {
+      dispatch(removeFavoriteBookStore(bookSlug));
+      fetch(`http://127.0.0.1:8000/api/deletefavorite/${bookSlug}/`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      }).then((response) => {
+        if (response.status === 204) {
+          console.log("LIVRE RETIREE DES FAVORIS", bookObject);
+        } else {
+          // S'il y a un body d'erreur, response.json()
+          return response.json().then((data) => {
+            console.error("Erreur suppression du livre des favoris :", data);
+            alert("Erreur lors de la suppression");
+          });
+        }
+      });
+    } else {
+      dispatch(addFavoriteBookStore(bookObject));
+      fetch("http://127.0.0.1:8000/api/newfavorite/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token, book: bookSlug }),
+      })
+        .then((response) =>
+          response.json().then((data) => {
+            console.log("NEW FAVORI ❤️❤️❤️", data);
+          })
+        )
+        .catch((error) => {
+          console.error("Erreur lors de l'ajout du livre en favori :", error);
+          alert("Une erreur réseau est survenue");
+        });
+    }
+  };
+
   const latestBooks = recentBooks.map((oneBook, index) => {
+    const isFavorite = favorites.favoriteBook.some(
+      (element) => element.slug === oneBook.slug
+    );
     return (
       <BrowseBookCard
         key={index}
@@ -147,11 +211,16 @@ function Browse() {
         url={oneBook.image}
         rating={oneBook.rating}
         slug={oneBook.slug}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavoriteBook}
       />
     );
   });
 
   const bestBooks = topBooks.map((oneBook, index) => {
+    const isFavorite = favorites.favoriteBook.some(
+      (element) => element.slug === oneBook.slug
+    );
     return (
       <BrowseBookCard
         key={index}
@@ -160,11 +229,16 @@ function Browse() {
         url={oneBook.image}
         rating={oneBook.rating}
         slug={oneBook.slug}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavoriteBook}
       />
     );
   });
 
   const books = filteredBooks.map((oneBook, index) => {
+    const isFavorite = favorites.favoriteBook.some(
+      (element) => element.slug === oneBook.slug
+    );
     return (
       <BrowseBookCard
         key={index}
@@ -173,6 +247,8 @@ function Browse() {
         url={oneBook.image}
         rating={oneBook.rating}
         slug={oneBook.slug}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavoriteBook}
       />
     );
   });
@@ -293,7 +369,7 @@ function Browse() {
 
   return (
     <div className={styles.globalcontainer}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <main className={styles.main}>
         <h1 className={styles.titlePage}>Trouve ton livre idéal !</h1>
         <div className={styles.searchArea}>

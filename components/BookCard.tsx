@@ -5,7 +5,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import Image from "next/image";
-import { useSelector, UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { UserState } from "@/reducers/user";
 import { useRouter } from "next/router";
 

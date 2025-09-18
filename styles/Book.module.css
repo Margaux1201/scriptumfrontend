@@ -30,6 +30,20 @@
   margin: 0;
 }
 
+.heartFavorite {
+  cursor: pointer;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 550px;
+  left: 275px;
+  color: #E28413;
+}
+
+.heartFavorite:hover {
+  transform: scale(1.5);
+}
+
 .public {
   font-family: "Overlock", cursive;
   font-size: larger;

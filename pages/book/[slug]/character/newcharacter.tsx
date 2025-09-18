@@ -465,12 +465,16 @@ const NewCharacter = () => {
       });
   };
 
+  const deleteBook = (bookSlug: string): void => {
+    bookSlug === slug && router.push("/");
+  };
+
   console.log(stockedTraits);
   console.log("📸📸📸", photo);
 
   return (
     <div className={styles.global}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <main className={styles.main}>
         <button
           onClick={() => router.push(`/book/${slug}/bookuniverse`)}

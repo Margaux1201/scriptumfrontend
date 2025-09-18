@@ -181,9 +181,13 @@ const ChapterDetail = () => {
       });
   };
 
+  const deleteBook = (bookSlug: string): void => {
+    bookSlug === slug && router.push("/");
+  };
+
   return (
     <div className={styles.global}>
-      <Header />
+      <Header deleteBook={deleteBook} />
       <div className={styles.main}>
         <div className={styles.leftPart}>
           <div className={styles.chapterPart}>
