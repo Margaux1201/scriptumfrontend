@@ -140,7 +140,7 @@ const BookDetail = () => {
         response.json().then((data) => {
           if (response.ok) {
             console.log("CHAPITRES RECUS : 📖📖📖", data);
-            setChaptersList(data.results);
+            setChaptersList(data);
           }
         })
     );
@@ -292,7 +292,7 @@ const BookDetail = () => {
   };
 
   // Liste des boutons de chapitre
-  const chapters = chaptersList.map((oneChapter, i) => (
+  const chapters = chaptersList?.map((oneChapter, i) => (
     <button
       key={i}
       className={styles.chapterButton}
@@ -406,7 +406,13 @@ const BookDetail = () => {
 
   // Fonction pour gérer le suivi de l'auteur
   const handleFollowClick = (): void => {
+    if (!user.token) {
+      alert("Vous devez vous connecter pour suivre un auteur");
+      return;
+    }
+
     if (!isAuthorFavorite) {
+      // Requête pour suivre l'auteur
       fetch("http://127.0.0.1:8000/api/newfollowedauthor/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -441,7 +447,7 @@ const BookDetail = () => {
           alert("Une erreur réseau est survenue");
         });
     } else {
-      dispatch(removeFavoriteAuthorStore(bookAuthor));
+      // Requête pour arrêter le suivi de l'auteur
       fetch(`http://127.0.0.1:8000/api/deletefollowedauthor/${bookAuthor}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -450,6 +456,7 @@ const BookDetail = () => {
         .then((response) => {
           if (response.status === 204) {
             console.log("AUTEUR UNFOLLOWED 💔💔💔");
+            dispatch(removeFavoriteAuthorStore(bookAuthor));
           }
         })
         .catch((error) => {

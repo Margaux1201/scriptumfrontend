@@ -61,15 +61,21 @@
 
 /* Modale bibliothèque */
 
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+    width: 520px;
+}
+
 .modaleLibraryContainer {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 25px;
 }
 
 .cardMyLibrary {
     width: 100px;
-    height: 225px;
+    min-height: 200px;
     margin: 0;
 }
 
@@ -79,7 +85,6 @@
     color: #E28413;
     height: 20px;
     width: 20px;
-    top: 130px;
 }
 
 .deleteBookBtn:hover {
@@ -92,12 +97,18 @@
 
 .libraryTitle {
     margin: 0;
-    font-size: small;
+    font-family: "Overlock", cursive;
+    font-size: medium;
 }
 
 .libraryState {
     margin: 0;
     font-weight: 700;
+}
+
+.libraryAuthor {
+    margin: 0;
+    font-size: small;
 }
 
 .favoriteBtn {
@@ -106,13 +117,46 @@
     color: #E28413;
     width: 20px;
     height: 20px;
-    top: 130px;
 }
 
 .favoriteBtn:hover {
     transform: scale(1.5);
 }
 
+
+.followContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.followedAuthorContainer {
+    display: flex;
+    align-items: center;
+}
+
+.followedAuthor {
+    font-family: "Overlock", cursive;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-right: 20px;
+}
+
+.followedBtn {
+  cursor: pointer;
+  padding: 5px 10px;
+  font-family: 'Mukta Vaani', cursive;
+  font-size: smaller;
+  font-weight: 700;
+  background-color: #107E7D;
+  color: #FBF5F3;
+  border: solid 2px #107E7D;
+  border-radius: 5px;
+}
+
+.followedBtn:hover {
+    background-color: #FBF5F3;
+    color: #107E7D;
+}
 
 /* Formulaire en modale */
 

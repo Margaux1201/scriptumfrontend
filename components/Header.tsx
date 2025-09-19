@@ -31,10 +31,16 @@ const Header = (props: { deleteBook: Function }) => {
   );
 
   interface Book {
+    author: string;
     image: string;
     title: string;
     state: string;
     slug: string;
+  }
+
+  interface Follow {
+    name: string;
+    books: Book[];
   }
 
   // Etats pour le formulaire de connexion
@@ -72,6 +78,7 @@ const Header = (props: { deleteBook: Function }) => {
   const [openUserLibrary, setOpenUserLibrary] = useState<boolean>(false);
   const [allMyBooks, setAllMyBooks] = useState<Book[]>([]);
   const [favoriteList, setFavoriteList] = useState<Book[]>([]);
+  const [followList, setFollowList] = useState<Follow[]>([]);
 
   // PARTIE BIBLIOTHEQUE
 
@@ -84,10 +91,11 @@ const Header = (props: { deleteBook: Function }) => {
         (response) =>
           response.json().then((data) => {
             if (response.ok) {
-              console.log("MES LIVRES 📘📘📘", data.results);
+              console.log("MES LIVRES 📘📘📘", data);
               setAllMyBooks([]);
-              for (let oneBook of data.results) {
+              for (let oneBook of data) {
                 const newBookObject = {
+                  author: oneBook.author_name,
                   image: oneBook.image,
                   title: oneBook.title,
                   state: oneBook.state,
@@ -103,6 +111,7 @@ const Header = (props: { deleteBook: Function }) => {
       setFavoriteList([]);
       for (let oneFavorite of favorite.favoriteBook) {
         let newFavorite = {
+          author: oneFavorite.author,
           image: oneFavorite.url,
           title: oneFavorite.title,
           state: oneFavorite.state,
@@ -112,10 +121,30 @@ const Header = (props: { deleteBook: Function }) => {
           [...prev, newFavorite].sort((a, b) => a.title.localeCompare(b.title))
         );
       }
+
+      // Récupération des suivis de l'utilisateur
+      setFollowList([]);
+      for (let oneFollow of favorite.favoriteAuthor) {
+        const allBooks: Book[] = [];
+        for (let oneBook of oneFollow.books) {
+          const newBook = {
+            author: oneBook.author,
+            image: oneBook.url,
+            title: oneBook.title,
+            state: oneBook.state,
+            slug: oneBook.slug,
+          };
+          allBooks.push(newBook);
+        }
+        setFollowList((prev) => [
+          ...prev,
+          { name: oneFollow.name, books: allBooks },
+        ]);
+      }
     }
   };
 
-  console.log(favoriteList);
+  console.log(followList);
 
   const handleCloseLibraryModal = (): void => {
     setOpenUserLibrary(false);
@@ -280,22 +309,58 @@ const Header = (props: { deleteBook: Function }) => {
             setLoginPassword("");
 
             // Requête pour récupérer les favoris de l'utilisateur
+            fetch(`http://127.0.0.1:8000/api/getallfavorite/${data.token}/`)
+              .then((res) =>
+                res.json().then((dataFavorite) => {
+                  if (res.ok) {
+                    console.log("CONNECTE FAVORITE ⭐⭐⭐", dataFavorite);
+                    for (let oneFav of dataFavorite) {
+                      let newFavorite = {
+                        title: oneFav.book_title,
+                        author: oneFav.book_author,
+                        url: oneFav.book_image,
+                        rating: oneFav.book_rating,
+                        slug: oneFav.book,
+                        state: oneFav.book_state,
+                      };
+                      dispatch(addFavoriteBookStore(newFavorite));
+                    }
+                  }
+                })
+              )
+              .catch((error) => {
+                console.error(
+                  "Erreur lors de la récupération des favoris :",
+                  error
+                );
+                alert("Une erreur réseau est survenue");
+              });
+
+            // Requête pour récupérer les auteurs suivis
             fetch(
-              `http://127.0.0.1:8000/api/getallfavorite/${data.token}/`
+              `http://127.0.0.1:8000/api/getallfollowedauthors/${data.token}/`
             ).then((res) =>
-              res.json().then((dataFavorite) => {
+              res.json().then((dataFollow) => {
                 if (res.ok) {
-                  console.log("CONNECTE FAVORITE ⭐⭐⭐", dataFavorite.results);
-                  for (let oneFav of dataFavorite.results) {
-                    let newFavorite = {
-                      title: oneFav.book_title,
-                      author: oneFav.book_author,
-                      url: oneFav.book_image,
-                      rating: oneFav.book_rating,
-                      slug: oneFav.book,
-                      state: oneFav.book_state,
+                  console.log("CONNECTEE FOLLOWING 🗽🗽🗽", dataFollow);
+                  for (let oneFollow of dataFollow) {
+                    const allBooks = [];
+                    for (let oneBook of oneFollow.author.books) {
+                      const newBook = {
+                        title: oneBook.title,
+                        author: oneBook.author_name,
+                        url: oneBook.image,
+                        rating: oneBook.rating,
+                        slug: oneBook.slug,
+                        state: oneBook.state,
+                      };
+                      allBooks.push(newBook);
+                    }
+                    const newFollow = {
+                      name: oneFollow.author.author_name,
+                      books: allBooks,
                     };
-                    dispatch(addFavoriteBookStore(newFavorite));
+                    dispatch(addFavoriteAuthorStore(newFollow));
                   }
                 }
               })
@@ -336,6 +401,28 @@ const Header = (props: { deleteBook: Function }) => {
         });
       }
     });
+  };
+
+  // Fonction pour retirer l'auteur des auteurs suivis (dans la bibliothèque)
+  const handleUnfollowAuthor = (author: string): void => {
+    fetch(`http://127.0.0.1:8000/api/deletefollowedauthor/${author}/`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          console.log("AUTEUR UNFOLLOWED 💔💔💔");
+          dispatch(removeFavoriteAuthorStore(author));
+          setFollowList((prev) =>
+            prev.filter((element) => element.name != author)
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors du unfollow de l'auteur :", error);
+        alert("Une erreur réseau est survenue");
+      });
   };
 
   // Fonction pour s'inscrire
@@ -623,67 +710,123 @@ const Header = (props: { deleteBook: Function }) => {
                 items={[
                   { titre: "Mes Livres", content: allMyBooks },
                   { titre: "Mes Favoris", content: favoriteList },
-                  { titre: "Mes Auteurs", content: allMyBooks },
+                  { titre: "Mes Auteurs", content: followList },
                 ].map((element, i) => {
                   const id = String(i + 1);
                   const myContent =
                     element.content?.length > 0 ? (
-                      <div className={styles.modaleLibraryContainer}>
-                        {element.content.map((oneBook) => (
-                          <div className={styles.cardMyLibrary}>
-                            {/* Bouton supprimer pour Mes Livres */}
-                            {element.titre === "Mes Livres" && (
-                              <FontAwesomeIcon
-                                icon={faCircleXmark}
-                                className={styles.deleteBookBtn}
-                                onClick={() => handleDeleteBook(oneBook.slug)}
-                              />
-                            )}
+                      <div className={styles.modalContainer}>
+                        {element.titre != "Mes Auteurs" ? (
+                          <div className={styles.modaleLibraryContainer}>
+                            {element.content.map((oneBook: any) => (
+                              <div className={styles.cardMyLibrary}>
+                                {/* Bouton supprimer pour Mes Livres */}
+                                {element.titre === "Mes Livres" && (
+                                  <FontAwesomeIcon
+                                    icon={faCircleXmark}
+                                    className={styles.deleteBookBtn}
+                                    onClick={() =>
+                                      handleDeleteBook(oneBook.slug)
+                                    }
+                                  />
+                                )}
 
-                            {/* Bouton Favoris pour Mes Favoris */}
-                            {element.titre === "Mes Favoris" && (
-                              <FontAwesomeIcon
-                                icon={faHeartSolid}
-                                className={styles.favoriteBtn}
-                                onClick={() =>
-                                  handleRemoveFavorite(oneBook.slug)
-                                }
-                              />
-                            )}
+                                {/* Bouton Favoris pour Mes Favoris */}
+                                {element.titre === "Mes Favoris" && (
+                                  <FontAwesomeIcon
+                                    icon={faHeartSolid}
+                                    className={styles.favoriteBtn}
+                                    onClick={() =>
+                                      handleRemoveFavorite(oneBook.slug)
+                                    }
+                                  />
+                                )}
 
-                            {/* Carte livre */}
-                            <div
-                              key={oneBook.slug}
-                              className={styles.bookCard}
-                              onClick={() => {
-                                router.push(`/book/${oneBook.slug}`);
-                                setOpenUserLibrary(false);
-                              }}
-                            >
-                              <Image
-                                src={oneBook.image}
-                                alt={oneBook.title}
-                                height={150}
-                                width={100}
-                              />
-                              <h3 className={styles.libraryTitle}>
-                                {oneBook.title}
-                              </h3>
-                              {element.titre === "Mes Livres" && (
-                                <h5
-                                  style={
-                                    oneBook.state === "En cours"
-                                      ? { color: "#E28413" }
-                                      : { color: "#107E7D" }
-                                  }
-                                  className={styles.libraryState}
+                                {/* Carte livre */}
+                                <div
+                                  key={oneBook.slug}
+                                  className={styles.bookCard}
+                                  onClick={() => {
+                                    router.push(`/book/${oneBook.slug}`);
+                                    setOpenUserLibrary(false);
+                                  }}
                                 >
-                                  {oneBook.state?.toUpperCase()}
-                                </h5>
-                              )}
-                            </div>
+                                  <Image
+                                    src={oneBook.image}
+                                    alt={oneBook.title}
+                                    height={150}
+                                    width={100}
+                                  />
+                                  <h3 className={styles.libraryTitle}>
+                                    {oneBook.title}
+                                  </h3>
+
+                                  {/* Etat du livre dans MES LIVRES */}
+                                  {element.titre === "Mes Livres" && (
+                                    <h5
+                                      style={
+                                        oneBook.state === "En cours"
+                                          ? { color: "#E28413" }
+                                          : { color: "#107E7D" }
+                                      }
+                                      className={styles.libraryState}
+                                    >
+                                      {oneBook.state?.toUpperCase()}
+                                    </h5>
+                                  )}
+
+                                  {/* Auteur du livre pour MES FAVORIS */}
+                                  {element.titre === "Mes Favoris" && (
+                                    <h5 className={styles.libraryAuthor}>
+                                      {oneBook.author}
+                                    </h5>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        ) : (
+                          element.content.map((oneFollow: any) => (
+                            <div className={styles.followContainer}>
+                              <div className={styles.followedAuthorContainer}>
+                                <h3 className={styles.followedAuthor}>
+                                  {oneFollow.name}
+                                </h3>
+                                <button
+                                  className={styles.followedBtn}
+                                  onClick={() =>
+                                    handleUnfollowAuthor(oneFollow.name)
+                                  }
+                                >
+                                  SUIVI
+                                </button>
+                              </div>
+                              <div className={styles.modaleLibraryContainer}>
+                                {oneFollow.books.map((oneBook: Book) => (
+                                  <div
+                                    key={oneBook.slug}
+                                    className={styles.cardMyLibrary}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      router.push(`/book/${oneBook.slug}`);
+                                      setOpenUserLibrary(false);
+                                    }}
+                                  >
+                                    <Image
+                                      src={oneBook.image}
+                                      alt={oneBook.title}
+                                      height={150}
+                                      width={100}
+                                    />
+                                    <h3 className={styles.libraryTitle}>
+                                      {oneBook.title}
+                                    </h3>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))
+                        )}
                       </div>
                     ) : (
                       <p>Aucun livre disponible</p>

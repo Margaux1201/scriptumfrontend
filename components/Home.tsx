@@ -2,6 +2,11 @@ import styles from "../styles/Home.module.css";
 import React, { FC, useEffect, useState } from "react";
 import Header from "./Header";
 import BookCard from "./BookCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavoriteBookStore,
@@ -47,6 +52,8 @@ const Home: React.FC = () => {
   const [bookList, setBookList] = useState<Book[]>([]);
   const [favoriteList, setFavoriteList] = useState<FavoriteBook[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [next, setNext] = useState<string | null>("");
+  const [previous, setPrevious] = useState<string | null>("");
   const [totalPages, setTotalPages] = useState<number>(1);
 
   const dispatch = useDispatch();
@@ -70,7 +77,10 @@ const Home: React.FC = () => {
     fetch(url).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
+          console.log("ALL BOOKS 📘📘📘", data);
           setBookList(data.results);
+          setPrevious(data.previous);
+          setNext(data.next);
           setTotalPages(Math.ceil(data.count / 10));
         }
       })
@@ -149,6 +159,34 @@ const Home: React.FC = () => {
     );
   });
 
+  // Fonction pour passer à la page précédente
+  const handlePreviousPage = (url: string): void => {
+    fetch(url).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          setBookList(data.results);
+          setPrevious(data.previous);
+          setNext(data.next);
+          setPage((prev) => prev - 1);
+        }
+      })
+    );
+  };
+
+  // Fonction pour passer à la page suivante
+  const handleNextPage = (url: string): void => {
+    fetch(url).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          setBookList(data.results);
+          setPrevious(data.previous);
+          setNext(data.next);
+          setPage((prev) => prev + 1);
+        }
+      })
+    );
+  };
+
   return (
     <div className={styles.main}>
       <Header deleteBook={deleteBook} />
@@ -170,7 +208,41 @@ const Home: React.FC = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+      <div className={styles.pageNavContainer}>
+        {previous && (
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            onClick={() => handlePreviousPage(previous)}
+            className={styles.arrowPage}
+          />
+        )}
+        <h3>{page}</h3>
+        {next && (
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            onClick={() => handleNextPage(next)}
+            className={styles.arrowPage}
+          />
+        )}
+      </div>
       <div className={styles.contentBook}>{dataBook}</div>
+      <div className={styles.pageNavContainer}>
+        {previous && (
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            onClick={() => handlePreviousPage(previous)}
+            className={styles.arrowPage}
+          />
+        )}
+        <h3>{page}</h3>
+        {next && (
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            onClick={() => handleNextPage(next)}
+            className={styles.arrowPage}
+          />
+        )}
+      </div>
     </div>
   );
 };

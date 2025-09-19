@@ -49,3 +49,19 @@
   gap: 50px;
   justify-content: center;
 }
+
+.pageNavContainer {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.arrowPage {
+  cursor: pointer;
+}
+
+.arrowPage:hover {
+  color: #E28413;
+  transform: scale(1.5);
+}

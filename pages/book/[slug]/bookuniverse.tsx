@@ -82,7 +82,7 @@ const BookUniverse = () => {
           if (response.ok) {
             console.log("ALL PLACES 🗺️🗺️🗺️", data);
             setPlaceList([]);
-            for (let onePlace of data.results) {
+            for (let onePlace of data) {
               setPlaceList((prev) => [
                 ...prev,
                 {
@@ -108,9 +108,9 @@ const BookUniverse = () => {
       (response) =>
         response.json().then((data) => {
           if (response.ok) {
-            console.log("ALL PERSOS 🤩🤩🤩", data.results);
+            console.log("ALL PERSOS 🤩🤩🤩", data);
             setCharacterList([]);
-            for (let character of data.results) {
+            for (let character of data) {
               setCharacterList((prev) => [
                 ...prev,
                 {
@@ -130,9 +130,9 @@ const BookUniverse = () => {
       (response) =>
         response.json().then((data) => {
           if (response.ok) {
-            console.log("ALL CREATURES 🐉🐉🐉", data.results);
+            console.log("ALL CREATURES 🐉🐉🐉", data);
             setCreatureList([]);
-            for (let oneCreature of data.results) {
+            for (let oneCreature of data) {
               setCreatureList((prev) => [
                 ...prev,
                 {

@@ -234,12 +234,15 @@
 .bookListing {
     margin-top: 20px;
     display: flex;
+    justify-content: center;
     gap: 30px;
+    flex-wrap: wrap;
 }
 
 .bookFilterListing {
     margin-top: 50px;
     display: flex;
+    justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
 }

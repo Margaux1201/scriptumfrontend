@@ -93,7 +93,7 @@ function Browse() {
     if (!browseMode) {
       // Les plus récents
       fetch(
-        "http://127.0.0.1:8000/api/getallbook/?ordering=-release_date&page=1"
+        "http://127.0.0.1:8000/api/getallbook/?ordering=-release_date&size=10"
       )
         .then((response) =>
           response.json().then((data) => {
@@ -110,7 +110,7 @@ function Browse() {
         });
 
       // Les mieux notés
-      fetch("http://127.0.0.1:8000/api/getallbook/?ordering=-rating&page=1")
+      fetch("http://127.0.0.1:8000/api/getallbook/?ordering=-rating&size=10")
         .then((response) =>
           response.json().then((data) => {
             if (response.ok) {
@@ -125,7 +125,9 @@ function Browse() {
           );
         });
     } else {
-      fetch(`http://127.0.0.1:8000/api/getallbook/?${params.toString()}`)
+      fetch(
+        `http://127.0.0.1:8000/api/getallbook/?${params.toString()}&size=50`
+      )
         .then((response) =>
           response.json().then((data) => {
             if (response.ok) {

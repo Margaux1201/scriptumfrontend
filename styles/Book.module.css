@@ -28,6 +28,7 @@
 .imgContainer {
   width: 300px;
   margin: 0;
+  position: relative;
 }
 
 .heartFavorite {
@@ -35,8 +36,8 @@
   position: absolute;
   width: 25px;
   height: 25px;
-  top: 550px;
-  left: 275px;
+  top: 460px;
+  left: 87%;
   color: #E28413;
 }
 

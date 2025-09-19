@@ -90,7 +90,7 @@ const ChapterDetail = () => {
         response.json().then((data) => {
           if (response.ok) {
             console.log("TOUS LES CHAPITRES DU LIVRE: 📖📖📖", data.results);
-            setChaptersList(data.results);
+            setChaptersList(data);
           }
         })
       )
