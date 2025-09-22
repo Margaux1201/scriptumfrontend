@@ -68,7 +68,7 @@ const Character = () => {
 
   useEffect(() => {
     fetch(
-      `http://127.0.0.1:8000/api/${slug}/getcharacterinfo/${characterSlug}/`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getcharacterinfo/${characterSlug}/`
     )
       .then((res) =>
         res.json().then((data) => {

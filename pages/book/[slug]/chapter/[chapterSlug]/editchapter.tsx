@@ -34,7 +34,7 @@ const EditChapter = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`)
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -61,7 +61,9 @@ const EditChapter = () => {
     if (!slug || !chapterSlug) return;
 
     // Récupération des données du chapitre
-    fetch(`http://127.0.0.1:8000/api/${slug}/getchapterinfo/${chapterSlug}/`)
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getchapterinfo/${chapterSlug}/`
+    )
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -113,18 +115,21 @@ const EditChapter = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/${slug}/editchapter/${chapterSlug}/`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: user.token,
-        book: slug,
-        type: chapterType,
-        chapter_number: chapterType === "chapitre" ? chapterNumber : null,
-        title: chapterTitle,
-        content: chapterContent,
-      }),
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/editchapter/${chapterSlug}/`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: user.token,
+          book: slug,
+          type: chapterType,
+          chapter_number: chapterType === "chapitre" ? chapterNumber : null,
+          title: chapterTitle,
+          content: chapterContent,
+        }),
+      }
+    )
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {

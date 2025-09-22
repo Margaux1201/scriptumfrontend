@@ -90,7 +90,7 @@ const BookDetail = () => {
     if (!slug) return;
 
     // DETAILS DU LIVRE
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`)
       .then((res) =>
         res.json().then((data) => {
           if (res.ok) {
@@ -120,7 +120,7 @@ const BookDetail = () => {
       });
 
     // REVIEWS DU LIVRE
-    fetch(`http://127.0.0.1:8000/api/getallbookreviews/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getallbookreviews/${slug}/`)
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -135,14 +135,15 @@ const BookDetail = () => {
       });
 
     // CHAPITRES DU LIVRE
-    fetch(`http://127.0.0.1:8000/api/${slug}/getallchapters/`).then(
-      (response) =>
-        response.json().then((data) => {
-          if (response.ok) {
-            console.log("CHAPITRES RECUS : 📖📖📖", data);
-            setChaptersList(data);
-          }
-        })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getallchapters/`
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("CHAPITRES RECUS : 📖📖📖", data);
+          setChaptersList(data);
+        }
+      })
     );
   }, [slug, refreshReviews]);
 
@@ -153,7 +154,7 @@ const BookDetail = () => {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/getinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getinfo/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -239,7 +240,7 @@ const BookDetail = () => {
     );
     if (isFavorite) {
       dispatch(removeFavoriteBookStore(`${slug}`));
-      fetch(`http://127.0.0.1:8000/api/deletefavorite/${slug}/`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deletefavorite/${slug}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: user.token }),
@@ -264,7 +265,7 @@ const BookDetail = () => {
         state: bookState,
       };
       dispatch(addFavoriteBookStore(newFavorite));
-      fetch("http://127.0.0.1:8000/api/newfavorite/", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newfavorite/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: user.token, book: `${slug}` }),
@@ -348,7 +349,7 @@ const BookDetail = () => {
     const newState = bookState === "En cours" ? "Terminé" : "En cours";
     setBookState(newState);
     // Rajouter le fetch de modification de l'état du livre
-    fetch(`http://127.0.0.1:8000/api/editbook/${slug}/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/editbook/${slug}/`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ state: newState, token: user.token }),
@@ -413,7 +414,7 @@ const BookDetail = () => {
 
     if (!isAuthorFavorite) {
       // Requête pour suivre l'auteur
-      fetch("http://127.0.0.1:8000/api/newfollowedauthor/", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newfollowedauthor/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: user.token, author_name: bookAuthor }),
@@ -448,11 +449,14 @@ const BookDetail = () => {
         });
     } else {
       // Requête pour arrêter le suivi de l'auteur
-      fetch(`http://127.0.0.1:8000/api/deletefollowedauthor/${bookAuthor}/`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: user.token }),
-      })
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/deletefollowedauthor/${bookAuthor}/`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: user.token }),
+        }
+      )
         .then((response) => {
           if (response.status === 204) {
             console.log("AUTEUR UNFOLLOWED 💔💔💔");
@@ -476,49 +480,50 @@ const BookDetail = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/getallbookreviews/${slug}/`).then(
-      (response) =>
-        response.json().then((data) => {
-          if (response.ok) {
-            for (let review of data.results) {
-              if (user.pseudo === review.user_pseudo) {
-                alert("Vous avez déjà évaluer ce livre !");
-                return;
-              }
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/getallbookreviews/${slug}/`
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          for (let review of data.results) {
+            if (user.pseudo === review.user_pseudo) {
+              alert("Vous avez déjà évaluer ce livre !");
+              return;
             }
-            fetch("http://127.0.0.1:8000/api/createreview/", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                book: slug,
-                token: user.token,
-                score: score,
-                comment: comment,
-              }),
-            })
-              .then((response) =>
-                response.json().then((data) => {
-                  if (response.ok) {
-                    alert("Votre évalutation a été envoyée avec succès !");
-                    setScore(0);
-                    setComment("");
-                    setIsModalReviewOpen(false);
-
-                    //Rafraichit la liste des reviews
-                    setRefreshReviews((prev) => !prev);
-                  }
-                })
-              )
-              // .then(async (res) => {
-              //   const text = await res.text();
-              //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
-              // })
-              .catch((error) => {
-                console.error("Erreur lors de l'envoi de la review :", error);
-                alert("Une erreur réseau est survenue");
-              });
           }
-        })
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createreview/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              book: slug,
+              token: user.token,
+              score: score,
+              comment: comment,
+            }),
+          })
+            .then((response) =>
+              response.json().then((data) => {
+                if (response.ok) {
+                  alert("Votre évalutation a été envoyée avec succès !");
+                  setScore(0);
+                  setComment("");
+                  setIsModalReviewOpen(false);
+
+                  //Rafraichit la liste des reviews
+                  setRefreshReviews((prev) => !prev);
+                }
+              })
+            )
+            // .then(async (res) => {
+            //   const text = await res.text();
+            //   console.log("Réponse brute :", text); // <== regarde ce qui est réellement renvoyé
+            // })
+            .catch((error) => {
+              console.error("Erreur lors de l'envoi de la review :", error);
+              alert("Une erreur réseau est survenue");
+            });
+        }
+      })
     );
   };
 

@@ -47,7 +47,9 @@ const ChapterDetail = () => {
     if (!slug || !chapterSlug) return;
 
     // DETAILS DU CHAPITRE
-    fetch(`http://127.0.0.1:8000/api/${slug}/getchapterinfo/${chapterSlug}/`)
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getchapterinfo/${chapterSlug}/`
+    )
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -65,7 +67,7 @@ const ChapterDetail = () => {
       });
 
     // LIVRE CONTENANT LE CHAPITRE
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`)
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -85,7 +87,7 @@ const ChapterDetail = () => {
       });
 
     // TOUS LES CHAPITRES DU LIVRE
-    fetch(`http://127.0.0.1:8000/api/${slug}/getallchapters/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getallchapters/`)
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -107,7 +109,7 @@ const ChapterDetail = () => {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/getinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getinfo/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -158,11 +160,14 @@ const ChapterDetail = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/${slug}/deletechapter/${chapterSlug}/`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: user.token }),
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/deletechapter/${chapterSlug}/`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      }
+    )
       .then((res) => {
         if (res.status === 204) {
           alert("Le chapitre a bien été supprimé");

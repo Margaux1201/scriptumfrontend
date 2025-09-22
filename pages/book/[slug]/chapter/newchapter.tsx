@@ -34,7 +34,7 @@ const NewChapter = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`)
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -91,7 +91,7 @@ const NewChapter = () => {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/createchapter/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createchapter/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

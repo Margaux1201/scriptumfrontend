@@ -87,24 +87,25 @@ const Header = (props: { deleteBook: Function }) => {
     setOpenUserLibrary(true);
     if (user.token) {
       // Récupération des livres créés par l'utilisateur
-      fetch(`http://127.0.0.1:8000/api/${user.token}/getallauthorbook/`).then(
-        (response) =>
-          response.json().then((data) => {
-            if (response.ok) {
-              console.log("MES LIVRES 📘📘📘", data);
-              setAllMyBooks([]);
-              for (let oneBook of data) {
-                const newBookObject = {
-                  author: oneBook.author_name,
-                  image: oneBook.image,
-                  title: oneBook.title,
-                  state: oneBook.state,
-                  slug: oneBook.slug,
-                };
-                setAllMyBooks((prev) => [...prev, newBookObject]);
-              }
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${user.token}/getallauthorbook/`
+      ).then((response) =>
+        response.json().then((data) => {
+          if (response.ok) {
+            console.log("MES LIVRES 📘📘📘", data);
+            setAllMyBooks([]);
+            for (let oneBook of data) {
+              const newBookObject = {
+                author: oneBook.author_name,
+                image: oneBook.image,
+                title: oneBook.title,
+                state: oneBook.state,
+                slug: oneBook.slug,
+              };
+              setAllMyBooks((prev) => [...prev, newBookObject]);
             }
-          })
+          }
+        })
       );
 
       // Récupération des favoris de l'utilisateur
@@ -157,7 +158,7 @@ const Header = (props: { deleteBook: Function }) => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/deletebook/${slug}/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deletebook/${slug}/`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -241,7 +242,7 @@ const Header = (props: { deleteBook: Function }) => {
   // Fonctions pour ouvrir et fermer la modale de modification de profil
   const showUpdateProfileModal = (): void => {
     setOpenUpdateProfile(true);
-    fetch("http://127.0.0.1:8000/api/getinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getinfo/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -293,7 +294,7 @@ const Header = (props: { deleteBook: Function }) => {
       return;
     }
     // Requête pour connecté l'utilisateur
-    fetch("http://127.0.0.1:8000/api/login/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -309,7 +310,9 @@ const Header = (props: { deleteBook: Function }) => {
             setLoginPassword("");
 
             // Requête pour récupérer les favoris de l'utilisateur
-            fetch(`http://127.0.0.1:8000/api/getallfavorite/${data.token}/`)
+            fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/getallfavorite/${data.token}/`
+            )
               .then((res) =>
                 res.json().then((dataFavorite) => {
                   if (res.ok) {
@@ -338,7 +341,7 @@ const Header = (props: { deleteBook: Function }) => {
 
             // Requête pour récupérer les auteurs suivis
             fetch(
-              `http://127.0.0.1:8000/api/getallfollowedauthors/${data.token}/`
+              `${process.env.NEXT_PUBLIC_API_URL}/api/getallfollowedauthors/${data.token}/`
             ).then((res) =>
               res.json().then((dataFollow) => {
                 if (res.ok) {
@@ -384,7 +387,7 @@ const Header = (props: { deleteBook: Function }) => {
   // Fonction pour retirer le livre des favoris (dans la bibliothèque)
   const handleRemoveFavorite = (slug: string): void => {
     dispatch(removeFavoriteBookStore(slug));
-    fetch(`http://127.0.0.1:8000/api/deletefavorite/${slug}/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deletefavorite/${slug}/`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -405,11 +408,14 @@ const Header = (props: { deleteBook: Function }) => {
 
   // Fonction pour retirer l'auteur des auteurs suivis (dans la bibliothèque)
   const handleUnfollowAuthor = (author: string): void => {
-    fetch(`http://127.0.0.1:8000/api/deletefollowedauthor/${author}/`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: user.token }),
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/deletefollowedauthor/${author}/`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: user.token }),
+      }
+    )
       .then((response) => {
         if (response.status === 204) {
           console.log("AUTEUR UNFOLLOWED 💔💔💔");
@@ -443,7 +449,7 @@ const Header = (props: { deleteBook: Function }) => {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }
-    fetch("http://127.0.0.1:8000/api/register/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -484,7 +490,7 @@ const Header = (props: { deleteBook: Function }) => {
   // Fonction pour créer un roman
   const createNewBook = (): void => {
     // vérifie si l'utilisateur à un nom d'auteur
-    fetch("http://127.0.0.1:8000/api/getinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getinfo/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -527,7 +533,7 @@ const Header = (props: { deleteBook: Function }) => {
       alert("Veuillez remplir les champs obligatoires.");
       return;
     }
-    fetch("http://127.0.0.1:8000/api/updateinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateinfo/`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -575,7 +581,7 @@ const Header = (props: { deleteBook: Function }) => {
       alert("Veuillez remplir les champs obligatoires.");
       return;
     }
-    fetch("http://127.0.0.1:8000/api/updateinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateinfo/`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -606,7 +612,7 @@ const Header = (props: { deleteBook: Function }) => {
 
   // Fonction pour supprimer son compte
   const handleSignout = () => {
-    fetch("http://127.0.0.1:8000/api/delete/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/delete/`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),

@@ -328,7 +328,7 @@ const CreateBookForm: React.FC = () => {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/createbook/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createbook/`, {
       method: "POST",
       body: formData,
     })

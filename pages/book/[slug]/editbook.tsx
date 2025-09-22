@@ -80,22 +80,23 @@ const EditBook = () => {
         alert(`Une erreur s'est produite au chargement de la page : ${error}`);
       });
 
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`).then((res) =>
-      res.json().then((data) => {
-        if (res.ok) {
-          console.log("DETAIL LIVRE 📚📚", data);
-          setUrl(data.image);
-          setSagaChecked(data.is_saga);
-          setSagaName(data.tome_name);
-          setSagaNumber(data.tome_number);
-          setBookTitle(data.title);
-          setPublicRead(data.public_type);
-          setCheckedGenres(data.genres);
-          setDescription(data.description);
-          setStockedThemes(data.themes);
-          setCheckedWarnings(data.warnings);
-        }
-      })
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`).then(
+      (res) =>
+        res.json().then((data) => {
+          if (res.ok) {
+            console.log("DETAIL LIVRE 📚📚", data);
+            setUrl(data.image);
+            setSagaChecked(data.is_saga);
+            setSagaName(data.tome_name);
+            setSagaNumber(data.tome_number);
+            setBookTitle(data.title);
+            setPublicRead(data.public_type);
+            setCheckedGenres(data.genres);
+            setDescription(data.description);
+            setStockedThemes(data.themes);
+            setCheckedWarnings(data.warnings);
+          }
+        })
     );
   }, [user.token]);
 
@@ -344,7 +345,7 @@ const EditBook = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/editbook/${slug}/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/editbook/${slug}/`, {
       method: "PATCH",
       body: formData,
     })

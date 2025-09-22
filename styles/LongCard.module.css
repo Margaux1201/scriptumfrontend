@@ -13,12 +13,29 @@
     border-radius: 5px;
 }
 
+@media (max-width: 735px) {
+    .card {
+        transform: scale(0.8);
+    }
+    .image {
+        transform: scale(0.7);
+    }
+    .title {
+        transform: scale(0.5);
+    }
+    .content {
+        transform: scale(0.8);
+    }
+}
+
 .textContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 160px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .title {

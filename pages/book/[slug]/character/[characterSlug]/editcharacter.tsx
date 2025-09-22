@@ -84,7 +84,7 @@ const NewCharacter = () => {
   const [stockedTraits, setStockedTraits] = useState<Trait[]>([]);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`)
       .then((res) =>
         res.json().then((data) => {
           if (res.ok) {
@@ -112,7 +112,7 @@ const NewCharacter = () => {
       });
 
     fetch(
-      `http://127.0.0.1:8000/api/${slug}/getcharacterinfo/${characterSlug}/`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getcharacterinfo/${characterSlug}/`
     )
       .then((res) =>
         res.json().then((data) => {
@@ -456,7 +456,7 @@ const NewCharacter = () => {
 
     // Envoie du formData pour la création du personnage
     fetch(
-      `http://127.0.0.1:8000/api/${slug}/updatecharacter/${characterSlug}/`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/updatecharacter/${characterSlug}/`,
       {
         method: "PATCH",
         body: formData,

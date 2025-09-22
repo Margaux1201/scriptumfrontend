@@ -93,7 +93,7 @@ function Browse() {
     if (!browseMode) {
       // Les plus récents
       fetch(
-        "http://127.0.0.1:8000/api/getallbook/?ordering=-release_date&size=10"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/getallbook/?ordering=-release_date&size=10`
       )
         .then((response) =>
           response.json().then((data) => {
@@ -110,7 +110,9 @@ function Browse() {
         });
 
       // Les mieux notés
-      fetch("http://127.0.0.1:8000/api/getallbook/?ordering=-rating&size=10")
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/getallbook/?ordering=-rating&size=10`
+      )
         .then((response) =>
           response.json().then((data) => {
             if (response.ok) {
@@ -126,7 +128,9 @@ function Browse() {
         });
     } else {
       fetch(
-        `http://127.0.0.1:8000/api/getallbook/?${params.toString()}&size=50`
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/api/getallbook/?${params.toString()}&size=50`
       )
         .then((response) =>
           response.json().then((data) => {
@@ -167,11 +171,14 @@ function Browse() {
   ) => {
     if (isFavorite) {
       dispatch(removeFavoriteBookStore(bookSlug));
-      fetch(`http://127.0.0.1:8000/api/deletefavorite/${bookSlug}/`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: user.token }),
-      }).then((response) => {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/deletefavorite/${bookSlug}/`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: user.token }),
+        }
+      ).then((response) => {
         if (response.status === 204) {
           console.log("LIVRE RETIREE DES FAVORIS", bookObject);
         } else {
@@ -184,7 +191,7 @@ function Browse() {
       });
     } else {
       dispatch(addFavoriteBookStore(bookObject));
-      fetch("http://127.0.0.1:8000/api/newfavorite/", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newfavorite/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: user.token, book: bookSlug }),

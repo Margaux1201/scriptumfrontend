@@ -72,7 +72,9 @@ const Home: React.FC = () => {
     if (search) params.append("search", search);
     params.append("page", page.toString());
 
-    const url = `http://127.0.0.1:8000/api/getallbook/?${params.toString()}`;
+    const url = `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/api/getallbook/?${params.toString()}`;
 
     fetch(url).then((response) =>
       response.json().then((data) => {
@@ -98,11 +100,14 @@ const Home: React.FC = () => {
   ) => {
     if (isFavorite) {
       dispatch(removeFavoriteBookStore(bookSlug));
-      fetch(`http://127.0.0.1:8000/api/deletefavorite/${bookSlug}/`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: user.token }),
-      }).then((response) => {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/deletefavorite/${bookSlug}/`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: user.token }),
+        }
+      ).then((response) => {
         if (response.status === 204) {
           console.log("LIVRE RETIREE DES FAVORIS", bookObject);
         } else {
@@ -115,7 +120,7 @@ const Home: React.FC = () => {
       });
     } else {
       dispatch(addFavoriteBookStore(bookObject));
-      fetch("http://127.0.0.1:8000/api/newfavorite/", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newfavorite/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: user.token, book: bookSlug }),

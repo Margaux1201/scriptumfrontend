@@ -67,7 +67,7 @@ const CharacterCard = (props: {
     }
 
     fetch(
-      `http://127.0.0.1:8000/api/${props.bookSlug}/deletecharacter/${props.slug}/`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${props.bookSlug}/deletecharacter/${props.slug}/`,
       {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },

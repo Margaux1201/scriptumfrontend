@@ -40,7 +40,7 @@ const LongCard = (props: {
     // Si la carte est un lieu
     if (props.cardType === "place") {
       fetch(
-        `http://127.0.0.1:8000/api/${props.bookSlug}/deleteplace/${props.slug}/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${props.bookSlug}/deleteplace/${props.slug}/`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ const LongCard = (props: {
     // Si la carte est une créature
     if (props.cardType === "creature") {
       fetch(
-        `http://127.0.0.1:8000/api/${props.bookSlug}/deletecreature/${props.slug}/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${props.bookSlug}/deletecreature/${props.slug}/`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

@@ -60,7 +60,7 @@ const BookUniverse = () => {
   const [slugModal, setSlugModal] = useState<string>("");
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/getbookinfo/${slug}/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getbookinfo/${slug}/`)
       .then((res) =>
         res.json().then((data) => {
           if (res.ok) {
@@ -76,7 +76,7 @@ const BookUniverse = () => {
         alert("Une erreur réseau est survenue");
       });
 
-    fetch(`http://127.0.0.1:8000/api/${slug}/getallplaces/`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getallplaces/`)
       .then((response) =>
         response.json().then((data) => {
           if (response.ok) {
@@ -104,47 +104,49 @@ const BookUniverse = () => {
         alert("Une erreur réseau est survenue");
       });
 
-    fetch(`http://127.0.0.1:8000/api/${slug}/getallcharacters/`).then(
-      (response) =>
-        response.json().then((data) => {
-          if (response.ok) {
-            console.log("ALL PERSOS 🤩🤩🤩", data);
-            setCharacterList([]);
-            for (let character of data) {
-              setCharacterList((prev) => [
-                ...prev,
-                {
-                  name: character.name,
-                  slug: character.slug,
-                  slogan: character.slogan,
-                  url: character.image,
-                  role: character.role,
-                },
-              ]);
-            }
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getallcharacters/`
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("ALL PERSOS 🤩🤩🤩", data);
+          setCharacterList([]);
+          for (let character of data) {
+            setCharacterList((prev) => [
+              ...prev,
+              {
+                name: character.name,
+                slug: character.slug,
+                slogan: character.slogan,
+                url: character.image,
+                role: character.role,
+              },
+            ]);
           }
-        })
+        }
+      })
     );
 
-    fetch(`http://127.0.0.1:8000/api/${slug}/getallcreatures/`).then(
-      (response) =>
-        response.json().then((data) => {
-          if (response.ok) {
-            console.log("ALL CREATURES 🐉🐉🐉", data);
-            setCreatureList([]);
-            for (let oneCreature of data) {
-              setCreatureList((prev) => [
-                ...prev,
-                {
-                  title: oneCreature.name,
-                  content: oneCreature.content,
-                  image: oneCreature.image,
-                  slug: oneCreature.slug,
-                },
-              ]);
-            }
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getallcreatures/`
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("ALL CREATURES 🐉🐉🐉", data);
+          setCreatureList([]);
+          for (let oneCreature of data) {
+            setCreatureList((prev) => [
+              ...prev,
+              {
+                title: oneCreature.name,
+                content: oneCreature.content,
+                image: oneCreature.image,
+                slug: oneCreature.slug,
+              },
+            ]);
           }
-        })
+        }
+      })
     );
   }, []);
 
@@ -154,7 +156,7 @@ const BookUniverse = () => {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/getinfo/", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getinfo/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -251,7 +253,7 @@ const BookUniverse = () => {
     formData.append("content", contentModal);
     formData.append("book", `${slug}`);
 
-    fetch(`http://127.0.0.1:8000/api/createplace/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createplace/`, {
       method: "POST",
       body: formData,
     })
@@ -295,18 +297,19 @@ const BookUniverse = () => {
       alert("Vous n'êtes pas autorisé à modifier ce lieu");
       return;
     }
-    fetch(`http://127.0.0.1:8000/api/${slug}/getinfoplace/${element}/`).then(
-      (response) =>
-        response.json().then((data) => {
-          if (response.ok) {
-            console.log("DETAIL LIEU 🧭🧭🧭", data);
-            setUrlPhotoModal(data.image);
-            setTitleModal(data.name);
-            setContentModal(data.content);
-            setSlugModal(data.slug);
-            setOpenUpdatePlaceModal(true);
-          }
-        })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getinfoplace/${element}/`
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.ok) {
+          console.log("DETAIL LIEU 🧭🧭🧭", data);
+          setUrlPhotoModal(data.image);
+          setTitleModal(data.name);
+          setContentModal(data.content);
+          setSlugModal(data.slug);
+          setOpenUpdatePlaceModal(true);
+        }
+      })
     );
   };
 
@@ -365,10 +368,13 @@ const BookUniverse = () => {
     contentModal && formData.append("content", contentModal);
 
     // Envoie de la requête pour modifier la carte
-    fetch(`http://127.0.0.1:8000/api/${slug}/updateplace/${slugModal}/`, {
-      method: "PATCH",
-      body: formData,
-    }).then((response) =>
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/updateplace/${slugModal}/`,
+      {
+        method: "PATCH",
+        body: formData,
+      }
+    ).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
           console.log("Place modifié :", data);
@@ -574,7 +580,7 @@ const BookUniverse = () => {
     formData.append("content", contentModal);
     formData.append("book", `${slug}`);
     // Lance la requête de création de créature
-    fetch(`http://127.0.0.1:8000/api/createcreature/`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createcreature/`, {
       method: "POST",
       body: formData,
     })
@@ -626,7 +632,7 @@ const BookUniverse = () => {
       return;
     }
     fetch(
-      `http://127.0.0.1:8000/api/${slug}/getinfocreature/${slugCreature}/`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/getinfocreature/${slugCreature}/`
     ).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
@@ -700,10 +706,13 @@ const BookUniverse = () => {
     contentModal && formData.append("content", contentModal);
 
     // Envoie de la requête pour modifier la carte
-    fetch(`http://127.0.0.1:8000/api/${slug}/updatecreature/${slugModal}/`, {
-      method: "PATCH",
-      body: formData,
-    }).then((response) =>
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${slug}/updatecreature/${slugModal}/`,
+      {
+        method: "PATCH",
+        body: formData,
+      }
+    ).then((response) =>
       response.json().then((data) => {
         if (response.ok) {
           console.log("Creature modifiée :", data);
