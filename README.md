@@ -1,40 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Scriptum Frontend
 
-## Getting Started
+Application frontend de la plateforme d'écriture Scriptum développée avec Next.js et TypeScript.
 
-First, run the development server:
+## 🚀 Installation
 
+1. **Installer les dépendances**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Configuration des variables d'environnement**
+Créer un fichier `.env.local` à la racine :
+```plaintext
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. **Lancer le serveur de développement**
+```bash
+yarn dev
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 🛠 Technologies
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+- Next.js 15.4.5
+- React 19.1.0
+- TypeScript
+- Redux Toolkit
+- Ant Design
+- Font Awesome
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Structure du projet
 
-## Learn More
+```
+frontend/
+├── components/      # Composants réutilisables
+├── pages/          # Pages de l'application
+├── public/         # Fichiers statiques
+├── styles/         # Styles CSS
+├── types/          # Types TypeScript
+└── redux/          # Configuration Redux
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📜 Scripts disponibles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+| Commande | Description |
+|----------|-------------|
+| `yarn dev` | Lance le serveur de développement sur http://localhost:3000 |
+| `yarn build` | Crée une version optimisée pour la production |
+| `yarn start` | Démarre l'application en mode production |
+| `yarn lint` | Vérifie le code avec ESLint |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Fonctionnalités principales
 
-## Deploy on Vercel
+- Inscription, connexion et gestion utilisateur
+- Création et gestion de livres (livre, chapitre)
+- Système de tags et genres
+- Gestion des avertissements de contenu
+- Création et gestion de l'univers des livres (personnages, lieux, créatures)
+- Upload d'images via Cloudinary
+- Gestion des favoris et des suivis d'auteurs
+- Recherche des livres à partir de critères
+- Interface responsive avec Ant Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📦 Dépendances principales
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- @reduxjs/toolkit : Gestion de l'état global
+- antd : Bibliothèque de composants UI
+- @fortawesome : Icônes
+- typescript : Support du typage statique
+
+## 🌐 Variables d'environnement
+
+| Variable | Description |
+|----------|-------------|
+| NEXT_PUBLIC_API_URL | URL de l'API backend |
