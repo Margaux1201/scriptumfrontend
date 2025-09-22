@@ -12,7 +12,7 @@ yarn install
 2. **Configuration des variables d'environnement**
 Créer un fichier `.env.local` à la racine :
 ```plaintext
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_API_URL= URL de l'API backend
 ```
 
 3. **Lancer le serveur de développement**
