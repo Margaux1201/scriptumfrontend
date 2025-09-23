@@ -94,7 +94,7 @@ const BookDetail = () => {
       .then((res) =>
         res.json().then((data) => {
           if (res.ok) {
-            console.log(data);
+            console.log("LIVRE DETAIL", data);
             setBookImage(data.image);
             setBookRate(data.rating);
             setBookState(data.state);
@@ -214,13 +214,13 @@ const BookDetail = () => {
     themes.push(<h5 className={styles.bookTheme}>{theme}</h5>);
   }
 
-  console.log(bookWarnings);
+  console.log("Avertissements", bookWarnings);
   // Liste des avertissements affichés
   const warnings = bookWarnings?.map((oneWarning, i) => (
     <div key={i}>
       <h4 className={styles.warningCategory}>{oneWarning.categorie}</h4>
       <div className={styles.warningLine}>
-        {oneWarning.tag.map((oneTag, j) => (
+        {oneWarning.tag?.map((oneTag, j) => (
           <h5 key={j} className={styles.warningTag}>
             {oneTag}
           </h5>

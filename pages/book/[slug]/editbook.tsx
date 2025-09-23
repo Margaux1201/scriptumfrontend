@@ -94,11 +94,15 @@ const EditBook = () => {
             setCheckedGenres(data.genres);
             setDescription(data.description);
             setStockedThemes(data.themes);
-            setCheckedWarnings(data.warnings);
+            data.warnings === null
+              ? setCheckedWarnings([])
+              : setCheckedWarnings(data.warnings);
           }
         })
     );
   }, [user.token]);
+
+  console.log("AVERTISSEMENTS ✅✅", checkedWarnings);
 
   //Conversion de l'état qui stocke tous les genres en checkbox
   const checkboxGenres = genres.map((oneGenre, i) => {
@@ -123,7 +127,7 @@ const EditBook = () => {
         <div className={styles.warningTagContainer}>
           {oneWarning.tags.map((oneTag, j) => {
             // Déterminer si la case doit être cochée
-            const isChecked = checkedWarnings.some(
+            const isChecked = checkedWarnings?.some(
               (w) =>
                 w.categorie === oneWarning.categorie && w.tag.includes(oneTag)
             );
@@ -304,8 +308,6 @@ const EditBook = () => {
   const formData = new FormData();
   if (photo) {
     formData.append("image", photo);
-  } else {
-    formData.append("image", url);
   }
   formData.append("token", user.token!);
   formData.append("is_saga", sagaChecked.toString());
@@ -317,12 +319,10 @@ const EditBook = () => {
   formData.append("public_type", publicRead);
   checkedGenres.forEach((genre) => formData.append("genres", genre));
   formData.append("description", description);
-  if (stockedThemes.length > 0) {
+  if (stockedThemes?.length > 0) {
     stockedThemes.forEach((theme) => formData.append("themes", theme));
   }
-  if (checkedWarnings.length > 0) {
-    formData.append("warnings", JSON.stringify(checkedWarnings));
-  }
+  formData.append("warnings", JSON.stringify(checkedWarnings));
 
   const handleCancel = (): void => {
     router.push(`/book/${slug}`);
@@ -330,15 +330,12 @@ const EditBook = () => {
 
   const handleRegister = (): void => {
     if (
-      !photo ||
       !bookTitle ||
       !publicRead ||
       checkedGenres.length <= 0 ||
       !description
     ) {
-      alert(
-        "Veuillez remplir tous les champs obligatoires et insérer une photo"
-      );
+      alert("Veuillez remplir tous les champs obligatoires");
       return;
     } else if (sagaChecked && (!sagaName || !sagaNumber)) {
       alert("Veuillez renseigner les informations de votre saga");
